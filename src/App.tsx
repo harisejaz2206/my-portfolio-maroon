@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900">
       <Background />
       <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
       <main className="pt-24 md:pt-28">
@@ -38,15 +38,15 @@ function App() {
             <section id="about" className="min-h-screen py-16">
               <About />
             </section>
-            
+
             <section id="projects" className="min-h-screen py-16">
               <Projects />
             </section>
-            
+
             <section id="experience" className="min-h-screen py-16">
               <ExperienceSection />
             </section>
-            
+
             <section id="achievements" className="min-h-screen py-16">
               <Achievements />
             </section>

@@ -4,5 +4,3 @@ export interface Achievement {
   extendedDescription: string;
   image: string;
 }
-
-// ... rest of the types

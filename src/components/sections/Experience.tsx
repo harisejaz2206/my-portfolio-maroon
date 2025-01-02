@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Experience } from '../../types';
+import { Briefcase, MapPin, Calendar } from 'lucide-react';
 
 const experiences: Experience[] = [
   {
@@ -43,24 +44,63 @@ const experiences: Experience[] = [
 
 export const ExperienceSection: React.FC = () => {
   return (
-    <>
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className='text-4xl font-bold bg-gradient-to-r from-[#800020] to-[#ff7e5f] bg-clip-text text-transparent mb-4 text-center'
-      >
-        Experience
-      </motion.h2>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className='space-y-8'
-      >
-        {experiences.map((exp, index) => (
-          <ExperienceCard key={index} experience={exp} index={index} />
-        ))}
-      </motion.div>
-    </>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm py-16 px-4 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#800020] to-transparent" />
+        <div className="absolute top-20 left-20 w-72 h-72 bg-[#800020] rounded-full mix-blend-multiply filter blur-[128px] animate-blob" />
+        <div className="absolute top-40 right-20 w-72 h-72 bg-purple-700 rounded-full mix-blend-multiply filter blur-[128px] animate-blob animation-delay-2000" />
+      </div>
+
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80002015_1px,transparent_1px),linear-gradient(to_bottom,#80002015_1px,transparent_1px)] 
+                    bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header Section */}
+        <div className="text-center mb-16 relative">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <span className="inline-block p-3 rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 
+                          shadow-lg border border-gray-700/50 relative overflow-hidden">
+              <Briefcase className="w-8 h-8 text-[#800020] relative z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#800020] to-purple-700 opacity-20 blur-xl" />
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl font-bold text-white mb-6"
+          >
+            Professional Journey
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-400 max-w-2xl mx-auto text-lg"
+          >
+            Building innovative solutions and growing through challenges
+          </motion.p>
+        </div>
+
+        {/* Experience Timeline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8"
+        >
+          {experiences.map((exp, index) => (
+            <ExperienceCard key={index} experience={exp} index={index} />
+          ))}
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
@@ -73,33 +113,53 @@ const ExperienceCard: React.FC<{ experience: Experience; index: number }> = ({
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
-      className='relative pl-8 before:absolute before:left-0 before:top-0 before:h-full before:w-1 
-                 before:bg-[#800020] before:rounded-full'
+      className="group relative pl-8"
     >
-      <div
-        className='absolute left-0 top-0 w-2 h-2 bg-[#800020] rounded-full 
-                      transform -translate-x-[3px]'
-      />
-      <div className='bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow'>
-        <div className='flex flex-col md:flex-row md:justify-between md:items-start mb-4'>
-          <div>
-            <h3 className='text-xl font-bold text-[#800020]'>
-              {experience.company}
-            </h3>
-            <p className='text-lg text-gray-700'>{experience.position}</p>
-          </div>
-          <div className='text-right'>
-            <p className='text-gray-600'>{experience.duration}</p>
-            <p className='text-gray-500'>{experience.location}</p>
-          </div>
+      {/* Timeline Line */}
+      <div className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#800020] via-purple-500 to-transparent" />
+
+      {/* Timeline Dot */}
+      <div className="absolute left-0 top-6 w-4 h-4 bg-gradient-to-r from-[#800020] to-purple-500 rounded-full 
+                    transform -translate-x-[7px] group-hover:scale-125 transition-transform duration-300" />
+
+      {/* Card Content */}
+      <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 rounded-xl 
+                    border border-gray-700/50 overflow-hidden transition-all duration-300
+                    hover:-translate-y-1 hover:shadow-xl">
+        {/* Glow Effect */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300">
+          <div className="absolute inset-[-1px] bg-gradient-to-r from-[#800020] via-purple-500 to-[#ff7e5f] rounded-xl blur-sm" />
         </div>
-        <ul className='list-disc list-inside space-y-2'>
-          {experience.description.map((item, i) => (
-            <li key={i} className='text-gray-600'>
-              {item}
-            </li>
-          ))}
-        </ul>
+
+        <div className="relative p-6">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
+            <div>
+              <h3 className="text-xl font-bold text-white mb-1">
+                {experience.company}
+              </h3>
+              <p className="text-[#ff7e5f]">{experience.position}</p>
+            </div>
+            <div className="flex flex-col items-end space-y-2">
+              <div className="flex items-center gap-2 text-gray-400">
+                <Calendar className="w-4 h-4" />
+                <span>{experience.duration}</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <MapPin className="w-4 h-4" />
+                <span>{experience.location}</span>
+              </div>
+            </div>
+          </div>
+
+          <ul className="space-y-2">
+            {experience.description.map((item, i) => (
+              <li key={i} className="text-gray-400 flex items-start gap-2">
+                <span className="text-[#800020] mt-1.5">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </motion.div>
   );
