@@ -25,7 +25,7 @@ const skills = [
 
 export const About: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black py-16 px-4 relative overflow-hidden">
+    <div className="py-16 relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
         {/* Animated gradient orbs */}

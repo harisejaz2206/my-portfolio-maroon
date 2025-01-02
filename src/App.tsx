@@ -29,30 +29,32 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 fixed inset-0">
       <Background />
-      <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
-      <main className="pt-24 md:pt-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatePresence mode="wait">
-            <section id="about" className="min-h-screen py-16">
-              <About />
-            </section>
+      <div className="absolute inset-0 overflow-y-auto">
+        <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+        <main className="pt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <AnimatePresence mode="wait">
+              <section id="about" className="min-h-screen">
+                <About />
+              </section>
 
-            <section id="projects" className="min-h-screen py-16">
-              <Projects />
-            </section>
+              <section id="projects" className="min-h-screen">
+                <Projects />
+              </section>
 
-            <section id="experience" className="min-h-screen py-16">
-              <ExperienceSection />
-            </section>
+              <section id="experience" className="min-h-screen">
+                <ExperienceSection />
+              </section>
 
-            <section id="achievements" className="min-h-screen py-16">
-              <Achievements />
-            </section>
-          </AnimatePresence>
-        </div>
-      </main>
+              <section id="achievements" className="min-h-screen">
+                <Achievements />
+              </section>
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

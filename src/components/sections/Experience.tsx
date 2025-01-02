@@ -44,7 +44,7 @@ const experiences: Experience[] = [
 
 export const ExperienceSection: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm py-16 px-4 relative overflow-hidden">
+    <div className="py-16 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#800020] to-transparent" />
