@@ -15,6 +15,11 @@ const navItems = [
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => {
+  const handleNavClick = (id: string) => {
+    onSectionChange(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* Gradient line at top */}
@@ -22,21 +27,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
 
       {/* Navigation bar */}
       <nav className="bg-gray-950/90 backdrop-blur-md border-b border-gray-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-16">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center justify-center space-x-1 sm:space-x-4">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
-                  <motion.a
+                  <motion.button
                     key={item.id}
-                    href={`#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onSectionChange(item.id);
-                      document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className={`relative px-4 py-2 rounded-lg transition-all duration-300 group
+                    onClick={() => handleNavClick(item.id)}
+                    className={`relative px-2 sm:px-4 py-2 rounded-lg transition-all duration-300 group
                               ${isActive
                         ? 'text-purple-400'
                         : 'text-gray-400 hover:text-purple-400'
@@ -55,11 +55,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                     )}
 
                     {/* Icon and label */}
-                    <span className="relative flex items-center gap-2">
-                      {item.icon}
-                      <span className="text-sm font-medium">{item.label}</span>
+                    <span className="relative flex items-center gap-1 sm:gap-2">
+                      {/* Icon is always visible */}
+                      <span className="text-lg sm:text-xl">{item.icon}</span>
+                      {/* Label hidden on mobile, visible on sm breakpoint and up */}
+                      <span className="hidden sm:inline text-sm font-medium">
+                        {item.label}
+                      </span>
                     </span>
-                  </motion.a>
+                  </motion.button>
                 );
               })}
             </div>
