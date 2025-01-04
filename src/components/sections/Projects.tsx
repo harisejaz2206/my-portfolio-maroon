@@ -1,42 +1,111 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, ExternalLink, ChevronRight, Layers, Database, Github, Globe } from 'lucide-react';
+import { Code2, ExternalLink, ChevronRight, Layers, Database, Github, Globe, ChevronDown } from 'lucide-react';
 
 interface Project {
   title: string;
   description: string;
   technologies: string[];
-  image: string;
+  image?: string;
   githubLink?: string;
   liveLink?: string;
   stats?: {
     value: string;
     label: string;
   }[];
+  keyFeatures?: string[];
 }
 
 const projects: Project[] = [
   {
-    title: 'Innfini IoT-Based Product',
-    description: 'Designed and developed architecture for IoT modules including things types, multi-tenancy support, and dynamic forms. Implemented MongoDB optimization and complex aggregation pipelines.',
-    technologies: ['React', 'MongoDB', 'Redux', 'Redux Saga'],
+    title: 'Innfini IoT Platform',
+    description: 'Enterprise-grade IoT platform implementing innovative "Thing Types" architecture enabling dynamic object modeling and real-time data processing. Features multi-tenant support, dynamic form generation, and sophisticated reporting capabilities.',
+    technologies: ['React', 'MongoDB', 'Redux', 'Redux Saga', 'Node.js', 'Express.js'],
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop',
     githubLink: '#',
     liveLink: '#',
+    keyFeatures: [
+      'Architected scalable "Thing Types" system allowing dynamic creation of IoT device templates and relationships',
+      'Implemented real-time data processing pipeline handling millions of IoT events daily',
+      'Designed dynamic form engine supporting 12+ input types with complex validation rules',
+      'Built comprehensive reporting system with tabular, historical, and geographical visualizations',
+      'Optimized MongoDB queries and implemented advanced aggregation pipelines for improved performance'
+    ],
     stats: [
       { value: '45%', label: 'Performance Boost' },
-      { value: '10K+', label: 'Active Users' }
+      { value: '10K+', label: 'Active Users' },
+      { value: '99.9%', label: 'System Uptime' }
     ]
   },
   {
-    title: 'Adboost-AI',
-    description: 'Led API integration efforts using Nest.js and Next.js, creating a seamless connection between frontend and backend systems.',
-    technologies: ['Next.js', 'Nest.js', 'TypeScript'],
+    title: 'Dotbrand - Pharmacy E-commerce Platform',
+    description: 'White-label e-commerce solution for pharmacies with comprehensive inventory management and order processing capabilities.',
+    technologies: ['React', 'TypeScript', 'Express.js', 'MongoDB', 'Mongoose', 'Redux Toolkit', 'Firebase', 'GitHub Actions'],
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
-    liveLink: '#',
+    liveLink: 'https://dotbrand-d54bd.web.app',
+    keyFeatures: [
+      'Engineered scalable backend architecture using Express.js and MongoDB with Mongoose ORM',
+      'Implemented comprehensive inventory management system with real-time stock tracking',
+      'Built secure authentication and role-based access control system',
+      'Established CI/CD pipelines using GitHub Actions for automated testing and deployment',
+      'Deployed architecture with Render (backend) and Firebase (frontend)'
+    ],
     stats: [
-      { value: '3x', label: 'Faster Loading' },
-      { value: '99%', label: 'Uptime' }
+      { value: '100%', label: 'Test Coverage' },
+      { value: '< 2s', label: 'Average Load Time' }
+    ]
+  },
+  {
+    title: 'Marketly - Digital Product Marketplace',
+    description: 'Modern e-commerce platform for digital products featuring seamless payment processing and content management.',
+    technologies: ['Next.js', 'Express.js', 'Payload CMS', 'tRPC', 'Stripe', 'TypeScript', 'Tailwind CSS', 'shadcn-ui'],
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
+    keyFeatures: [
+      'Implemented end-to-end type safety using tRPC for robust API communication',
+      'Integrated Payload CMS for flexible content management and admin controls',
+      'Built real-time payment processing system with Stripe webhook integration',
+      'Developed protected routes system with role-based access control',
+      'Optimized for performance with server-side rendering and static generation'
+    ],
+    stats: [
+      { value: '99%', label: 'Lighthouse Score' },
+      { value: '0.5s', label: 'Time to Interactive' }
+    ]
+  },
+  {
+    title: 'Ad Boost AI',
+    description: 'AI-powered social media advertising platform integrating multiple AI services for enhanced ad creation and management.',
+    technologies: ['Next.js', 'Nest.js', 'TypeScript', 'MongoDB', 'ChatGPT', 'Stable Diffusion', 'Elastic Search'],
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
+    liveLink: 'https://dev-adboost-fe.renesistechdemo.com',
+    keyFeatures: [
+      'Integrated multiple AI services including ChatGPT and Stable Diffusion for creative content generation',
+      'Implemented robust error tracking and monitoring using Elastic APM',
+      'Built scalable backend architecture using Nest.js with TypeScript',
+      'Developed comprehensive API integration layer for social media platforms',
+      'Created performant frontend using Next.js with server-side rendering'
+    ],
+    stats: [
+      { value: '3x', label: 'Faster Ad Creation' },
+      { value: '99%', label: 'Uptime' },
+      { value: '50%', label: 'Cost Reduction' }
+    ]
+  },
+  {
+    title: 'Happyspace - Mental Health Platform',
+    description: 'MERN stack application connecting mental health professionals with patients, featuring secure communication and appointment management.',
+    technologies: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Formik', 'Yup', 'JWT'],
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
+    keyFeatures: [
+      'Developed comprehensive REST API with full CRUD operations',
+      'Implemented secure authentication system using JWT',
+      'Built robust form validation using Formik and Yup',
+      'Created appointment scheduling system with real-time updates',
+      'Designed secure chat system for therapist-patient communication'
+    ],
+    stats: [
+      { value: '100%', label: 'API Test Coverage' },
+      { value: '< 1s', label: 'Response Time' }
     ]
   }
 ];
@@ -141,6 +210,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onHover,
   onLeave
 }) => {
+  const [showFeatures, setShowFeatures] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -150,20 +221,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       onMouseLeave={onLeave}
       className="group relative"
     >
-      {/* Card Container */}
-      <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 rounded-xl 
-                    border border-gray-700/50 overflow-hidden
-                    transition-all duration-300 ease-out
-                    hover:-translate-y-1 hover:shadow-xl">
-        {/* Subtle glow effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300">
-          <div className="absolute inset-[-1px] bg-gradient-to-r from-[#800020] via-purple-500 to-[#ff7e5f] rounded-xl blur-sm" />
-        </div>
-
-        {/* Content Container */}
+      <div className="relative bg-gray-900/40 backdrop-blur-md rounded-xl overflow-hidden
+                    border border-gray-700/50 transition-all duration-500
+                    hover:border-[#800020]/50 hover:shadow-lg hover:shadow-[#800020]/20">
+        {/* Main Content */}
         <div className="relative">
-          {/* Image section */}
-          <div className="relative aspect-video overflow-hidden">
+          {/* Image and Title Section */}
+          <div className="relative h-[300px] overflow-hidden">
             <motion.img
               src={project.image}
               alt={project.title}
@@ -171,62 +235,124 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               animate={{ scale: isActive ? 1.05 : 1 }}
               transition={{ duration: 0.4 }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent" />
 
-            {/* Action buttons */}
-            <div className="absolute top-4 right-4 flex gap-3">
-              {project.githubLink && (
-                <a href={project.githubLink}
-                  className="p-2 bg-gray-900/90 rounded-lg border border-gray-700/50 hover:border-[#800020]/50 
-                            transition-colors duration-300">
-                  <Github className="w-5 h-5 text-white" />
-                </a>
-              )}
-              {project.liveLink && (
-                <a href={project.liveLink}
-                  className="p-2 bg-gray-900/90 rounded-lg border border-gray-700/50 hover:border-[#800020]/50 
-                            transition-colors duration-300">
-                  <Globe className="w-5 h-5 text-white" />
-                </a>
-              )}
+            {/* Project Title Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-6">
+              <h3 className="text-2xl font-bold text-white mb-2 font-serif">
+                {project.title}
+              </h3>
+              <p className="text-gray-300 text-sm line-clamp-2">
+                {project.description}
+              </p>
             </div>
 
-            {/* Stats */}
-            {project.stats && (
-              <div className="absolute bottom-4 left-4 flex gap-6">
-                {project.stats.map((stat, i) => (
-                  <div key={i}>
-                    <div className="text-2xl font-bold text-white">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-gray-400">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            )}
+            {/* Action Buttons */}
+            <div className="absolute top-4 right-4 flex gap-2">
+              {project.githubLink && (
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10 
+                           hover:border-[#800020]/50 hover:bg-black/50 transition-all duration-300"
+                >
+                  <Github className="w-5 h-5 text-white" />
+                </motion.a>
+              )}
+              {project.liveLink && (
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10 
+                           hover:border-[#800020]/50 hover:bg-black/50 transition-all duration-300"
+                >
+                  <Globe className="w-5 h-5 text-white" />
+                </motion.a>
+              )}
+            </div>
           </div>
 
-          {/* Content section */}
-          <div className="p-6">
-            <h3 className="text-xl font-bold text-white mb-2">
-              {project.title}
-            </h3>
-            <p className="text-gray-400 mb-4">
-              {project.description}
-            </p>
+          {/* Stats Section */}
+          {project.stats && (
+            <div className="grid grid-cols-3 gap-2 px-6 py-4 border-b border-gray-700/50">
+              {project.stats.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-xl font-bold bg-gradient-to-r from-[#800020] to-[#ff7e5f] 
+                                bg-clip-text text-transparent">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-gray-400">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Technologies Section */}
+          <div className="px-6 py-4">
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1 text-sm rounded-lg bg-gray-800/50 text-gray-300 
-                           border border-gray-700/50 flex items-center gap-2"
+                  className="px-3 py-1 text-xs rounded-full bg-gray-800/50 text-gray-300 
+                           border border-gray-700/50 flex items-center gap-2
+                           hover:border-[#800020]/50 transition-colors duration-300"
                 >
                   {techIcons[tech]}
-                  {tech}
+                  <span>{tech}</span>
                 </span>
               ))}
             </div>
           </div>
+
+          {/* Key Features Section */}
+          {project.keyFeatures && (
+            <div className="px-6 pb-4">
+              <motion.button
+                onClick={() => setShowFeatures(!showFeatures)}
+                className="w-full flex items-center justify-between p-2 text-sm text-gray-300 
+                         hover:text-[#800020] transition-colors duration-300"
+              >
+                <span className="font-medium">Key Features</span>
+                <ChevronDown
+                  className={`w-4 h-4 transform transition-transform duration-300 
+                           ${showFeatures ? 'rotate-180' : ''}`}
+                />
+              </motion.button>
+
+              <AnimatePresence>
+                {showFeatures && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <ul className="space-y-2 mt-2">
+                      {project.keyFeatures.map((feature, i) => (
+                        <motion.li
+                          key={i}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="flex items-start gap-2 text-sm text-gray-400"
+                        >
+                          <ChevronRight className="w-4 h-4 text-[#800020] flex-shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

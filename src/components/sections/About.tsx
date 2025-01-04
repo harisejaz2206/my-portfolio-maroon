@@ -53,12 +53,12 @@ export const About: React.FC = () => {
             {/* Enhanced Profile Image with Dynamic Glow */}
             <div className="absolute inset-0 bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500 rounded-full blur-2xl opacity-40 
                          group-hover:opacity-70 transition-all duration-500 animate-spin-slow" />
-            <div className="relative rounded-full p-1 bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500 rotate-45">
+            <div className="relative rounded-full p-1 bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500">
               <div className="absolute inset-0 rounded-full bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500 opacity-50 blur-md animate-spin-slow" />
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300&h=300"
+                src="/images/profilepic.png"
                 alt="Profile"
-                className="rounded-full w-56 h-56 object-cover border-4 border-gray-900 relative z-10"
+                className="rounded-full w-56 h-56 object-cover object-bottom transform scale-[1.25] border-4 border-gray-900 relative z-10"
               />
             </div>
           </motion.div>
@@ -160,9 +160,9 @@ export const About: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-wrap justify-center gap-6 pt-8"
         >
-          <SocialLink href="https://github.com/yourusername" icon={<Github />} label="GitHub" color="from-purple-500 to-pink-500" />
-          <SocialLink href="https://linkedin.com/in/yourusername" icon={<Linkedin />} label="LinkedIn" color="from-cyan-500 to-blue-500" />
-          <SocialLink href="https://yourblog.com" icon={<BookOpen />} label="Blog" color="from-emerald-500 to-green-500" />
+          <SocialLink href="https://github.com/harisejaz2206" icon={<Github />} label="GitHub" color="from-purple-500 to-pink-500" />
+          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin />} label="LinkedIn" color="from-cyan-500 to-blue-500" />
+          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen />} label="Blog" color="from-emerald-500 to-green-500" />
         </motion.div>
       </motion.div>
     </div>

@@ -10,11 +10,21 @@ const experiences: Experience[] = [
     duration: 'March 2024 – Present',
     location: 'Dubai, United Arab Emirates',
     description: [
-      'Worked on projects for Ministry of Interior (Saudi Arabia), RAK Ceramics, Innfini',
-      'Designed architecture for IoT modules and dynamic forms',
-      'Optimized MongoDB operations and implemented complex aggregation pipelines',
-      'Managed state using Redux, Redux Saga, and Redux Thunk',
-      'Developed BRDs and UML diagrams for project documentation',
+      'Co-developed a comprehensive "Things" and "Thing Types" system, enabling dynamic object modeling and relationships across enterprise applications, significantly reducing development time for new features',
+
+      'Designed and developed a flexible Dynamic Forms engine supporting 12+ input types, allowing non-technical administrators to create complex forms with data relationships, validation rules, and business logic without coding',
+
+      'Engineered a sophisticated Dynamic Reporting architecture integrating with the Things framework, featuring tabular, historical, geographical, and summary views, powered by MongoDB aggregation pipelines and mongoose hooks',
+
+      'Built secure role-based access control system with JWT authentication, managing menu items and permissions through backend configuration',
+
+      'Implemented efficient state management patterns using Redux ecosystem (Redux Saga, Redux Thunk) to handle complex application states and async operations',
+
+      'Created detailed technical documentation including Business Requirement Documents (BRDs) and UML diagrams to facilitate team understanding and project maintenance',
+
+      'Successfully deployed enterprise solutions for government and large-scale clients including Ministry of Interior (Saudi Arabia), Abu Dhabi Civil Defense (ADCD), and RAK Ceramics',
+
+      'Optimized MongoDB operations through advanced aggregation pipelines and indexing strategies, improving query performance and data retrieval efficiency'
     ],
   },
   {
@@ -23,10 +33,17 @@ const experiences: Experience[] = [
     duration: 'July 2023 – September 2023',
     location: 'Lahore, Punjab, Pakistan',
     description: [
-      'Received mentorship in React.js, Next.js, Express.js, and Nest.js',
-      'Led API integration for Adboost-AI',
-      'Integrated Nest.js APIs with Next.js frontend',
-      'Developed versatile APIs for existing projects',
+      'Developed and integrated RESTful APIs using Nest.js, implementing best practices for error handling, validation, and TypeScript interfaces',
+
+      'Successfully led the API integration effort for Adboost-AI platform, coordinating with team members and ensuring seamless data flow between services',
+
+      'Built responsive and performant user interfaces using Next.js and React.js, focusing on component reusability and modern React patterns',
+
+      'Implemented proper API authentication, request validation, and error handling patterns across multiple microservices',
+
+      'Gained hands-on experience with full-stack JavaScript development, including Express.js middleware, React hooks, and Next.js server-side rendering',
+
+      'Participated in code reviews and technical discussions, receiving mentorship on architectural decisions and coding best practices'
     ],
   },
   {
@@ -35,11 +52,17 @@ const experiences: Experience[] = [
     duration: 'March 2023 – May 2023',
     location: 'Lahore, Punjab, Pakistan',
     description: [
-      'Developed reusable React components',
-      'Engaged in project-based exercises',
-      'Enhanced problem-solving skills',
+      'Engineered reusable React components following component composition principles and implementing proper prop typing',
+
+      'Developed interactive user interfaces using modern React patterns including hooks, context, and efficient state management',
+
+      'Collaborated with senior developers to implement responsive designs using Tailwind CSS and modern CSS practices',
+
+      'Participated in structured learning exercises covering frontend architecture, component lifecycle, and React performance optimization',
+
+      'Contributed to the development of a component library, focusing on maintainability, documentation, and consistent styling'
     ],
-  },
+  }
 ];
 
 export const ExperienceSection: React.FC = () => {
