@@ -90,7 +90,7 @@ export const About: React.FC = () => {
               >
                 <Zap className="w-5 h-5 text-purple-400" />
                 <p className="text-2xl text-gray-300 font-light">
-                  Associate Software Engineer
+                  Software Engineer
                 </p>
               </motion.div>
             </div>
