@@ -13,63 +13,54 @@ interface Achievement {
   }[];
 }
 
-const achievements: Achievement[] = [
+const achievements = [
   {
-    title: 'Best Frontend Project',
-    description: 'Won first place in the annual Web Development competition for creating an innovative AI-powered dashboard interface.',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
+    title: 'Campus Silver Medal',
+    description: 'Earned the prestigious #2 ranking in the graduating batch, demonstrating consistent academic excellence throughout the program.',
+    image: '/images/medal.jpeg',
     stats: [
-      { value: '1st', label: 'Place' },
-      { value: '5K', label: 'Prize' }
+      { value: '#2', label: 'Rank' },
+      { value: 'Silver', label: 'Medal' }
     ],
     link: '#'
   },
   {
-    title: 'React Certification',
-    description: 'Achieved Advanced React Developer certification with exceptional scores in component architecture and state management.',
+    title: 'Devathon by Devsinc',
+    description: 'Secured third place as Rising Stars among 300+ participants in an intensive development marathon, showcasing innovative problem-solving skills.',
+    image: '/images/devathon.JPG',
+    stats: [
+      { value: '3rd', label: 'Place' },
+      { value: '300+', label: 'Participants' }
+    ],
+    link: '#'
+  },
+  {
+    title: 'Workshop Facilitator',
+    description: 'Led an impactful workshop for university bus drivers, collaborating with campus director and faculty to enhance institutional services.',
+    image: 'https://images.unsplash.com/photo-1544531585-9847b68c8c86?q=80&w=2070&auto=format&fit=crop',
+    stats: [
+      { value: '1', label: 'Workshop' },
+      { value: '100%', label: 'Completion' }
+    ]
+  },
+  {
+    title: 'Convocation Host Runner-up',
+    description: 'Secured second place among 70+ participants in the 2022 convocation hosting auditions, demonstrating exceptional public speaking skills.',
+    image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2070&auto=format&fit=crop',
+    stats: [
+      { value: '2nd', label: 'Place' },
+      { value: '70+', label: 'Contestants' }
+    ]
+  },
+  {
+    title: 'Namaste React Certification',
+    description: 'Successfully completed the comprehensive Namaste React course by Akshay Saini, mastering advanced React concepts and best practices.',
     image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop',
     stats: [
-      { value: '98%', label: 'Score' },
-      { value: 'A+', label: 'Grade' }
-    ]
-  },
-  {
-    title: 'Hackathon Champion',
-    description: 'Led a team of 4 developers to victory in the 48-hour Global Tech Hackathon, building a revolutionary health-tech solution.',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop',
-    stats: [
-      { value: '48h', label: 'Duration' },
-      { value: '1st', label: 'Rank' }
+      { value: '100%', label: 'Completion' },
+      { value: 'React', label: 'Focus' }
     ],
     link: '#'
-  },
-  {
-    title: 'Open Source Impact',
-    description: 'Contributed to major open-source projects with over 500 stars on GitHub, improving documentation and adding key features.',
-    image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2088&auto=format&fit=crop',
-    stats: [
-      { value: '500+', label: 'Stars' },
-      { value: '50+', label: 'PRs' }
-    ]
-  },
-  {
-    title: 'Tech Conference Speaker',
-    description: 'Featured speaker at DevCon 2023, presenting on "Modern Frontend Architecture" to an audience of 1000+ developers.',
-    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
-    stats: [
-      { value: '1K+', label: 'Audience' },
-      { value: '4.9', label: 'Rating' }
-    ],
-    link: '#'
-  },
-  {
-    title: 'Performance Optimization',
-    description: 'Successfully improved client application performance by 300%, reducing load time from 12s to 4s through advanced optimization techniques.',
-    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop',
-    stats: [
-      { value: '300%', label: 'Faster' },
-      { value: '4s', label: 'Load Time' }
-    ]
   }
 ];
 
