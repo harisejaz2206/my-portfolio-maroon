@@ -18,6 +18,26 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'F1IQ - Formula 1 Analytics Platform',
+    description: 'Comprehensive Formula 1 analytics platform featuring real-time race tracking, driver statistics, and interactive circuit insights with responsive data visualizations.',
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'Redux Toolkit', 'React Query'],
+    image: 'https://images2.alphacoders.com/121/1214052.png',
+    githubLink: 'https://github.com/harisejaz2206/formula1-analytics',
+    liveLink: 'https://f1iq.com',
+    keyFeatures: [
+      'Engineered real-time race tracking system with position changes and lap time analysis',
+      'Implemented responsive data visualizations using Recharts for race statistics',
+      'Designed custom Formula 1 themed UI system with animated components',
+      'Built interactive track insights feature with circuit details and race history',
+      'Created comprehensive F1 guide section with technical regulations and procedures'
+    ],
+    stats: [
+      { value: '< 1s', label: 'Load Time' },
+      { value: '40%', label: 'Code Reduction' },
+      { value: '20+', label: 'Components' }
+    ]
+  },
+  {
     title: 'Innfini IoT Platform',
     description: 'Enterprise-grade IoT platform implementing innovative "Thing Types" architecture enabling dynamic object modeling and real-time data processing. Features multi-tenant support, dynamic form generation, and sophisticated reporting capabilities.',
     technologies: ['React', 'MongoDB', 'Redux', 'Redux Saga', 'Node.js', 'Express.js'],
