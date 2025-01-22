@@ -113,8 +113,8 @@ const projects: Project[] = [
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
     liveLink: 'https://dev-adboost-fe.renesistechdemo.com',
     keyFeatures: [
-      'Integrated multiple AI services including ChatGPT and Stable Diffusion for creative content generation',
-      'Implemented robust error tracking and monitoring using Elastic APM',
+      'Integrated multiple AI services like ChatGPT for creative content generation',
+      // 'Implemented robust error tracking and monitoring using Elastic APM',
       'Built scalable backend architecture using Nest.js with TypeScript',
       'Developed comprehensive API integration layer for social media platforms',
       'Created performant frontend using Next.js with server-side rendering'
