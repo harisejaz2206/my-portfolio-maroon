@@ -5,28 +5,25 @@ import { Briefcase, MapPin, Calendar } from 'lucide-react';
 
 const experiences: Experience[] = [
   {
-    company: 'Innovent Tech Solutions',
-    position: 'Associate Software Engineer',
-    duration: 'March 2024 – Present',
-    location: 'Dubai, United Arab Emirates',
-    description: [
-      'Co-developed a comprehensive "Things" and "Thing Types" system, enabling dynamic object modeling and relationships across enterprise applications, significantly reducing development time for new features',
-
-      'Designed and developed a flexible Dynamic Forms engine supporting 12+ input types, allowing non-technical administrators to create complex forms with data relationships, validation rules, and business logic without coding',
-
-      'Engineered a sophisticated Dynamic Reporting architecture integrating with the Things framework, featuring tabular, historical, geographical, and summary views, powered by MongoDB aggregation pipelines and mongoose hooks',
-
-      'Built secure role-based access control system with JWT authentication, managing menu items and permissions through backend configuration',
-
-      'Implemented efficient state management patterns using Redux ecosystem (Redux Saga, Redux Thunk) to handle complex application states and async operations',
-
-      'Created detailed technical documentation including Business Requirement Documents (BRDs) and UML diagrams to facilitate team understanding and project maintenance',
-
-      'Successfully deployed enterprise solutions for government and large-scale clients including Ministry of Interior (Saudi Arabia), Abu Dhabi Civil Defense (ADCD), and RAK Ceramics',
-
-      'Optimized MongoDB operations through advanced aggregation pipelines and indexing strategies, improving query performance and data retrieval efficiency'
-    ],
-  },
+    "company": "Innovent Tech Solutions",
+    "position": "Associate Software Engineer",
+    "duration": "March 2024 – Present",
+    "location": "Dubai, United Arab Emirates",
+    "description": [
+      "Co-developed a comprehensive 'Things' and 'Thing Types' system, enabling dynamic object modeling and relationships across enterprise applications, significantly reducing development time for new features",
+      "Designed and developed a flexible Dynamic Forms engine supporting 12+ input types, allowing non-technical administrators to create complex forms with data relationships, validation rules, and business logic without coding",
+      "Architected a sophisticated offline mapping system by integrating GeoServer WMS (Web Map Service) with MapboxGL, implementing custom raster tile services and proxy middleware for seamless rendering of multi-layered GeoTIFF data through RESTful APIs",
+      "Engineered a distributed microservices architecture integrating Docker-containerized GeoServer (v2.26.2), Node.js proxy middleware, and static file serving, implementing CORS handling and secure WebSocket connections for real-time geospatial data streaming",
+      "Developed an enterprise-grade geospatial infrastructure utilizing MapboxGL, GeoServer WMS, and custom tile services, implementing layer opacity controls, dynamic bounding box calculations, and efficient raster data rendering through EPSG:3857 projection system",
+      "Engineered a sophisticated Dynamic Reporting architecture integrating with the Things framework, featuring tabular, historical, geographical, and summary views, powered by MongoDB aggregation pipelines and mongoose hooks",
+      "Built secure role-based access control system with JWT authentication, managing menu items and permissions through backend configuration",
+      "Implemented efficient state management patterns using Redux ecosystem (Redux Saga, Redux Thunk) to handle complex application states and async operations",
+      "Created detailed technical documentation including Business Requirement Documents (BRDs) and UML diagrams to facilitate team understanding and project maintenance",
+      "Successfully deployed enterprise solutions for government and large-scale clients including Ministry of Interior (Saudi Arabia), Abu Dhabi Civil Defense (ADCD), and RAK Ceramics",
+      "Optimized MongoDB operations through advanced aggregation pipelines and indexing strategies, improving query performance and data retrieval efficiency",
+      "Developed a comprehensive API documentation system using Swagger UI, enabling developers to easily understand and interact with the API"
+    ]
+  },  
   {
     company: 'Renesis Tech Pvt. Ltd',
     position: 'Internee Software Engineer',

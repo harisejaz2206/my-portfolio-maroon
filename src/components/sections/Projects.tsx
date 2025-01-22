@@ -38,12 +38,43 @@ const projects: Project[] = [
     ]
   },
   {
+    "title": "Floty - Real-Time Fleet Management System",
+    "description": "Floty is a serverless fleet management system that processes real-time GPS data from Teltonika devices, evaluates rule violations, and delivers notifications to users via WebSockets and other channels. It leverages AWS cloud services for scalability and reliability.",
+    "technologies": [
+      "AWS IoT Core",
+      "AWS Kinesis Data Streams",
+      "AWS Lambda",
+      "Neon Postgres",
+      "WebSockets",
+      "React",
+      "TypeScript",
+      "Serverless Framework"
+    ],
+    "image": "/images/floty-ss.jpeg",
+    "githubLink": "https://github.com/harisejaz2206/floty",
+    "liveLink": "https://floty.ai",
+    "keyFeatures": [
+      "Integrated AWS IoT Core (MQTT) for secure and real-time device-to-cloud communication",
+      "Designed a scalable data pipeline using AWS Kinesis Data Streams for real-time data ingestion",
+      "Implemented serverless architecture using AWS Lambda for data processing and rule evaluation",
+      "Developed a dynamic rule engine to monitor fleet activities and detect violations",
+      "Built a robust notification system with WebSockets and multi-channel alerts",
+      "Utilized Neon Postgres for efficient and structured fleet data storage",
+      "Created a responsive frontend application using React and TypeScript for real-time insights"
+    ],
+    "stats": [
+      { "value": "99.9%", "label": "Uptime" },
+      { "value": "50%", "label": "Cost Reduction" },
+      { "value": "20%", "label": "Increased Efficiency" }
+    ]
+  },
+  {
     title: 'Innfini IoT Platform',
     description: 'Enterprise-grade IoT platform implementing innovative "Thing Types" architecture enabling dynamic object modeling and real-time data processing. Features multi-tenant support, dynamic form generation, and sophisticated reporting capabilities.',
     technologies: ['React', 'MongoDB', 'Redux', 'Redux Saga', 'Node.js', 'Express.js'],
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop',
     githubLink: '#',
-    liveLink: '#',
+    liveLink: 'https://innfini-platform.innovent.site/',
     keyFeatures: [
       'Architected scalable "Thing Types" system allowing dynamic creation of IoT device templates and relationships',
       'Implemented real-time data processing pipeline handling millions of IoT events daily',
@@ -76,26 +107,9 @@ const projects: Project[] = [
     ]
   },
   {
-    title: 'Marketly - Digital Product Marketplace',
-    description: 'Modern e-commerce platform for digital products featuring seamless payment processing and content management.',
-    technologies: ['Next.js', 'Express.js', 'Payload CMS', 'tRPC', 'Stripe', 'TypeScript', 'Tailwind CSS', 'shadcn-ui'],
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
-    keyFeatures: [
-      'Implemented end-to-end type safety using tRPC for robust API communication',
-      'Integrated Payload CMS for flexible content management and admin controls',
-      'Built real-time payment processing system with Stripe webhook integration',
-      'Developed protected routes system with role-based access control',
-      'Optimized for performance with server-side rendering and static generation'
-    ],
-    stats: [
-      { value: '99%', label: 'Lighthouse Score' },
-      { value: '0.5s', label: 'Time to Interactive' }
-    ]
-  },
-  {
     title: 'Ad Boost AI',
     description: 'AI-powered social media advertising platform integrating multiple AI services for enhanced ad creation and management.',
-    technologies: ['Next.js', 'Nest.js', 'TypeScript', 'MongoDB', 'ChatGPT', 'Stable Diffusion', 'Elastic Search'],
+    technologies: ['Next.js', 'Nest.js', 'TypeScript', 'MongoDB', 'OpenAI'],
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
     liveLink: 'https://dev-adboost-fe.renesistechdemo.com',
     keyFeatures: [
@@ -111,6 +125,23 @@ const projects: Project[] = [
       { value: '50%', label: 'Cost Reduction' }
     ]
   },
+  // {
+  //   title: 'Marketly - Digital Product Marketplace',
+  //   description: 'Modern e-commerce platform for digital products featuring seamless payment processing and content management.',
+  //   technologies: ['Next.js', 'Express.js', 'Payload CMS', 'tRPC', 'Stripe', 'TypeScript', 'Tailwind CSS', 'shadcn-ui'],
+  //   image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
+  //   keyFeatures: [
+  //     'Implemented end-to-end type safety using tRPC for robust API communication',
+  //     'Integrated Payload CMS for flexible content management and admin controls',
+  //     'Built real-time payment processing system with Stripe webhook integration',
+  //     'Developed protected routes system with role-based access control',
+  //     'Optimized for performance with server-side rendering and static generation'
+  //   ],
+  //   stats: [
+  //     { value: '99%', label: 'Lighthouse Score' },
+  //     { value: '0.5s', label: 'Time to Interactive' }
+  //   ]
+  // },
   {
     title: 'Happyspace - Mental Health Platform',
     description: 'MERN stack application connecting mental health professionals with patients, featuring secure communication and appointment management.',
@@ -231,6 +262,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onLeave
 }) => {
   const [showFeatures, setShowFeatures] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   return (
     <motion.div
@@ -269,7 +301,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Action Buttons */}
             <div className="absolute top-4 right-4 flex gap-2">
-              {project.githubLink && (
+              {project.githubLink ? (
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -281,7 +313,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 >
                   <Github className="w-5 h-5 text-white" />
                 </motion.a>
+              ) : (
+                <div className="p-2 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10 
+                              cursor-not-allowed opacity-50">
+                  <Github className="w-5 h-5 text-white" />
+                </div>
               )}
+
               {project.liveLink && (
                 <motion.a
                   whileHover={{ scale: 1.05 }}
