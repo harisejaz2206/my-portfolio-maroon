@@ -145,7 +145,7 @@ const projects: Project[] = [
   {
     title: 'Happyspace - Mental Health Platform',
     description: 'MERN stack application connecting mental health professionals with patients, featuring secure communication and appointment management.',
-    technologies: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Formik', 'Yup', 'JWT'],
+    technologies: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Formik', 'Yup'],
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
     keyFeatures: [
       'Developed comprehensive REST API with full CRUD operations',

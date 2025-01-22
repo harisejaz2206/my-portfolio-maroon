@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Code2, Briefcase, Trophy } from 'lucide-react';
+import { User, Code2, Briefcase, Trophy, GraduationCap } from 'lucide-react';
 
 interface SidebarProps {
   activeSection: string;
@@ -9,6 +9,7 @@ interface SidebarProps {
 
 const navItems = [
   { id: 'about', label: 'About', icon: <User size={20} /> },
+  { id: 'education', label: 'Education', icon: <GraduationCap size={20} /> },
   { id: 'projects', label: 'Projects', icon: <Code2 size={20} /> },
   { id: 'experience', label: 'Experience', icon: <Briefcase size={20} /> },
   { id: 'achievements', label: 'Achievements', icon: <Trophy size={20} /> },

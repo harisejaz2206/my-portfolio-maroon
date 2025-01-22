@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sidebar } from './components/Sidebar';
 import { About } from './components/sections/About';
+import { Education } from './components/sections/Education';
 import { Projects } from './components/sections/Projects';
 import { ExperienceSection } from './components/sections/Experience';
 import { Achievements } from './components/sections/Achievements';
@@ -38,6 +39,10 @@ function App() {
             <AnimatePresence mode="wait">
               <section id="about" className="min-h-screen">
                 <About />
+              </section>
+
+              <section id="education" className="min-h-screen">
+                <Education />
               </section>
 
               <section id="projects" className="min-h-screen">
