@@ -86,10 +86,10 @@ export const About: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="flex items-center gap-3 mt-4"
+                className="flex items-center justify-center md:justify-start gap-3 mt-4"
               >
                 <Zap className="w-5 h-5 text-purple-400" />
-                <p className="text-2xl text-gray-300 font-light">
+                <p className="text-2xl text-gray-300 font-light tracking-wide">
                   Software Engineer
                 </p>
               </motion.div>
