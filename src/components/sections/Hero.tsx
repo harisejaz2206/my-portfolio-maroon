@@ -67,6 +67,43 @@ export const Hero: React.FC = () => {
           Building profitable <span className="font-bold text-indigo-600">micro-SaaS</span> for creators and racing fans. Turning ideas into streamlined, user-focused solutions one project at a time.
         </p>
         
+        {/* F1IQ Endorsement with tooltip */}
+        <div className="relative flex items-center bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg p-3 border border-slate-200 max-w-xl group">
+          <motion.div 
+            initial={{ opacity: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            className="mr-3 flex-shrink-0"
+          >
+            <img 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
+              alt="F1 Logo" 
+              className="w-10 h-10 object-contain"
+              onError={(e) => {
+                e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
+              }}
+            />
+          </motion.div>
+          <div>
+            <p className="text-sm text-slate-700 leading-snug">
+              <span className="font-bold text-slate-900">F1IQ.com</span> — endorsed by <span className="font-semibold underline decoration-dotted cursor-pointer">Ian Brunton</span>, Head of Software Engineering at Red Bull Racing.
+            </p>
+            
+            {/* Tooltip with endorsement image */}
+            <div className="absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 
+                          -bottom-4 left-1/2 transform -translate-x-1/2 translate-y-full scale-95 group-hover:scale-100">
+              <div className="relative bg-white p-2 rounded-lg shadow-xl border border-slate-200 w-64">
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-t border-slate-200"></div>
+                <img 
+                  src="/images/ian-endorsement-dm.png" 
+                  alt="Ian Brunton's Endorsement" 
+                  className="w-full rounded shadow-sm"
+                />
+                <p className="text-xs text-slate-500 mt-2 text-center italic">Hover to see, click anywhere to dismiss</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className="pt-4 flex gap-5">
           <motion.a
             href="#projects"
@@ -85,7 +122,7 @@ export const Hero: React.FC = () => {
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 bg-white border-2 border-slate-200 text-sky-600 rounded-lg text-lg font-bold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2 group"
           >
-            <span>Check Quickevent</span>
+            <span>Check Quickevent.app</span>
             <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
