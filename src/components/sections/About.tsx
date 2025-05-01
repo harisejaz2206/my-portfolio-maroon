@@ -1,25 +1,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Database, Cloud, LightbulbIcon, RocketIcon, BrainCircuitIcon } from 'lucide-react';
+import { Code, Database, Cloud, LightbulbIcon, RocketIcon, BrainCircuitIcon, Server, GitMerge, Globe } from 'lucide-react';
 
 const skills = [
   {
     name: 'Frontend',
-    icon: <Code />,
+    icon: <Code className="text-blue-600" />,
     items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
     color: 'bg-blue-50 text-blue-600 border-blue-100'
   },
   {
     name: 'Backend',
-    icon: <Database />,
+    icon: <Database className="text-emerald-600" />,
     items: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL'],
     color: 'bg-emerald-50 text-emerald-600 border-emerald-100'
   },
   {
     name: 'Cloud',
-    icon: <Cloud />,
+    icon: <Cloud className="text-violet-600" />,
     items: ['AWS', 'Docker', 'CI/CD', 'Microservices'],
     color: 'bg-violet-50 text-violet-600 border-violet-100'
+  },
+  {
+    name: 'DevOps',
+    icon: <GitMerge className="text-rose-600" />,
+    items: ['GitLab', 'GitHub Actions', 'Vercel', 'Netlify'],
+    color: 'bg-rose-50 text-rose-600 border-rose-100'
+  },
+  {
+    name: 'Database',
+    icon: <Server className="text-amber-600" />,
+    items: ['Supabase', 'Firebase', 'Redis', 'MySQL'],
+    color: 'bg-amber-50 text-amber-600 border-amber-100'
+  },
+  {
+    name: 'Platforms',
+    icon: <Globe className="text-sky-600" />,
+    items: ['Stripe', 'Auth0', 'Twilio', 'Mailchimp'],
+    color: 'bg-sky-50 text-sky-600 border-sky-100'
   }
 ];
 
@@ -103,24 +121,35 @@ export const About: React.FC = () => {
         
         {/* Skills Section */}
         <div>
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4"
+            >
+              <span className="inline-block p-3 rounded-xl bg-slate-900 shadow-sm relative overflow-hidden">
+                <Code className="w-6 h-6 text-sky-500 relative z-10" />
+              </span>
+            </motion.div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">My Skills</h2>
             <p className="text-slate-600 max-w-2xl mx-auto">
               The tools and technologies I use to bring micro-SaaS products to life
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {skills.map((skill, index) => (
               <motion.div
                 key={skill.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+                className="group"
               >
-                <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-all duration-300">
+                <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-all duration-300 h-full">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className={`p-2 rounded-lg ${skill.color} border`}>
+                    <div className={`p-2 rounded-lg ${skill.color} border group-hover:scale-110 transition-transform duration-300`}>
                       {skill.icon}
                     </div>
                     <h3 className="text-xl font-semibold text-slate-800">{skill.name}</h3>
@@ -130,7 +159,7 @@ export const About: React.FC = () => {
                     {skill.items.map((item) => (
                       <span 
                         key={item}
-                        className="px-3 py-1 bg-slate-50 rounded-lg text-sm text-slate-700 border border-slate-200 hover:border-sky-200 transition-colors duration-300"
+                        className="px-3 py-1 bg-slate-50 rounded-lg text-sm text-slate-700 border border-slate-200 hover:border-sky-200 hover:bg-sky-50 transition-all duration-300"
                       >
                         {item}
                       </span>
