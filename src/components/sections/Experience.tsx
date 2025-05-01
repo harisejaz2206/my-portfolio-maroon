@@ -5,11 +5,28 @@ import { Briefcase, MapPin, Calendar, ChevronDown, ChevronUp, ExternalLink } fro
 
 const experiences: Experience[] = [
   {
+    company: "Septem Systems",
+    position: "Software Engineer",
+    duration: "February 2025 – Present",
+    location: "Lahore, Punjab, Pakistan",
+    companyUrl: "https://septemsystems.com/",
+    description: [
+      "Built dynamic frontend components with Next.js for Kean Fire Safety LMS, enhancing user experience for admins and students managing courses and tests.",
+      "Spearheaded CI/CD pipeline automation using GitLab, slashing deployment times and minimizing production issues.",
+      "Led code reviews in GitLab, driving quality and scalability across multiple teams with a focus on performance optimizations.",
+      "Developed real-time test scheduling and result generation features, empowering admins with instant feedback and students with seamless progress tracking.",
+      "Created complex forms and user interfaces, enabling non-technical users to manage registrations, attendance, and certifications effortlessly.",
+      "Integrated NestJS API services for test management, syncing data across platforms for accurate and real-time reporting.",
+      "Automated reporting system, delivering on-demand and real-time performance reports, saving admins hours in manual work.",
+      "Implemented role-based access control (RBAC), ensuring secure data access for admins, facilitators, and students across all features."
+    ]
+  },
+  {
     "company": "Innovent Tech Solutions",
     "position": "Associate Software Engineer",
-    "duration": "March 2024 – Present",
+    "duration": "March 2024 – January 2025",
     "location": "Dubai, United Arab Emirates",
-    "companyUrl": "https://innovent.tech",
+    "companyUrl": "https://www.innovent.io/",
     "description": [
       "Co-developed a comprehensive 'Things' and 'Thing Types' system, enabling dynamic object modeling and relationships across enterprise applications, significantly reducing development time for new features",
       "Designed and developed a flexible Dynamic Forms engine supporting 12+ input types, allowing non-technical administrators to create complex forms with data relationships, validation rules, and business logic without coding",
