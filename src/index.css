@@ -1,24 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary: #800020;
-  --primary-dark: #4A0011;
+  --primary: #0ea5e9; /* Sky blue as primary */
+  --secondary: #f97316; /* Coral orange as secondary */
+  --text: #1e293b; /* Slate 800 for text */
 }
 
 body {
-  @apply antialiased text-gray-800 font-sans;
+  @apply antialiased text-slate-800 font-sans bg-white;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Smooth scrolling */
@@ -40,7 +41,7 @@ html {
 
 @layer utilities {
   .text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .hover-lift {
@@ -48,6 +49,33 @@ html {
   }
 
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-sm;
+    @apply bg-white/90 backdrop-blur-sm shadow-sm;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  
+  .animate-blob {
+    animation: blob-bounce 8s infinite ease alternate;
+  }
+  
+  @keyframes blob-bounce {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
   }
 }

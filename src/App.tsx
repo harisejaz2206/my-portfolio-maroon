@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sidebar } from './components/Sidebar';
+import {Navbar} from './components/Navbar';
+import {Hero} from './components/sections/Hero';
 import { About } from './components/sections/About';
-import { Education } from './components/sections/Education';
 import { Projects } from './components/sections/Projects';
-import { ExperienceSection } from './components/sections/Experience';
-import { Achievements } from './components/sections/Achievements';
+// import { Blog } from './components/sections/Blog';
 import { Background } from './components/3d/Background';
-
+import { Contact } from './components/sections/Contact';
+import { Footer } from './components/Footer';
 function App() {
-  const [activeSection, setActiveSection] = useState('about');
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -30,35 +30,36 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 fixed inset-0">
+    <div className="min-h-screen fixed inset-0">
       <Background />
       <div className="absolute inset-0 overflow-y-auto">
-        <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
-        <main className="pt-16">
+        <Navbar activeSection={activeSection} onSectionChange={setActiveSection} />
+        <main>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <AnimatePresence mode="wait">
-              <section id="about" className="min-h-screen">
-                <About />
+              <section id="home" className="min-h-screen">
+                <Hero />
               </section>
 
-              <section id="education" className="min-h-screen">
-                <Education />
+              <section id="about" className="min-h-screen">
+                <About />
               </section>
 
               <section id="projects" className="min-h-screen">
                 <Projects />
               </section>
 
-              <section id="experience" className="min-h-screen">
-                <ExperienceSection />
+              <section id="blog" className="min-h-screen">
+                {/* <Blog /> */}
               </section>
 
-              <section id="achievements" className="min-h-screen">
-                <Achievements />
+              <section id="contact" className="min-h-screen">
+                <Contact />
               </section>
             </AnimatePresence>
           </div>
         </main>
+        <Footer />
       </div>
     </div>
   );
