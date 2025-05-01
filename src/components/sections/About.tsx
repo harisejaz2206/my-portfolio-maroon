@@ -32,12 +32,32 @@ export const About: React.FC = () => {
         className="space-y-16"
       >
         {/* About Me Section */}
-        <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div className="flex flex-col items-center">
+          {/* Image in the middle */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="order-2 md:order-1"
+            className="mb-10 max-w-sm"
+          >
+            <div className="relative w-64 h-64 md:w-80 md:h-80 mx-auto">
+              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200 via-indigo-200 to-violet-200 rounded-xl rotate-6 opacity-60"></div>
+              <div className="absolute inset-0 bg-white rounded-xl overflow-hidden shadow-lg rotate-3">
+                <img 
+                  src="/images/haris-youngpic.JPG" 
+                  alt="Haris Ejaz"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* About text content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-center max-w-3xl"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">My Journey</h2>
             
@@ -51,51 +71,34 @@ export const About: React.FC = () => {
               </p>
               
               <div className="pt-2">
-                <div className="px-4 py-3 bg-amber-50 border border-amber-100 rounded-lg text-amber-800 italic">
+                <div className="px-4 py-3 bg-amber-50 border border-amber-100 rounded-lg text-amber-800 italic mx-auto max-w-xl">
                   "Built by failure, driven by purpose."
                 </div>
               </div>
             </div>
-            
-            <div className="flex flex-wrap gap-4 mt-8">
-              <PhilosophyItem 
-                icon={<LightbulbIcon />} 
-                title="Problem First" 
-                description="I build solutions to real problems I've experienced firsthand" 
-                color="bg-amber-50 text-amber-600"
-              />
-              <PhilosophyItem 
-                icon={<RocketIcon />} 
-                title="Launch Early" 
-                description="Get to market quickly and iterate based on user feedback" 
-                color="bg-sky-50 text-sky-600"
-              />
-              <PhilosophyItem 
-                icon={<BrainCircuitIcon />} 
-                title="Learn Always" 
-                description="Each project is an opportunity to grow my skillset" 
-                color="bg-rose-50 text-rose-600"
-              />
-            </div>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="order-1 md:order-2 flex justify-center"
-          >
-            <div className="relative w-64 h-64 md:w-80 md:h-96">
-              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200 via-indigo-200 to-violet-200 rounded-xl rotate-6 opacity-60"></div>
-              <div className="absolute inset-0 bg-white rounded-xl overflow-hidden shadow-lg rotate-3">
-                <img 
-                  src="/images/profilepic2.png" 
-                  alt="Haris Ejaz"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </motion.div>
+          {/* Philosophy items */}
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            <PhilosophyItem 
+              icon={<LightbulbIcon />} 
+              title="Problem First" 
+              description="I build solutions to real problems I've experienced firsthand" 
+              color="bg-amber-50 text-amber-600"
+            />
+            <PhilosophyItem 
+              icon={<RocketIcon />} 
+              title="Launch Early" 
+              description="Get to market quickly and iterate based on user feedback" 
+              color="bg-sky-50 text-sky-600"
+            />
+            <PhilosophyItem 
+              icon={<BrainCircuitIcon />} 
+              title="Learn Always" 
+              description="Each project is an opportunity to grow my skillset" 
+              color="bg-rose-50 text-rose-600"
+            />
+          </div>
         </div>
         
         {/* Skills Section */}
