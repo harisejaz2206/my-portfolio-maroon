@@ -83,22 +83,22 @@ export const Hero: React.FC = () => {
               }}
             />
           </motion.div>
-          <div>
+          <div className="relative">
             <p className="text-sm text-slate-700 leading-snug">
               <span className="font-bold text-slate-900">F1IQ.com</span> — endorsed by <span className="font-semibold underline decoration-dotted cursor-pointer">Ian Brunton</span>, Head of Software Engineering at Red Bull Racing.
             </p>
             
-            {/* Tooltip with endorsement image */}
+            {/* Tooltip with endorsement image - positioned to the right */}
             <div className="absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 
-                          -bottom-4 left-1/2 transform -translate-x-1/2 translate-y-full scale-95 group-hover:scale-100">
-              <div className="relative bg-white p-2 rounded-lg shadow-xl border border-slate-200 w-64">
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-t border-slate-200"></div>
+                          top-0 -right-2 transform translate-x-full scale-95 group-hover:scale-100">
+              <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
+                <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
                 <img 
                   src="/images/ian-endorsement-dm.png" 
                   alt="Ian Brunton's Endorsement" 
                   className="w-full rounded shadow-sm"
                 />
-                <p className="text-xs text-slate-500 mt-2 text-center italic">Hover to see, click anywhere to dismiss</p>
+                <p className="text-xs text-slate-500 mt-3 text-center italic">Hover to see the endorsement</p>
               </div>
             </div>
           </div>
