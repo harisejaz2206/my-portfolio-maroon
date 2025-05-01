@@ -1,206 +1,314 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, BookOpen, Mail, Phone, MapPin, Code, Database, Cloud, Star, Zap, Globe } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Code, Database, Cloud, LightbulbIcon, RocketIcon, BrainCircuitIcon, Server, GitMerge, Globe, Sparkles, Building2, Workflow } from 'lucide-react';
 
-const skills = [
+// Organize skills into a journey that shows progression
+const skillJourney = [
   {
-    name: 'Frontend',
-    icon: <Code />,
-    items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
-    color: 'from-blue-500 to-cyan-500'
+    stage: "Foundation",
+    description: "The core technologies that formed my technical foundation",
+    icon: <Building2 className="text-sky-600" />,
+    color: "from-sky-400 to-blue-600",
+    skills: [
+      {
+        name: 'Frontend',
+        icon: <Code className="text-blue-600" />,
+        items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
+      },
+      {
+        name: 'Backend',
+        icon: <Database className="text-emerald-600" />,
+        items: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL'],
+      },
+    ]
   },
   {
-    name: 'Backend',
-    icon: <Database />,
-    items: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL'],
-    color: 'from-emerald-500 to-green-500'
+    stage: "Growth",
+    description: "Expanding my toolkit to build more complex solutions",
+    icon: <Workflow className="text-emerald-600" />,
+    color: "from-emerald-400 to-teal-600",
+    skills: [
+      {
+        name: 'Cloud',
+        icon: <Cloud className="text-violet-600" />,
+        items: ['AWS', 'Docker', 'CI/CD', 'Microservices'],
+      },
+      {
+        name: 'Database',
+        icon: <Server className="text-amber-600" />,
+        items: ['Supabase', 'Firebase', 'Redis', 'MySQL'],
+      },
+    ]
   },
   {
-    name: 'Cloud',
-    icon: <Cloud />,
-    items: ['AWS', 'Docker', 'CI/CD', 'Microservices'],
-    color: 'from-purple-500 to-pink-500'
+    stage: "Mastery",
+    description: "The advanced tools that enable me to build complete products",
+    icon: <Sparkles className="text-amber-600" />,
+    color: "from-rose-400 to-orange-600",
+    skills: [
+      {
+        name: 'DevOps',
+        icon: <GitMerge className="text-rose-600" />,
+        items: ['GitLab', 'GitHub Actions', 'Vercel', 'Netlify'],
+      },
+      {
+        name: 'Platforms',
+        icon: <Globe className="text-indigo-600" />,
+        items: ['Stripe', 'Auth0', 'Twilio', 'Mailchimp'],
+      },
+    ]
   }
 ];
 
 export const About: React.FC = () => {
+  const [activeStage, setActiveStage] = useState<string>("Foundation");
+
   return (
-    <div className="py-16 relative overflow-hidden">
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/30 rounded-full mix-blend-screen filter blur-[128px] animate-blob" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-cyan-500/30 rounded-full mix-blend-screen filter blur-[128px] animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-pink-500/30 rounded-full mix-blend-screen filter blur-[128px] animate-blob animation-delay-4000" />
-
-        {/* Futuristic grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] 
-                     bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-      </div>
-
+    <div className="py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative space-y-20 max-w-6xl mx-auto z-10"
+        className="space-y-20"
       >
-        {/* Enhanced Profile Section */}
-        <div className="flex flex-col md:flex-row items-center gap-16">
+        {/* About Me Section */}
+        <div className="flex flex-col items-center">
+          {/* Image in the middle */}
           <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative group"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-10 max-w-sm"
           >
-            {/* Enhanced Profile Image with Dynamic Glow */}
-            <div className="absolute inset-0 bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500 rounded-full blur-2xl opacity-40 
-                         group-hover:opacity-70 transition-all duration-500 animate-spin-slow" />
-            <div className="relative rounded-full p-1 bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500">
-              <div className="absolute inset-0 rounded-full bg-gradient-conic from-purple-500 via-cyan-500 to-pink-500 opacity-50 blur-md animate-spin-slow" />
-              <img
-                src="/images/profilepic.png"
-                alt="Profile"
-                className="rounded-full w-56 h-56 object-cover object-bottom transform scale-[1.25] border-4 border-gray-900 relative z-10"
-              />
+            <div className="relative w-64 h-64 md:w-80 md:h-80 mx-auto">
+              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200 via-indigo-200 to-violet-200 rounded-xl rotate-6 opacity-60"></div>
+              <div className="absolute inset-0 bg-white rounded-xl overflow-hidden shadow-lg rotate-3">
+                <img 
+                  src="/images/haris-youngpic.JPG" 
+                  alt="Haris Ejaz"
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
           </motion.div>
-
-          {/* Enhanced Profile Info */}
-          <div className="space-y-8 text-center md:text-left relative">
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 border-purple-500/50" />
-            <div className="absolute -bottom-4 -right-4 w-8 h-8 border-r-2 border-b-2 border-cyan-500/50" />
-
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="relative inline-block"
-              >
-                <h1 className="text-7xl font-bold bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent
-                             pb-2 mb-2">
-                  Haris Ejaz
-                </h1>
-                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center justify-center md:justify-start gap-3 mt-4"
-              >
-                <Zap className="w-5 h-5 text-purple-400" />
-                <p className="text-2xl text-gray-300 font-light tracking-wide">
-                  Software Engineer
-                </p>
-              </motion.div>
+          
+          {/* About text content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-center max-w-3xl"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">My Journey</h2>
+            
+            <div className="space-y-4 text-slate-600">
+              <p>
+                I'm a software engineer turned micro-SaaS founder, passionate about creating streamlined solutions that solve real problems. My background in full-stack development has given me the technical foundation to build scalable, user-centered products.
+              </p>
+              
+              <p>
+                After years of building for others, I took the leap to create my own products. Now I'm focused on developing profitable micro-SaaS applications — starting with Quickevent.app, a platform that helps event organizers streamline their planning process.
+              </p>
+              
+              <div className="pt-2">
+                <div className="px-4 py-3 bg-amber-50 border border-amber-100 rounded-lg text-amber-800 italic mx-auto max-w-xl">
+                  "Built by failure, driven by purpose."
+                </div>
+              </div>
             </div>
-
-            {/* Enhanced Contact Items */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-wrap justify-center md:justify-start gap-4"
-            >
-              <ContactItem icon={<Phone className="animate-pulse" />} text="+92 309 8285829" />
-              <ContactItem icon={<Mail />} text="harisejaz2206@gmail.com" />
-              <ContactItem icon={<MapPin />} text="Lahore, Pakistan" />
-            </motion.div>
+          </motion.div>
+          
+          {/* Philosophy items */}
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            <PhilosophyItem 
+              icon={<LightbulbIcon />} 
+              title="Problem First" 
+              description="I build solutions to real problems I've experienced firsthand" 
+              color="bg-amber-50 text-amber-600"
+            />
+            <PhilosophyItem 
+              icon={<RocketIcon />} 
+              title="Launch Early" 
+              description="Get to market quickly and iterate based on user feedback" 
+              color="bg-sky-50 text-sky-600"
+            />
+            <PhilosophyItem 
+              icon={<BrainCircuitIcon />} 
+              title="Learn Always" 
+              description="Each project is an opportunity to grow my skillset" 
+              color="bg-rose-50 text-rose-600"
+            />
           </div>
         </div>
-
-        {/* Enhanced Skills Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {/* Decorative lines */}
-          <div className="absolute -top-8 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
-          <div className="absolute -bottom-8 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-              className="group relative"
-            >
-              {/* Enhanced Card Glow Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className={`absolute inset-[-1px] bg-gradient-to-r ${skill.color} rounded-xl blur-md`} />
+        
+        {/* Skills Section - Reimagined as a Journey */}
+        <div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">My Skills Journey</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto mb-8">
+              The tools and technologies that have shaped my path from engineer to founder
+            </p>
+            
+            {/* Journey visualization - redesigned as tabs */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="flex justify-center mb-12">
+                {skillJourney.map((stage, index) => {
+                  const isActive = activeStage === stage.stage;
+                  return (
+                    <motion.button
+                      key={stage.stage}
+                      onClick={() => setActiveStage(stage.stage)}
+                      className={`relative flex flex-col items-center mx-4 px-6 py-4 rounded-lg transition-all duration-300 ${
+                        isActive ? 'bg-white shadow-md' : 'bg-transparent hover:bg-white/50'
+                      }`}
+                      whileHover={{ y: -5 }}
+                      animate={isActive ? { y: -5 } : { y: 0 }}
+                    >
+                      <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 
+                          ${isActive 
+                            ? `bg-gradient-to-r ${stage.color} shadow-lg` 
+                            : 'bg-slate-100'}`
+                      }>
+                        <span className={isActive ? 'text-white scale-125' : 'text-slate-500'}>
+                          {stage.icon}
+                        </span>
+                      </div>
+                      <span className={`font-semibold ${isActive ? 'text-slate-800' : 'text-slate-500'}`}>
+                        {stage.stage}
+                      </span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeMark"
+                          className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
-
-              {/* Enhanced Skill Card */}
-              <div className="relative bg-gray-900/90 backdrop-blur-xl p-6 rounded-xl 
-                           border border-gray-700/50 transition-all duration-500
-                           hover:-translate-y-1 hover:shadow-2xl">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className={`p-2 bg-gradient-to-r ${skill.color} rounded-lg text-white 
-                                transform group-hover:scale-110 transition-transform duration-500`}>
-                    {skill.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-white">{skill.name}</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {skill.items.map((item) => (
-                    <span key={item}
-                      className="px-3 py-1 bg-gray-800/50 rounded-lg text-sm text-gray-300 
-                                   border border-gray-700/50 transition-all duration-300
-                                   hover:border-purple-500/50 hover:bg-gray-800/80 hover:scale-105">
-                      {item}
-                    </span>
+              
+              {/* Progress path visualization - simplified */}
+              <div className="flex justify-center items-center space-x-4 mb-8">
+                {skillJourney.map((stage, index) => (
+                  <React.Fragment key={stage.stage}>
+                    <motion.div 
+                      animate={activeStage === stage.stage 
+                        ? { scale: 1.2, backgroundColor: '#3b82f6' } 
+                        : index < skillJourney.findIndex(s => s.stage === activeStage) 
+                          ? { scale: 1, backgroundColor: '#3b82f6' } 
+                          : { scale: 1, backgroundColor: '#e2e8f0' }
+                      }
+                      className="w-3 h-3 rounded-full bg-slate-200"
+                    />
+                    {index < skillJourney.length - 1 && (
+                      <div className={`w-16 h-0.5 ${
+                        index < skillJourney.findIndex(s => s.stage === activeStage) 
+                          ? 'bg-blue-500' 
+                          : 'bg-slate-200'
+                      }`} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Active stage description */}
+          <AnimatePresence mode="wait">
+            {skillJourney.map((stage) => {
+              if (stage.stage !== activeStage) return null;
+              
+              return (
+                <motion.div 
+                  key={stage.stage}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-center mb-10"
+                >
+                  <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                    {stage.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+          
+          {/* Skills grid for active stage */}
+          <AnimatePresence mode="wait">
+            {skillJourney.map((stage) => {
+              if (stage.stage !== activeStage) return null;
+              
+              return (
+                <motion.div
+                  key={stage.stage}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+                >
+                  {stage.skills.map((skill, index) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2 }}
+                      className="group"
+                    >
+                      <div className={`relative overflow-hidden bg-white rounded-xl shadow-md h-full bg-gradient-to-br via-white`}>
+                        {/* Glowing background effect on hover */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-r from-sky-400 via-indigo-500 to-purple-500" />
+                        
+                        <div className="p-6 relative z-10">
+                          <div className="flex items-center gap-4 mb-6">
+                            <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 group-hover:scale-110 transition-transform duration-300">
+                              {skill.icon}
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-800">{skill.name}</h3>
+                          </div>
+                          
+                          <div className="flex flex-wrap gap-2">
+                            {skill.items.map((item, i) => (
+                              <motion.span 
+                                key={item}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.3 + (i * 0.1) }}
+                                className="px-4 py-2 bg-slate-50 rounded-lg text-sm font-medium text-slate-700 border border-slate-200 
+                                           hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700 transition-all duration-300"
+                              >
+                                {item}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
                   ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </div>
-
-        {/* Enhanced Social Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap justify-center gap-6 pt-8"
-        >
-          <SocialLink href="https://github.com/harisejaz2206" icon={<Github />} label="GitHub" color="from-purple-500 to-pink-500" />
-          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin />} label="LinkedIn" color="from-cyan-500 to-blue-500" />
-          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen />} label="Blog" color="from-emerald-500 to-green-500" />
-        </motion.div>
       </motion.div>
     </div>
   );
 };
 
-// Enhanced ContactItem component
-const ContactItem: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text }) => (
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    className="flex items-center gap-3 px-4 py-2 bg-gray-900/80 backdrop-blur-xl 
-              rounded-lg border border-gray-700/50 text-gray-300
-              hover:border-purple-500/50 hover:shadow-lg transition-all duration-300"
-  >
-    <span className="text-purple-400">{icon}</span>
-    <span className="text-sm">{text}</span>
-  </motion.div>
+const PhilosophyItem: React.FC<{ 
+  icon: React.ReactNode; 
+  title: string; 
+  description: string;
+  color: string;
+}> = ({ icon, title, description, color }) => (
+  <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-100 shadow-sm max-w-xs">
+    <div className={`p-2 rounded-lg ${color}`}>
+      {icon}
+    </div>
+    <div>
+      <h4 className="font-medium text-slate-800 mb-1">{title}</h4>
+      <p className="text-sm text-slate-600">{description}</p>
+    </div>
+  </div>
 );
-
-// Enhanced SocialLink component
-const SocialLink: React.FC<{ href: string; icon: React.ReactNode; label: string; color: string }> = ({
-  href,
-  icon,
-  label,
-  color
-}) => (
-  <motion.a
-    whileHover={{ scale: 1.05, y: -2 }}
-    whileTap={{ scale: 0.95 }}
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className={`flex items-center gap-3 px-6 py-3 rounded-lg bg-gradient-to-r ${color}
-               text-white shadow-lg hover:shadow-2xl transition-all duration-500 group`}
-  >
-    <span className="group-hover:scale-110 transition-transform duration-300">{icon}</span>
-    <span className="font-medium">{label}</span>
-  </motion.a>
-);
-
-export default About;
