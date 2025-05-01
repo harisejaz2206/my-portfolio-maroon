@@ -18,6 +18,24 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'Quickevent - One-Page Event Launcher',
+    description: 'Quickevent allows creators to easily launch and share single-page event pages with paid access to live or downloadable content, empowering users to monetize their events and engage audiences.',
+    technologies: ['Next.js', 'Tailwind CSS', 'Supabase', 'Stripe'],
+    image: '/images/quickevent-logo.png',
+    liveLink: 'https://quickevent.app',
+    keyFeatures: [
+      'Enable creators to create and share one-page event pages with paid access',
+      'Integrated Stripe for seamless payment processing and subscription management',
+      'Support for live events (Zoom integration) and downloadable content',
+      'Real-time event analytics for creators to track engagement and revenue'
+    ],
+    stats: [
+      { value: '99%', label: 'System Uptime' },
+      { value: '30+', label: 'Events Launched' },
+      { value: '< 2s', label: 'Page Load Time' }
+    ]
+  },  
+  {
     title: 'F1IQ - Formula 1 Analytics Platform',
     description: 'Comprehensive Formula 1 analytics platform featuring real-time race tracking, driver statistics, and interactive circuit insights with responsive data visualizations.',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'Redux Toolkit', 'React Query'],
@@ -123,40 +141,6 @@ const projects: Project[] = [
       { value: '3x', label: 'Faster Ad Creation' },
       { value: '99%', label: 'Uptime' },
       { value: '50%', label: 'Cost Reduction' }
-    ]
-  },
-  // {
-  //   title: 'Marketly - Digital Product Marketplace',
-  //   description: 'Modern e-commerce platform for digital products featuring seamless payment processing and content management.',
-  //   technologies: ['Next.js', 'Express.js', 'Payload CMS', 'tRPC', 'Stripe', 'TypeScript', 'Tailwind CSS', 'shadcn-ui'],
-  //   image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
-  //   keyFeatures: [
-  //     'Implemented end-to-end type safety using tRPC for robust API communication',
-  //     'Integrated Payload CMS for flexible content management and admin controls',
-  //     'Built real-time payment processing system with Stripe webhook integration',
-  //     'Developed protected routes system with role-based access control',
-  //     'Optimized for performance with server-side rendering and static generation'
-  //   ],
-  //   stats: [
-  //     { value: '99%', label: 'Lighthouse Score' },
-  //     { value: '0.5s', label: 'Time to Interactive' }
-  //   ]
-  // },
-  {
-    title: 'Happyspace - Mental Health Platform',
-    description: 'MERN stack application connecting mental health professionals with patients, featuring secure communication and appointment management.',
-    technologies: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Formik', 'Yup'],
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
-    keyFeatures: [
-      'Developed comprehensive REST API with full CRUD operations',
-      'Implemented secure authentication system using JWT',
-      'Built robust form validation using Formik and Yup',
-      'Created appointment scheduling system with real-time updates',
-      'Designed secure chat system for therapist-patient communication'
-    ],
-    stats: [
-      { value: '100%', label: 'API Test Coverage' },
-      { value: '< 1s', label: 'Response Time' }
     ]
   }
 ];

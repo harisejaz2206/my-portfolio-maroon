@@ -61,6 +61,10 @@ export const Hero: React.FC = () => {
             <Sparkles size={18} className="text-amber-500 mr-2" />
             Founder & Solopreneur @ Quickevent.app
           </h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-slate-700 flex items-center mt-2">
+            <Sparkles size={18} className="text-red-500 mr-2" />
+            Creator @ F1IQ.com
+          </h2>
         </div>
         
         <p className="text-slate-600 text-xl font-medium max-w-xl leading-relaxed">
