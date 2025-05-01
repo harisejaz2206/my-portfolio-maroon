@@ -4,10 +4,11 @@ import {Navbar} from './components/Navbar';
 import {Hero} from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Projects } from './components/sections/Projects';
-// import { Blog } from './components/sections/Blog';
-import { Background } from './components/3d/Background';
+import { ExperienceSection } from './components/sections/Experience';
 import { Contact } from './components/sections/Contact';
+import { Background } from './components/3d/Background';
 import { Footer } from './components/Footer';
+
 function App() {
   const [activeSection, setActiveSection] = useState('home');
 
@@ -49,8 +50,8 @@ function App() {
                 <Projects />
               </section>
 
-              <section id="blog" className="min-h-screen">
-                {/* <Blog /> */}
+              <section id="experience" className="min-h-screen">
+                <ExperienceSection />
               </section>
 
               <section id="contact" className="min-h-screen">

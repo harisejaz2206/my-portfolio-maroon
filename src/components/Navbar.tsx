@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Code2, Send, Home, FileText } from 'lucide-react';
+import { User, Code2, Send, Home, Briefcase } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -11,7 +11,7 @@ const navItems = [
   { id: 'home', label: 'Home', icon: <Home size={18} /> },
   { id: 'about', label: 'About', icon: <User size={18} /> },
   { id: 'projects', label: 'Projects', icon: <Code2 size={18} /> },
-  { id: 'blog', label: 'Blog', icon: <FileText size={18} /> },
+  { id: 'experience', label: 'Experience', icon: <Briefcase size={18} /> },
   { id: 'contact', label: 'Contact', icon: <Send size={18} /> },
 ];
 

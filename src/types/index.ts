@@ -18,3 +18,12 @@ export interface Project {
     components?: string;
   };
 }
+
+export interface Experience {
+  company: string;
+  position: string;
+  duration: string;
+  location: string;
+  companyUrl?: string;
+  description: string[];
+}
