@@ -43,7 +43,7 @@ export const Contact: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-sm text-slate-500">Social</p>
-                    <p className="text-slate-700">@harisejaz on Twitter/X</p>
+                    <p className="text-slate-700">@harisejaz_dev on Twitter/X</p>
                   </div>
                 </div>
               </div>

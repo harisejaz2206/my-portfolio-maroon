@@ -45,7 +45,9 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a 
-                    href="#" 
+                    href="https://f1iq.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
                     className="text-slate-600 hover:text-sky-600 text-sm flex items-center gap-1"
                   >
                     F1IQ
@@ -54,7 +56,9 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a 
-                    href="#" 
+                    href="https://floty.ai" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
                     className="text-slate-600 hover:text-sky-600 text-sm flex items-center gap-1"
                   >
                     Floty
