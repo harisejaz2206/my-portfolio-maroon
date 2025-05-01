@@ -1,39 +1,78 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, BookOpen, ExternalLink } from 'lucide-react';
+import { Github, Linkedin, BookOpen, ExternalLink, Sparkles } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between py-20 md:py-32 gap-10">
+    <div className="relative flex flex-col md:flex-row items-center justify-between py-24 md:py-36 gap-12 overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 -z-10">
+        <motion.div 
+          initial={{ scale: 1.1, opacity: 0.5 }}
+          animate={{ 
+            scale: [1.1, 1.15, 1.1],
+            opacity: [0.5, 0.6, 0.5]
+          }}
+          transition={{ 
+            repeat: Infinity,
+            duration: 15,
+            ease: "easeInOut" 
+          }}
+          className="absolute -top-40 -left-40 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-sky-100/40 to-indigo-100/40 blur-3xl"
+        />
+        <motion.div 
+          initial={{ scale: 1.1, opacity: 0.4 }}
+          animate={{ 
+            scale: [1.1, 1.2, 1.1],
+            opacity: [0.4, 0.5, 0.4]
+          }}
+          transition={{ 
+            repeat: Infinity,
+            duration: 20,
+            ease: "easeInOut",
+            delay: 2 
+          }}
+          className="absolute -bottom-60 -right-40 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-rose-100/30 to-amber-100/30 blur-3xl"
+        />
+      </div>
+      
       {/* Text Content */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex-1 space-y-6"
+        transition={{ duration: 0.6 }}
+        className="flex-1 space-y-8 z-10"
       >
-        <div className="space-y-2">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-800">
-            <span className="block mb-2">Hi, I'm</span>
-            <span className="bg-gradient-to-r from-sky-500 to-indigo-500 bg-clip-text text-transparent">
+        <div className="space-y-3">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-slate-800 font-display tracking-tight">
+            <span className="block mb-3">Hi, I'm</span>
+            <motion.span 
+              initial={{ backgroundPosition: "0% 50%" }}
+              animate={{ 
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+              }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+              className="bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-500 bg-clip-text text-transparent bg-[size:200%]"
+            >
               Haris Ejaz
-            </span>
+            </motion.span>
           </h1>
-          <h2 className="text-xl md:text-2xl font-medium text-slate-600">
+          <h2 className="text-xl md:text-2xl font-semibold text-slate-700 flex items-center">
+            <Sparkles size={18} className="text-amber-500 mr-2" />
             Founder & Solopreneur @ Quickevent.app
           </h2>
         </div>
         
-        <p className="text-slate-600 text-lg max-w-lg">
-          Building profitable micro-SaaS for creators and racing fans. Turning ideas into streamlined, user-focused solutions one project at a time.
+        <p className="text-slate-600 text-xl font-medium max-w-xl leading-relaxed">
+          Building profitable <span className="font-bold text-indigo-600">micro-SaaS</span> for creators and racing fans. Turning ideas into streamlined, user-focused solutions one project at a time.
         </p>
         
-        <div className="flex gap-4 pt-2">
+        <div className="pt-4 flex gap-5">
           <motion.a
             href="#projects"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, y: -3 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
+            className="px-8 py-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg text-lg font-bold shadow-md hover:shadow-xl transition-all duration-300"
           >
             See My Work
           </motion.a>
@@ -42,40 +81,66 @@ export const Hero: React.FC = () => {
             href="https://quickevent.app"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, y: -3, borderColor: "#3b82f6" }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-white border border-sky-200 text-sky-600 rounded-lg font-medium shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2"
+            className="px-8 py-4 bg-white border-2 border-slate-200 text-sky-600 rounded-lg text-lg font-bold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2 group"
           >
             <span>Check Quickevent</span>
-            <ExternalLink size={16} />
+            <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
         
-        <div className="flex gap-4 pt-4">
-          <SocialLink href="https://github.com/harisejaz2206" icon={<Github size={20} />} />
-          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin size={20} />} />
-          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen size={20} />} />
+        <div className="flex gap-5 pt-6">
+          <SocialLink href="https://github.com/harisejaz2206" icon={<Github size={22} />} />
+          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin size={22} />} />
+          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen size={22} />} />
         </div>
       </motion.div>
       
       {/* Image */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative flex-1 flex justify-center"
+        transition={{ duration: 0.7, delay: 0.3 }}
+        className="relative flex-1 flex justify-center md:justify-end z-10"
       >
-        <div className="relative w-64 h-64 md:w-80 md:h-80">
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-200 to-indigo-200 rounded-full blur-2xl opacity-50"></div>
-          {/* Image container */}
-          <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-xl">
+        <div className="relative w-72 h-72 md:w-96 md:h-96">
+          {/* Animated gradient background */}
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.05, 1],
+              opacity: [0.5, 0.7, 0.5] 
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 5,
+              ease: "easeInOut" 
+            }}
+            className="absolute inset-0 bg-gradient-to-r from-sky-200 via-indigo-200 to-purple-200 rounded-full blur-2xl"
+          />
+          
+          {/* Image container with animated border */}
+          <motion.div 
+            className="absolute inset-2 rounded-full overflow-hidden border-4 border-white shadow-xl"
+            animate={{ 
+              boxShadow: [
+                "0 10px 25px -5px rgba(59, 130, 246, 0.4)",
+                "0 15px 30px -5px rgba(99, 102, 241, 0.5)",
+                "0 10px 25px -5px rgba(59, 130, 246, 0.4)"
+              ]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 4,
+              ease: "easeInOut" 
+            }}
+          >
             <img
               src="/images/profilepic.png"
               alt="Haris Ejaz"
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover"
             />
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
@@ -87,12 +152,12 @@ const SocialLink: React.FC<{ href: string; icon: React.ReactNode }> = ({
   icon
 }) => (
   <motion.a
-    whileHover={{ scale: 1.1, y: -2 }}
+    whileHover={{ scale: 1.15, y: -4 }}
     whileTap={{ scale: 0.95 }}
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 shadow-sm hover:shadow-md transition-all duration-300 hover:text-sky-500 hover:border-sky-300"
+    className="w-12 h-12 flex items-center justify-center rounded-full bg-white border-2 border-slate-200 text-slate-600 shadow-sm hover:shadow-md transition-all duration-300 hover:text-sky-500 hover:border-sky-300"
   >
     {icon}
   </motion.a>
