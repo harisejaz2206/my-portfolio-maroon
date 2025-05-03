@@ -16,7 +16,7 @@ export const Hero: React.FC = () => {
   }, [controls]);
 
   return (
-    <div className="relative flex flex-col md:flex-row items-center justify-between py-24 md:py-36 gap-12 overflow-hidden">
+    <div className="relative flex flex-col md:flex-row items-center justify-between py-12 md:py-20 gap-8 overflow-hidden">
       {/* Racing-themed data line (F1-inspired circuit) */}
       <svg 
         className="absolute inset-0 w-full h-full -z-10 opacity-50" 
@@ -78,11 +78,11 @@ export const Hero: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 space-y-7 z-10"
+        className="flex-1 space-y-5 z-10"
       >
-        <div className="space-y-3">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-slate-800 font-display tracking-tight">
-            <span className="block mb-3">Hi, I'm</span>
+        <div className="space-y-2">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-800 font-display tracking-tight">
+            <span className="block mb-2">Hi, I'm</span>
             <motion.span 
               initial={{ backgroundPosition: "0% 50%" }}
               animate={{ 
@@ -273,7 +273,7 @@ export const Hero: React.FC = () => {
           transition={{ type: "spring", stiffness: 300 }}
         >
           {/* Profile Image */}
-          <div className="relative w-64 h-64 md:w-80 md:h-80 mb-4">
+          <div className="relative w-56 h-56 md:w-72 md:h-72 mb-3">
             {/* Racing-inspired animated gradient ring */}
             <motion.div 
               animate={{ 
