@@ -137,7 +137,7 @@ export const Hero: React.FC = () => {
           className="relative max-w-xl"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-blue-600 rounded-xl blur-[1px]"></div>
-          <div className="relative bg-white rounded-lg p-4 shadow-lg border border-slate-100 overflow-hidden group">
+          <div className="relative bg-white rounded-lg p-4 shadow-lg border border-slate-100 overflow-hidden">
             {/* Racing stripe accent */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-[length:200%_100%]"></div>
             
@@ -170,28 +170,28 @@ export const Hero: React.FC = () => {
               </div>
             </div>
             
-            {/* View endorsement link */}
-            <motion.div 
-              className="mt-2 text-xs flex items-center justify-end text-slate-500 group-hover:text-sky-600 cursor-pointer"
-              whileHover={{ x: 3 }}
+            {/* Simplified view endorsement button */}
+            <button 
               onClick={() => setShowEndorsement(!showEndorsement)}
+              className="mt-2 text-xs flex items-center justify-end text-slate-500 hover:text-sky-600 cursor-pointer ml-auto"
             >
               <span className="underline">View endorsement</span>
-              <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform" />
-            </motion.div>
+              <ArrowRight size={12} className="ml-1 transition-transform" />
+            </button>
             
-            {/* Endorsement tooltip - now shows on click or hover */}
-            <div className={`absolute z-50 ${showEndorsement ? 'visible opacity-100 scale-100' : 'invisible group-hover:visible opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100'} transition-all duration-300 
-                          top-0 -right-2 transform translate-x-full`}>
-              <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
-                <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
-                <img 
-                  src="/images/ian-endorsement-dm.png" 
-                  alt="Ian Brunton's Endorsement" 
-                  className="w-full rounded shadow-sm"
-                />
+            {/* Simplified tooltip implementation */}
+            {showEndorsement && (
+              <div className="absolute z-50 top-0 -right-2 transform translate-x-full">
+                <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
+                  <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
+                  <img 
+                    src="/images/ian-endorsement-dm.png" 
+                    alt="Ian Brunton's Endorsement" 
+                    className="w-full rounded shadow-sm"
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </motion.div>
         
