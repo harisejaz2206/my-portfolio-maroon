@@ -1,30 +1,67 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, BookOpen, ExternalLink, Sparkles } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { Github, Linkedin, BookOpen, ExternalLink, Sparkles, Trophy, ArrowRight, Clock, Users } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+  const raceLineRef = useRef<SVGPathElement>(null);
+  const controls = useAnimation();
+  const [showEndorsement, setShowEndorsement] = useState(false);
+  
+  useEffect(() => {
+    // Start the race line animation after component mounts
+    controls.start({
+      strokeDashoffset: 0,
+      transition: { duration: 3, ease: "easeOut" }
+    });
+  }, [controls]);
+
   return (
     <div className="relative flex flex-col md:flex-row items-center justify-between py-24 md:py-36 gap-12 overflow-hidden">
-      {/* Animated background elements */}
+      {/* Racing-themed data line (F1-inspired circuit) */}
+      <svg 
+        className="absolute inset-0 w-full h-full -z-10 opacity-50" 
+        viewBox="0 0 1000 600" 
+        fill="none"
+        preserveAspectRatio="none"
+      >
+        <motion.path
+          ref={raceLineRef}
+          d="M-100,300 C50,100 150,500 300,300 S500,100 700,300 S900,500 1100,300"
+          stroke="url(#raceLineGradient)"
+          strokeWidth="3"
+          strokeDasharray="1800"
+          initial={{ strokeDashoffset: 1800 }}
+          animate={controls}
+          fill="none"
+        />
+        <defs>
+          <linearGradient id="raceLineGradient" x1="0" y1="0" x2="100%" y2="0">
+            <stop offset="0%" stopColor="#ff1e00" />
+            <stop offset="100%" stopColor="#3b82f6" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      {/* Animated background elements with racing-inspired theme */}
       <div className="absolute inset-0 -z-10">
         <motion.div 
-          initial={{ scale: 1.1, opacity: 0.5 }}
+          initial={{ scale: 1.1, opacity: 0.4 }}
           animate={{ 
             scale: [1.1, 1.15, 1.1],
-            opacity: [0.5, 0.6, 0.5]
+            opacity: [0.4, 0.5, 0.4]
           }}
           transition={{ 
             repeat: Infinity,
             duration: 15,
             ease: "easeInOut" 
           }}
-          className="absolute -top-40 -left-40 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-sky-100/40 to-indigo-100/40 blur-3xl"
+          className="absolute -top-40 -left-40 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-sky-100/30 to-indigo-100/30 blur-3xl"
         />
         <motion.div 
-          initial={{ scale: 1.1, opacity: 0.4 }}
+          initial={{ scale: 1.1, opacity: 0.3 }}
           animate={{ 
             scale: [1.1, 1.2, 1.1],
-            opacity: [0.4, 0.5, 0.4]
+            opacity: [0.3, 0.4, 0.3]
           }}
           transition={{ 
             repeat: Infinity,
@@ -32,7 +69,7 @@ export const Hero: React.FC = () => {
             ease: "easeInOut",
             delay: 2 
           }}
-          className="absolute -bottom-60 -right-40 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-rose-100/30 to-amber-100/30 blur-3xl"
+          className="absolute -bottom-60 -right-40 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-red-100/20 to-amber-100/20 blur-3xl"
         />
       </div>
       
@@ -41,7 +78,7 @@ export const Hero: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 space-y-8 z-10"
+        className="flex-1 space-y-7 z-10"
       >
         <div className="space-y-3">
           <h1 className="text-5xl md:text-7xl font-extrabold text-slate-800 font-display tracking-tight">
@@ -67,34 +104,85 @@ export const Hero: React.FC = () => {
           </h2>
         </div>
         
-        <p className="text-slate-600 text-xl font-medium max-w-xl leading-relaxed">
-          Building profitable <span className="font-bold text-indigo-600">micro-SaaS</span> for creators and racing fans. Turning ideas into streamlined, user-focused solutions one project at a time.
-        </p>
+        <div className="relative p-1 bg-gradient-to-r from-slate-800/5 to-slate-800/10 rounded-xl backdrop-blur-sm">
+          <p className="text-slate-700 text-xl font-medium max-w-xl leading-relaxed p-4">
+            Crafting <span className="font-bold text-indigo-600">no-BS micro-SaaS</span> that solves real problems. 
+            I build tools for creators who hate bloated software and racing fans craving data-driven insights.
+            <span className="block mt-2 text-lg text-slate-600 italic">Because life's too short for clunky UIs.</span>
+          </p>
+        </div>
         
-        {/* F1IQ Endorsement with tooltip */}
-        <div className="relative flex items-center bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg p-3 border border-slate-200 max-w-xl group">
+        {/* Stats cards row */}
+        <div className="flex flex-wrap gap-4">
           <motion.div 
-            initial={{ opacity: 0.8 }}
-            whileHover={{ scale: 1.05 }}
-            className="mr-3 flex-shrink-0"
+            whileHover={{ y: -5 }}
+            className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2"
           >
-            <img 
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
-              alt="F1 Logo" 
-              className="w-10 h-10 object-contain"
-              onError={(e) => {
-                e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
-              }}
-            />
+            <Clock className="text-indigo-500" size={18} />
+            <span className="text-sm font-medium">Shipped 3 products in 2023</span>
           </motion.div>
-          <div className="relative">
-            <p className="text-sm text-slate-700 leading-snug">
-              <span className="font-bold text-slate-900">F1IQ.com</span> — endorsed by <span className="font-semibold underline decoration-dotted cursor-pointer">Ian Brunton</span>, Head of Software Engineering at Red Bull Racing.
-            </p>
+          
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2"
+          >
+            <Users className="text-sky-500" size={18} />
+            <span className="text-sm font-medium">Serving 5K+ users monthly</span>
+          </motion.div>
+        </div>
+        
+        {/* F1IQ Endorsement Badge */}
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="relative max-w-xl"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-blue-600 rounded-xl blur-[1px]"></div>
+          <div className="relative bg-white rounded-lg p-4 shadow-lg border border-slate-100 overflow-hidden group">
+            {/* Racing stripe accent */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-[length:200%_100%]"></div>
             
-            {/* Tooltip with endorsement image - positioned to the right */}
-            <div className="absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 
-                          top-0 -right-2 transform translate-x-full scale-95 group-hover:scale-100">
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600 rounded-full blur-[1px]"></div>
+                <div className="relative p-0.5 rounded-full bg-gradient-to-r from-red-500 to-blue-600">
+                  <div className="bg-white p-1 rounded-full">
+                    <img 
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
+                      alt="F1 Logo" 
+                      className="w-12 h-12 object-contain"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="font-bold text-slate-900 text-lg">F1IQ.com</span>
+                  <Trophy size={15} className="text-amber-500" />
+                </div>
+                <p className="text-sm text-slate-700">
+                  "Incredible resource for F1 data nerds" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
+                  <span className="text-red-600 font-medium"> Head of Software Engineering at Red Bull Racing.</span>
+                </p>
+              </div>
+            </div>
+            
+            {/* View endorsement link */}
+            <motion.div 
+              className="mt-2 text-xs flex items-center justify-end text-slate-500 group-hover:text-sky-600 cursor-pointer"
+              whileHover={{ x: 3 }}
+              onClick={() => setShowEndorsement(!showEndorsement)}
+            >
+              <span className="underline">View endorsement</span>
+              <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform" />
+            </motion.div>
+            
+            {/* Endorsement tooltip - now shows on click or hover */}
+            <div className={`absolute z-50 ${showEndorsement ? 'visible opacity-100 scale-100' : 'invisible group-hover:visible opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100'} transition-all duration-300 
+                          top-0 -right-2 transform translate-x-full`}>
               <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
                 <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
                 <img 
@@ -102,32 +190,43 @@ export const Hero: React.FC = () => {
                   alt="Ian Brunton's Endorsement" 
                   className="w-full rounded shadow-sm"
                 />
-                <p className="text-xs text-slate-500 mt-3 text-center italic">Hover to see the endorsement</p>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
         
         <div className="pt-4 flex gap-5">
           <motion.a
             href="#projects"
-            whileHover={{ scale: 1.05, y: -3 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg text-lg font-bold shadow-md hover:shadow-xl transition-all duration-300"
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-semibold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2"
           >
-            See My Work
+            <span>See My Work</span>
+            <ArrowRight size={16} />
           </motion.a>
           
           <motion.a
             href="https://quickevent.app"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, y: -3, borderColor: "#3b82f6" }}
+            whileHover={{ scale: 1.05, y: -3 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-white border-2 border-slate-200 text-sky-600 rounded-lg text-lg font-bold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2 group"
+            className="px-7 py-3.5 bg-gradient-to-r from-sky-600 to-indigo-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group relative overflow-hidden"
           >
-            <span>Check Quickevent.app</span>
-            <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+            {/* Animated racing stripes */}
+            <motion.div 
+              className="absolute inset-0 w-full h-full"
+              initial={{ backgroundPosition: "200% 0" }}
+              animate={{ backgroundPosition: ["-200% 0", "200% 0"] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
+              style={{
+                backgroundImage: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 55%, rgba(255,255,255,0) 100%)",
+                backgroundSize: "200% 100%"
+              }}
+            />
+            <span className="relative z-10">Check Quickevent.app</span>
+            <ExternalLink size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
         
@@ -138,51 +237,91 @@ export const Hero: React.FC = () => {
         </div>
       </motion.div>
       
-      {/* Image */}
+      {/* Profile Image with Card Treatment */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.3 }}
         className="relative flex-1 flex justify-center md:justify-end z-10"
       >
-        <div className="relative w-72 h-72 md:w-96 md:h-96">
-          {/* Animated gradient background */}
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.05, 1],
-              opacity: [0.5, 0.7, 0.5] 
-            }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 5,
-              ease: "easeInOut" 
-            }}
-            className="absolute inset-0 bg-gradient-to-r from-sky-200 via-indigo-200 to-purple-200 rounded-full blur-2xl"
+        {/* Decorative race circuit lines */}
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
+          <motion.circle 
+            cx="200" cy="200" r="150" 
+            stroke="rgba(59, 130, 246, 0.2)" 
+            strokeWidth="1" 
+            strokeDasharray="30 15"
+            initial={{ rotate: 0 }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
           />
-          
-          {/* Image container with animated border */}
-          <motion.div 
-            className="absolute inset-2 rounded-full overflow-hidden border-4 border-white shadow-xl"
-            animate={{ 
-              boxShadow: [
-                "0 10px 25px -5px rgba(59, 130, 246, 0.4)",
-                "0 15px 30px -5px rgba(99, 102, 241, 0.5)",
-                "0 10px 25px -5px rgba(59, 130, 246, 0.4)"
-              ]
-            }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 4,
-              ease: "easeInOut" 
-            }}
-          >
-            <img
-              src="/images/profilepic.png"
-              alt="Haris Ejaz"
-              className="w-full h-full object-cover"
+          <motion.circle 
+            cx="200" cy="200" r="180" 
+            stroke="rgba(99, 102, 241, 0.15)" 
+            strokeWidth="1" 
+            strokeDasharray="20 20"
+            initial={{ rotate: 0 }}
+            animate={{ rotate: -360 }}
+            transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          />
+        </svg>
+        
+        {/* Floating Card Container */}
+        <motion.div 
+          className="relative bg-white rounded-2xl shadow-xl p-6 max-w-sm"
+          whileHover={{ y: -8, rotate: -1 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          {/* Profile Image */}
+          <div className="relative w-64 h-64 md:w-80 md:h-80 mb-4">
+            {/* Racing-inspired animated gradient ring */}
+            <motion.div 
+              animate={{ 
+                background: [
+                  "linear-gradient(90deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
+                  "linear-gradient(180deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
+                  "linear-gradient(270deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
+                  "linear-gradient(360deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
+                  "linear-gradient(90deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
+                ],
+                rotate: [0, 360],
+              }}
+              transition={{ 
+                duration: 10, 
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="absolute -inset-2 rounded-full blur-sm opacity-70"
             />
-          </motion.div>
-        </div>
+            
+            <div className="absolute inset-0 bg-white rounded-full"></div>
+            
+            {/* Inner border with F1-inspired color scheme */}
+            <div className="absolute inset-0.5 rounded-full overflow-hidden border-4 border-white">
+              <img
+                src="/images/profilepic.png"
+                alt="Haris Ejaz"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          
+          {/* Caption/Tagline */}
+          <div className="text-center">
+            <p className="text-slate-600 font-semibold">
+              <span className="inline-block relative">
+                <span className="relative z-10">Obsessed with performance</span>
+                <motion.span 
+                  className="absolute bottom-0 left-0 w-full h-2 bg-amber-200 -z-10"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "100%" }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                />
+              </span>
+              <span> — both in code and on track</span>
+            </p>
+          </div>
+        </motion.div>
       </motion.div>
     </div>
   );
