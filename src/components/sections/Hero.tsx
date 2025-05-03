@@ -16,7 +16,7 @@ export const Hero: React.FC = () => {
   }, [controls]);
 
   return (
-    <div className="relative flex flex-col md:flex-row items-center justify-between py-12 md:py-20 gap-8 overflow-hidden">
+    <div className="relative flex flex-col md:flex-row items-center justify-between py-8 md:py-20 gap-4 md:gap-8 overflow-hidden">
       {/* Racing-themed data line (F1-inspired circuit) */}
       <svg 
         className="absolute inset-0 w-full h-full -z-10 opacity-50" 
@@ -78,56 +78,56 @@ export const Hero: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 space-y-5 z-10"
+        className="w-full md:flex-1 space-y-4 md:space-y-5 z-10 px-4 sm:px-2"
       >
         <div className="space-y-2">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-800 font-display tracking-tight">
-            <span className="block mb-2">Hi, I'm</span>
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-slate-800 font-display tracking-tight">
+            <span className="block mb-1">Hi, I'm</span>
             <motion.span 
               initial={{ backgroundPosition: "0% 50%" }}
               animate={{ 
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
               }}
               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-              className="bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-500 bg-clip-text text-transparent bg-[size:200%]"
+              className="bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-500 bg-clip-text text-transparent bg-[size:200%] block text-3xl sm:text-4xl md:text-6xl"
             >
               Haris Ejaz
             </motion.span>
           </h1>
-          <h2 className="text-xl md:text-2xl font-semibold text-slate-700 flex items-center">
-            <Sparkles size={18} className="text-amber-500 mr-2" />
-            Founder & Solopreneur @ Quickevent.app
+          <h2 className="text-base sm:text-xl md:text-2xl font-semibold text-slate-700 flex items-center mt-2">
+            <Sparkles size={14} className="text-amber-500 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="leading-tight">Founder & Solopreneur @ Quickevent.app</span>
           </h2>
-          <h2 className="text-xl md:text-2xl font-semibold text-slate-700 flex items-center mt-2">
-            <Sparkles size={18} className="text-red-500 mr-2" />
-            Creator @ F1IQ.com
+          <h2 className="text-base sm:text-xl md:text-2xl font-semibold text-slate-700 flex items-center mt-2">
+            <Sparkles size={14} className="text-red-500 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="leading-tight">Creator @ F1IQ.com</span>
           </h2>
         </div>
         
         <div className="relative p-1 bg-gradient-to-r from-slate-800/5 to-slate-800/10 rounded-xl backdrop-blur-sm">
-          <p className="text-slate-700 text-xl font-medium max-w-xl leading-relaxed p-4">
+          <p className="text-slate-700 text-lg sm:text-xl font-medium max-w-xl leading-relaxed p-3 sm:p-4">
             Crafting <span className="font-bold text-indigo-600">no-BS micro-SaaS</span> that solves real problems. 
             I build tools for creators who hate bloated software and racing fans craving data-driven insights.
-            <span className="block mt-2 text-lg text-slate-600 italic">Because life's too short for clunky UIs.</span>
+            <span className="block mt-2 text-base sm:text-lg text-slate-600 italic">Because life's too short for clunky UIs.</span>
           </p>
         </div>
         
         {/* Stats cards row */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-3">
           <motion.div 
             whileHover={{ y: -5 }}
-            className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2"
+            className="bg-white p-2 sm:p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-1 sm:gap-2"
           >
-            <Clock className="text-indigo-500" size={18} />
-            <span className="text-sm font-medium">Shipped 3 products in 2023</span>
+            <Clock className="text-indigo-500" size={16} />
+            <span className="text-xs sm:text-sm font-medium">Shipped 3 products in 2023</span>
           </motion.div>
           
           <motion.div 
             whileHover={{ y: -5 }}
-            className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2"
+            className="bg-white p-2 sm:p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-1 sm:gap-2"
           >
-            <Users className="text-sky-500" size={18} />
-            <span className="text-sm font-medium">Serving 5K+ users monthly</span>
+            <Users className="text-sky-500" size={16} />
+            <span className="text-xs sm:text-sm font-medium">Serving 5K+ users monthly</span>
           </motion.div>
         </div>
         
@@ -142,11 +142,11 @@ export const Hero: React.FC = () => {
             className="relative"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-blue-600 rounded-xl blur-[1px]"></div>
-            <div className="relative bg-white rounded-lg p-4 shadow-lg border border-slate-100 overflow-hidden">
+            <div className="relative bg-white rounded-lg p-3 sm:p-4 shadow-lg border border-slate-100 overflow-hidden">
               {/* Racing stripe accent */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-[length:200%_100%]"></div>
               
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <div className="flex-shrink-0 relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600 rounded-full blur-[1px]"></div>
                   <div className="relative p-0.5 rounded-full bg-gradient-to-r from-red-500 to-blue-600">
@@ -154,7 +154,7 @@ export const Hero: React.FC = () => {
                       <img 
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
                         alt="F1 Logo" 
-                        className="w-12 h-12 object-contain"
+                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                         onError={(e) => {
                           e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
                         }}
@@ -164,11 +164,11 @@ export const Hero: React.FC = () => {
                 </div>
                 
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-slate-900 text-lg">F1IQ.com</span>
-                    <Trophy size={15} className="text-amber-500" />
+                  <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
+                    <span className="font-bold text-slate-900 text-base sm:text-lg">F1IQ.com</span>
+                    <Trophy size={14} className="text-amber-500" />
                   </div>
-                  <p className="text-sm text-slate-700">
+                  <p className="text-xs sm:text-sm text-slate-700">
                     "You have some really sleek design concepts" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
                     <span className="text-red-600 font-medium"> Head of Software Engineering at Red Bull Racing.</span>
                   </p>
@@ -176,16 +176,16 @@ export const Hero: React.FC = () => {
               </div>
               
               {/* Visual hover indicator */}
-              <div className="mt-2 text-xs flex items-center justify-end text-slate-500 ml-auto">
+              <div className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs flex items-center justify-end text-slate-500 ml-auto">
                 <span className="group-hover:text-sky-600 transition-colors">Hover to view endorsement</span>
-                <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 group-hover:text-sky-600 transition-transform" />
+                <ArrowRight size={10} className="ml-1 group-hover:translate-x-1 group-hover:text-sky-600 transition-transform" />
               </div>
             </div>
           </motion.div>
           
-          {/* Tooltip implementation */}
+          {/* Tooltip implementation - only on desktop */}
           {showEndorsement && (
-            <div className="absolute z-50 bottom-full -right-2 transform translate-y-[-20px]">
+            <div className="hidden md:block absolute z-50 bottom-full -right-2 transform translate-y-[-20px]">
               <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
                 <div className="absolute bottom-[-8px] right-[10px] transform rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
                 <img 
@@ -198,15 +198,15 @@ export const Hero: React.FC = () => {
           )}
         </div>
         
-        <div className="pt-4 flex gap-5">
+        <div className="pt-3 sm:pt-4 flex flex-wrap gap-3 sm:gap-5">
           <motion.a
             href="#projects"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.97 }}
-            className="px-6 py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-semibold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2"
+            className="px-4 sm:px-6 py-2 sm:py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-semibold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-1 sm:gap-2 text-sm sm:text-base"
           >
             <span>See My Work</span>
-            <ArrowRight size={16} />
+            <ArrowRight size={14} />
           </motion.a>
           
           <motion.a
@@ -215,7 +215,7 @@ export const Hero: React.FC = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05, y: -3 }}
             whileTap={{ scale: 0.95 }}
-            className="px-7 py-3.5 bg-gradient-to-r from-sky-600 to-indigo-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group relative overflow-hidden"
+            className="px-5 sm:px-7 py-2.5 sm:py-3.5 bg-gradient-to-r from-sky-600 to-indigo-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1 sm:gap-2 group relative overflow-hidden text-sm sm:text-base"
           >
             {/* Animated racing stripes */}
             <motion.div 
@@ -229,23 +229,23 @@ export const Hero: React.FC = () => {
               }}
             />
             <span className="relative z-10">Check Quickevent.app</span>
-            <ExternalLink size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            <ExternalLink size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
         
-        <div className="flex gap-5 pt-6">
-          <SocialLink href="https://github.com/harisejaz2206" icon={<Github size={22} />} />
-          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin size={22} />} />
-          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen size={22} />} />
+        <div className="flex gap-3 sm:gap-5 pt-4 sm:pt-6">
+          <SocialLink href="https://github.com/harisejaz2206" icon={<Github size={18} />} />
+          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin size={18} />} />
+          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen size={18} />} />
         </div>
       </motion.div>
       
-      {/* Profile Image with Card Treatment */}
+      {/* Profile Image with Card Treatment - HIDDEN ON MOBILE */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.3 }}
-        className="relative flex-1 flex justify-center md:justify-end z-10"
+        className="hidden md:flex relative flex-1 justify-center md:justify-end z-10"
       >
         {/* Decorative race circuit lines */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
@@ -340,7 +340,7 @@ const SocialLink: React.FC<{ href: string; icon: React.ReactNode }> = ({
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-12 h-12 flex items-center justify-center rounded-full bg-white border-2 border-slate-200 text-slate-600 shadow-sm hover:shadow-md transition-all duration-300 hover:text-sky-500 hover:border-sky-300"
+    className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-white border-2 border-slate-200 text-slate-600 shadow-sm hover:shadow-md transition-all duration-300 hover:text-sky-500 hover:border-sky-300"
   >
     {icon}
   </motion.a>
