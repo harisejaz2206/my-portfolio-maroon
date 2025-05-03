@@ -132,68 +132,71 @@ export const Hero: React.FC = () => {
         </div>
         
         {/* F1IQ Endorsement Badge */}
-        <motion.div 
-          whileHover={{ scale: 1.02 }}
-          className="relative max-w-xl"
+        <div 
+          className="relative max-w-xl group"
+          onMouseEnter={() => setShowEndorsement(true)}
+          onMouseLeave={() => setShowEndorsement(false)}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-blue-600 rounded-xl blur-[1px]"></div>
-          <div className="relative bg-white rounded-lg p-4 shadow-lg border border-slate-100 overflow-hidden">
-            {/* Racing stripe accent */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-[length:200%_100%]"></div>
-            
-            <div className="flex items-center gap-4">
-              <div className="flex-shrink-0 relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600 rounded-full blur-[1px]"></div>
-                <div className="relative p-0.5 rounded-full bg-gradient-to-r from-red-500 to-blue-600">
-                  <div className="bg-white p-1 rounded-full">
-                    <img 
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
-                      alt="F1 Logo" 
-                      className="w-12 h-12 object-contain"
-                      onError={(e) => {
-                        e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
-                      }}
-                    />
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            className="relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-blue-600 rounded-xl blur-[1px]"></div>
+            <div className="relative bg-white rounded-lg p-4 shadow-lg border border-slate-100 overflow-hidden">
+              {/* Racing stripe accent */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-[length:200%_100%]"></div>
+              
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0 relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600 rounded-full blur-[1px]"></div>
+                  <div className="relative p-0.5 rounded-full bg-gradient-to-r from-red-500 to-blue-600">
+                    <div className="bg-white p-1 rounded-full">
+                      <img 
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
+                        alt="F1 Logo" 
+                        className="w-12 h-12 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
+                        }}
+                      />
+                    </div>
                   </div>
+                </div>
+                
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-bold text-slate-900 text-lg">F1IQ.com</span>
+                    <Trophy size={15} className="text-amber-500" />
+                  </div>
+                  <p className="text-sm text-slate-700">
+                    "Incredible resource for F1 data nerds" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
+                    <span className="text-red-600 font-medium"> Head of Software Engineering at Red Bull Racing.</span>
+                  </p>
                 </div>
               </div>
               
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-bold text-slate-900 text-lg">F1IQ.com</span>
-                  <Trophy size={15} className="text-amber-500" />
-                </div>
-                <p className="text-sm text-slate-700">
-                  "Incredible resource for F1 data nerds" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
-                  <span className="text-red-600 font-medium"> Head of Software Engineering at Red Bull Racing.</span>
-                </p>
+              {/* Visual hover indicator */}
+              <div className="mt-2 text-xs flex items-center justify-end text-slate-500 ml-auto">
+                <span className="group-hover:text-sky-600 transition-colors">Hover to view endorsement</span>
+                <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 group-hover:text-sky-600 transition-transform" />
               </div>
             </div>
-            
-            {/* Simplified view endorsement button */}
-            <button 
-              onClick={() => setShowEndorsement(!showEndorsement)}
-              className="mt-2 text-xs flex items-center justify-end text-slate-500 hover:text-sky-600 cursor-pointer ml-auto"
-            >
-              <span className="underline">View endorsement</span>
-              <ArrowRight size={12} className="ml-1 transition-transform" />
-            </button>
-            
-            {/* Simplified tooltip implementation */}
-            {showEndorsement && (
-              <div className="absolute z-50 top-0 -right-2 transform translate-x-full">
-                <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
-                  <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
-                  <img 
-                    src="/images/ian-endorsement-dm.png" 
-                    alt="Ian Brunton's Endorsement" 
-                    className="w-full rounded shadow-sm"
-                  />
-                </div>
+          </motion.div>
+          
+          {/* Tooltip implementation */}
+          {showEndorsement && (
+            <div className="absolute z-50 top-0 -right-2 transform translate-x-full">
+              <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
+                <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
+                <img 
+                  src="/images/ian-endorsement-dm.png" 
+                  alt="Ian Brunton's Endorsement" 
+                  className="w-full rounded shadow-sm"
+                />
               </div>
-            )}
-          </div>
-        </motion.div>
+            </div>
+          )}
+        </div>
         
         <div className="pt-4 flex gap-5">
           <motion.a
