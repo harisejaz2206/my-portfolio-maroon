@@ -169,7 +169,7 @@ export const Hero: React.FC = () => {
                     <Trophy size={15} className="text-amber-500" />
                   </div>
                   <p className="text-sm text-slate-700">
-                    "Incredible resource for F1 data nerds" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
+                    "You have some really sleek design concepts" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
                     <span className="text-red-600 font-medium"> Head of Software Engineering at Red Bull Racing.</span>
                   </p>
                 </div>
@@ -185,9 +185,9 @@ export const Hero: React.FC = () => {
           
           {/* Tooltip implementation */}
           {showEndorsement && (
-            <div className="absolute z-50 top-0 -right-2 transform translate-x-full">
+            <div className="absolute z-50 bottom-full -right-2 transform translate-y-[-20px]">
               <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
-                <div className="absolute top-4 -left-2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-l border-b border-slate-200"></div>
+                <div className="absolute bottom-[-8px] right-[10px] transform rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
                 <img 
                   src="/images/ian-endorsement-dm.png" 
                   alt="Ian Brunton's Endorsement" 
