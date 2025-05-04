@@ -8,6 +8,7 @@ import { ExperienceSection } from './components/sections/Experience';
 import { Contact } from './components/sections/Contact';
 import { Background } from './components/3d/Background';
 import { Footer } from './components/Footer';
+import { Services } from './components/sections/Services';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -46,6 +47,7 @@ function App() {
                 <About />
               </section>
 
+
               <section id="projects" className="min-h-screen">
                 <Projects />
               </section>
@@ -54,6 +56,10 @@ function App() {
                 <ExperienceSection />
               </section>
 
+              <section id="services" className="min-h-screen">
+                <Services />
+              </section>
+              
               <section id="contact" className="min-h-screen">
                 <Contact />
               </section>
