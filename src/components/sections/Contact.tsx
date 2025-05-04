@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Send } from 'lucide-react';
 
 export const Contact: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    description: '',
+    budget: '',
+    timeline: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(formData);
+    alert('Thanks for reaching out! I\'ll get back to you soon.');
+  };
+
   return (
     <div className="py-16 md:py-24">
       <motion.div
@@ -13,9 +32,9 @@ export const Contact: React.FC = () => {
       >
         {/* Section header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Let's Connect</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Let's make it real.</h2>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Have a project in mind or just want to chat about micro-SaaS? I'd love to hear from you!
+            Tell me about your project and I'll get back to you within 24 hours.
           </p>
         </div>
 
@@ -65,7 +84,7 @@ export const Contact: React.FC = () => {
           {/* Contact form */}
           <div className="md:col-span-3">
             <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
-              <form className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
@@ -74,6 +93,10 @@ export const Contact: React.FC = () => {
                     <input
                       type="text"
                       id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
                       className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
                       placeholder="Your name"
                     />
@@ -85,6 +108,10 @@ export const Contact: React.FC = () => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
                       className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
                       placeholder="Your email"
                     />
@@ -92,27 +119,55 @@ export const Contact: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-1">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
-                    placeholder="What's this about?"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
-                    Message
+                  <label htmlFor="description" className="block text-sm font-medium text-slate-700 mb-1">
+                    Project Description
                   </label>
                   <textarea
-                    id="message"
-                    rows={5}
+                    id="description"
+                    name="description"
+                    rows={4}
+                    required
+                    value={formData.description}
+                    onChange={handleInputChange}
                     className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
                     placeholder="Tell me about your project, question, or idea"
                   ></textarea>
+                </div>
+                
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="budget" className="block text-sm font-medium text-slate-700 mb-1">Budget (Optional)</label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition"
+                    >
+                      <option value="">Select a range</option>
+                      <option value="<$1k">Less than $1,000</option>
+                      <option value="$1-3k">$1,000 - $3,000</option>
+                      <option value="$3-5k">$3,000 - $5,000</option>
+                      <option value="$5k+">$5,000+</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="timeline" className="block text-sm font-medium text-slate-700 mb-1">Preferred Timeline</label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition"
+                    >
+                      <option value="">Select timeline</option>
+                      <option value="ASAP">As soon as possible</option>
+                      <option value="1-2 weeks">1-2 weeks</option>
+                      <option value="2-4 weeks">2-4 weeks</option>
+                      <option value="1-2 months">1-2 months</option>
+                      <option value="3+ months">3+ months</option>
+                    </select>
+                  </div>
                 </div>
                 
                 <motion.button
