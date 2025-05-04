@@ -175,8 +175,9 @@ export const Services: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl md:text-6xl font-extrabold text-slate-800 mb-5"
+          className="text-4xl md:text-6xl font-extrabold text-slate-800 mb-5 flex items-center justify-center gap-3"
         >
+          <Briefcase className="text-sky-500" size={36} />
           Hire Me
         </motion.h1>
         <motion.p 
