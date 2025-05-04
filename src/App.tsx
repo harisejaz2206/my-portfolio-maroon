@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import {Navbar} from './components/Navbar';
-import {Hero} from './components/sections/Hero';
+import { Navbar } from './components/Navbar';
+import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Projects } from './components/sections/Projects';
 import { ExperienceSection } from './components/sections/Experience';
