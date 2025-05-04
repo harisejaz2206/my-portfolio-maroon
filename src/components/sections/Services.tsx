@@ -23,21 +23,34 @@ const ServiceCard: React.FC<{
   );
 };
 
-const FAQ: React.FC<{ question: string; answer: string; isOpen: boolean; onClick: () => void }> = 
-  ({ question, answer, isOpen, onClick }) => {
+const FAQ: React.FC<{ question: string; answer: string; isOpen: boolean; onClick: () => void; icon?: React.ReactNode }> = 
+  ({ question, answer, isOpen, onClick, icon }) => {
   return (
-    <div className="border-b border-slate-200 last:border-b-0">
+    <div className="mb-3 last:mb-0">
       <button 
         onClick={onClick}
-        className="w-full py-4 flex justify-between items-center text-left"
+        className="w-full py-4 px-5 flex justify-between items-center text-left rounded-lg transition-all duration-300 hover:bg-gray-50 group"
       >
-        <h3 className="font-medium text-slate-800">{question}</h3>
-        <motion.div
-          animate={{ rotate: isOpen ? 90 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ArrowRight className="h-4 w-4 text-sky-500" />
-        </motion.div>
+        <div className="flex items-center gap-3">
+          {icon && <div className="text-xl">{icon}</div>}
+          <h3 className="text-lg font-semibold text-slate-800 group-hover:text-sky-700 transition-colors">{question}</h3>
+        </div>
+        <div className="bg-sky-100 rounded-full p-1 text-sky-500 transition-all duration-300 transform">
+          <motion.div
+            animate={{ rotate: isOpen ? 45 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isOpen ? (
+              <div className="h-5 w-5 flex items-center justify-center">
+                <span className="text-lg font-semibold">-</span>
+              </div>
+            ) : (
+              <div className="h-5 w-5 flex items-center justify-center">
+                <span className="text-lg font-semibold">+</span>
+              </div>
+            )}
+          </motion.div>
+        </div>
       </button>
       <motion.div 
         initial={{ height: 0, opacity: 0 }}
@@ -45,10 +58,10 @@ const FAQ: React.FC<{ question: string; answer: string; isOpen: boolean; onClick
           height: isOpen ? 'auto' : 0,
           opacity: isOpen ? 1 : 0,
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
         className="overflow-hidden"
       >
-        <div className="pb-4 text-slate-600">
+        <div className="px-5 pb-5 pt-1 ml-8 border-l-2 border-sky-100 font-mono text-slate-600 bg-slate-50 bg-opacity-50 rounded-r-lg">
           {answer}
         </div>
       </motion.div>
@@ -128,23 +141,33 @@ export const Services: React.FC = () => {
   const faqs = [
     {
       question: "How much do you charge?",
-      answer: "Depends on scope. I work hourly ($15–20/hr) or fixed-price for clear outcomes. I believe in transparency and will provide detailed quotes based on your specific needs."
+      answer: "Depends on scope. I work hourly ($15–20/hr) or fixed-price for clear outcomes. I believe in transparency and will provide detailed quotes based on your specific needs.",
+      icon: "💰"
     },
     {
       question: "Can you help with design?",
-      answer: "Yes — I collaborate with a designer to deliver polished UI/UX. We work as a team to create interfaces that are both beautiful and functional."
+      answer: "Yes — I collaborate with a designer to deliver polished UI/UX. We work as a team to create interfaces that are both beautiful and functional.",
+      icon: "🎨"
     },
     {
       question: "What if I don't know where to start?",
-      answer: "I guide non-technical founders from idea to launch. We'll start with a discovery call to clarify your vision, define requirements, and create a roadmap that makes sense for your budget and timeline."
+      answer: "I guide non-technical founders from idea to launch. We'll start with a discovery call to clarify your vision, define requirements, and create a roadmap that makes sense for your budget and timeline.",
+      icon: "🧭"
     },
     {
       question: "What technologies do you use?",
-      answer: "I specialize in JavaScript-based technologies: React, Next.js, Node.js, NestJS, Express, Supabase, and Stripe. This stack allows for rapid development without sacrificing quality or scalability."
+      answer: "I specialize in JavaScript-based technologies: React, Next.js, Node.js, NestJS, Express, Supabase (PostgreSQL), and Stripe. This stack allows for rapid development without sacrificing quality or scalability.",
+      icon: "⚙️"
     },
     {
       question: "How long does a typical project take?",
-      answer: "Simple landing pages can be completed in 1-2 weeks. Full web apps typically take 4-8 weeks depending on complexity. I value your time and work efficiently to deliver results without unnecessary delays."
+      answer: "Simple landing pages can be completed in 1-2 weeks. Full web apps typically take 4-8 weeks depending on complexity. I value your time and work efficiently to deliver results without unnecessary delays.",
+      icon: "⏱️"
+    },
+    {
+      question: "Will you ghost me mid-project?",
+      answer: "I ship. Check my track record. I've built and launched multiple products end-to-end and take delivery commitments seriously. No disappearing acts here.",
+      icon: "🚀"
     }
   ];
 
@@ -307,22 +330,19 @@ export const Services: React.FC = () => {
       {/* FAQs */}
       <div className="mb-24 px-4">
         <SectionTitle title="Real questions I actually get. No fluff." />
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-          {[
-            ...faqs,
-            {
-              question: "Will you ghost me mid-project?",
-              answer: "I ship. Check my track record. I've built and launched multiple products end-to-end and take delivery commitments seriously. No disappearing acts here."
-            }
-          ].map((faq, index) => (
-            <FAQ
-              key={index}
-              question={faq.question}
-              answer={faq.answer}
-              isOpen={activeQuestion === index}
-              onClick={() => toggleQuestion(index)}
-            />
-          ))}
+        <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-white to-slate-50 shadow-sm border border-slate-100 overflow-hidden p-6">
+          <div className="space-y-3">
+            {faqs.map((faq, index) => (
+              <FAQ
+                key={index}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={activeQuestion === index}
+                onClick={() => toggleQuestion(index)}
+                icon={faq.icon}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
