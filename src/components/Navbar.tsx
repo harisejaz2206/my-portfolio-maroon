@@ -29,9 +29,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onSectionChange }
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <span className="text-xl font-semibold bg-gradient-to-r from-sky-500 to-indigo-500 bg-clip-text text-transparent">HE</span>
+              <a href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+                builds.so
+              </a>
             </div>
-            
+
             {/* Navigation items */}
             <div className="flex items-center justify-center space-x-1 sm:space-x-4">
               {navItems.map((item) => {
@@ -69,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onSectionChange }
                 );
               })}
             </div>
-            
+
             {/* CTA Button */}
             <div className="hidden md:block">
               <motion.a
