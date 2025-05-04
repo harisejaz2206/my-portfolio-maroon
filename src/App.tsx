@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import {Navbar} from './components/Navbar';
 import {Hero} from './components/sections/Hero';
 import { About } from './components/sections/About';
@@ -59,7 +59,7 @@ function App() {
               <section id="services" className="min-h-screen">
                 <Services />
               </section>
-              
+
               <section id="contact" className="min-h-screen">
                 <Contact />
               </section>
