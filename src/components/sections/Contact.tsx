@@ -23,7 +23,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <div className="py-16 md:py-24">
+    <div className="py-8 md:py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

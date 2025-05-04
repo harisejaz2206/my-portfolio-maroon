@@ -347,7 +347,7 @@ export const Services: React.FC = () => {
       </div>
 
       {/* Pricing Callout */}
-      <div className="mb-24 px-4">
+      <div className="mb-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="p-8 rounded-xl bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-100">
             <h2 className="text-2xl font-bold text-slate-800 mb-4">Transparent Pricing</h2>
