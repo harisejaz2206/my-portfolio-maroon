@@ -238,6 +238,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [showFeatures, setShowFeatures] = useState(false);
 
+  // Define gradient colors for each project
+  const gradients = [
+    'from-sky-500 to-indigo-600',
+    'from-rose-500 to-pink-600', 
+    'from-emerald-500 to-teal-600',
+    'from-violet-500 to-purple-600',
+    'from-amber-500 to-orange-600',
+    'from-cyan-500 to-blue-600'
+  ];
+
+  const gradient = gradients[index % gradients.length];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -248,90 +260,87 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       className="group relative"
     >
       {/* Project Card */}
-      <div className="relative overflow-hidden rounded-xl">
-        {/* Image with overlay */}
-        <div className="relative h-[300px] overflow-hidden">
-          <motion.img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-            animate={{ scale: isActive ? 1.05 : 1 }}
-            transition={{ duration: 0.4 }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10" />
+      <div className="relative overflow-hidden rounded-xl bg-white shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
         
-          {/* Content overlay */}
-          <div className="absolute inset-0 z-20 p-6 flex flex-col justify-end">
-            <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-            <p className="text-white/90 mb-4 line-clamp-2 group-hover:line-clamp-none transition-all">
-              {project.description}
-            </p>
-            
-            {/* Technology tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.technologies.slice(0, 5).map((tech, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white"
-                >
-                  {tech}
-                </span>
-              ))}
-              {project.technologies.length > 5 && (
-                <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white">
-                  +{project.technologies.length - 5} more
-                </span>
-              )}
+        {/* Header with gradient background */}
+        <div className={`relative h-32 bg-gradient-to-br ${gradient} p-6 flex items-center justify-between`}>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
+              <Code2 className="w-6 h-6 text-white" />
             </div>
+            <h3 className="text-xl font-bold text-white">{project.title}</h3>
+          </div>
+          
+          {/* Action buttons in header */}
+          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            {project.githubLink && (
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-colors"
+              >
+                <Github size={18} />
+              </motion.a>
+            )}
             
-            {/* Action buttons */}
-            <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              {project.githubLink && (
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white"
-                >
-                  <Github size={18} />
-                  <span>Code</span>
-                </motion.a>
-              )}
-              
-              {project.liveLink && (
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white"
-                >
-                  <ExternalLink size={18} />
-                  <span>Live Demo</span>
-                </motion.a>
-              )}
-            </div>
+            {project.liveLink && (
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-colors"
+              >
+                <ExternalLink size={18} />
+              </motion.a>
+            )}
+          </div>
+        </div>
+        
+        {/* Content section */}
+        <div className="p-6">
+          <p className="text-slate-600 mb-4 leading-relaxed">
+            {project.description}
+          </p>
+          
+          {/* Technology tags */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.technologies.slice(0, 4).map((tech, i) => (
+              <span
+                key={i}
+                className="px-3 py-1 text-sm bg-slate-100 text-slate-700 rounded-full border"
+              >
+                {tech}
+              </span>
+            ))}
+            {project.technologies.length > 4 && (
+              <span className="px-3 py-1 text-sm bg-slate-100 text-slate-500 rounded-full border">
+                +{project.technologies.length - 4} more
+              </span>
+            )}
           </div>
         </div>
         
         {/* Stats Section */}
         {project.stats && (
-          <div className="grid grid-cols-3 bg-slate-200/80 backdrop-blur-sm text-center">
+          <div className="grid grid-cols-3 border-t border-slate-100 bg-slate-50">
             {project.stats.map((stat, i) => {
               // Determine color based on stat label
-              let textColor = "text-sky-500";
-              if (stat.label.includes("Load")) textColor = "text-rose-500";
-              else if (stat.label.includes("Reduction")) textColor = "text-amber-500";
+              let textColor = "text-sky-600";
+              if (stat.label.includes("Load") || stat.label.includes("Time")) textColor = "text-rose-600";
+              else if (stat.label.includes("Reduction") || stat.label.includes("Cost")) textColor = "text-amber-600";
+              else if (stat.label.includes("Uptime") || stat.label.includes("Coverage")) textColor = "text-emerald-600";
               
               return (
-                <div key={i} className="py-3 px-2">
-                  <div className={`text-lg font-medium ${textColor}`}>
+                <div key={i} className="py-4 px-2 text-center">
+                  <div className={`text-lg font-bold ${textColor}`}>
                     {stat.value}
                   </div>
-                  <div className="text-xs text-slate-500">{stat.label}</div>
+                  <div className="text-xs text-slate-500 font-medium">{stat.label}</div>
                 </div>
               );
             })}
@@ -339,15 +348,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
       </div>
       
-      {/* Key Features Accordion (Optional) */}
+      {/* Key Features Accordion */}
       {project.keyFeatures && (
         <div className="mt-4">
           <motion.button
             onClick={() => setShowFeatures(!showFeatures)}
-            className="w-full flex items-center justify-between p-2 text-sm text-slate-700 
-                     border-b border-slate-200 hover:text-sky-600 transition-colors duration-300"
+            className="w-full flex items-center justify-between p-3 text-sm text-slate-700 
+                     bg-white rounded-lg border border-slate-200 hover:border-slate-300 
+                     hover:text-sky-600 transition-all duration-300 shadow-sm"
           >
-            <span className="font-medium">Key Features</span>
+            <span className="font-medium">Key Features & Highlights</span>
             <ChevronDown
               className={`w-4 h-4 transform transition-transform duration-300 
                        ${showFeatures ? 'rotate-180' : ''}`}
@@ -361,22 +371,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden bg-slate-50 rounded-b-lg p-3"
+                className="overflow-hidden bg-white border border-slate-200 border-t-0 rounded-b-lg shadow-sm"
               >
-                <ul className="space-y-2">
-                  {project.keyFeatures.map((feature, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-start gap-2 text-sm text-slate-600"
-                    >
-                      <ChevronRight className="w-4 h-4 text-sky-500 flex-shrink-0 mt-0.5" />
-                      <span>{feature}</span>
-                    </motion.li>
-                  ))}
-                </ul>
+                <div className="p-4">
+                  <ul className="space-y-3">
+                    {project.keyFeatures.map((feature, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="flex items-start gap-3 text-sm text-slate-600"
+                      >
+                        <div className="w-1.5 h-1.5 bg-sky-500 rounded-full flex-shrink-0 mt-2"></div>
+                        <span className="leading-relaxed">{feature}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
