@@ -38,7 +38,7 @@ const projects: Project[] = [
   {
     title: 'F1IQ - Formula 1 Analytics Platform',
     description: 'Comprehensive Formula 1 analytics platform featuring real-time race tracking, driver statistics, and interactive circuit insights with responsive data visualizations.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'Redux Toolkit', 'React Query'],
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts'],
     image: 'https://images2.alphacoders.com/121/1214052.png',
     githubLink: 'https://github.com/harisejaz2206/formula1-analytics',
     liveLink: 'https://f1iq.com',
@@ -203,8 +203,8 @@ export const Projects: React.FC = () => {
           </motion.p>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Projects Grid - add items-stretch to ensure equal heights */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {projects.map((project, index) => (
             <ProjectCard
               key={index}
@@ -238,130 +238,201 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [showFeatures, setShowFeatures] = useState(false);
 
-  // Define gradient colors for each project
+  // Enhanced gradient combinations with better visual appeal
   const gradients = [
-    'from-sky-500 to-indigo-600',
-    'from-rose-500 to-pink-600', 
-    'from-emerald-500 to-teal-600',
-    'from-violet-500 to-purple-600',
-    'from-amber-500 to-orange-600',
-    'from-cyan-500 to-blue-600'
+    'from-blue-600 via-purple-600 to-indigo-700',
+    'from-pink-500 via-rose-500 to-red-600', 
+    'from-emerald-500 via-teal-500 to-cyan-600',
+    'from-violet-600 via-purple-600 to-fuchsia-700',
+    'from-amber-500 via-orange-500 to-red-600',
+    'from-cyan-500 via-blue-500 to-indigo-600'
   ];
 
   const gradient = gradients[index % gradients.length];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ 
+        delay: index * 0.15,
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative"
+      className="group relative h-full flex flex-col"
     >
-      {/* Project Card */}
-      <div className="relative overflow-hidden rounded-xl bg-white shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
+      {/* Floating glow effect */}
+      <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-2xl blur opacity-0 group-hover:opacity-20 transition-all duration-500`} />
+      
+      {/* Main Card - flex-1 to fill available height */}
+      <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl border border-slate-200/50 group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-500 backdrop-blur-sm flex-1 flex flex-col">
         
-        {/* Header with gradient background */}
-        <div className={`relative h-32 bg-gradient-to-br ${gradient} p-6 flex items-center justify-between`}>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
-              <Code2 className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-white">{project.title}</h3>
+        {/* Enhanced Header with animated gradient - fixed height */}
+        <div className={`relative h-40 bg-gradient-to-br ${gradient} p-8 overflow-hidden flex-shrink-0`}>
+          {/* Animated background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px]" />
           </div>
           
-          {/* Action buttons in header */}
-          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            {project.githubLink && (
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href={project.githubLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-colors"
+          {/* Floating orbs for visual interest */}
+          <motion.div 
+            className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.6, 0.3]
+            }}
+            transition={{ 
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          
+          <div className="relative z-10 flex items-start justify-between h-full">
+            <div className="flex items-center gap-4">
+              <motion.div 
+                className="p-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/20"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                <Github size={18} />
-              </motion.a>
-            )}
+                <Code2 className="w-7 h-7 text-white drop-shadow-sm" />
+              </motion.div>
+              <div>
+                <h3 className="text-2xl font-bold text-white drop-shadow-sm leading-tight">
+                  {project.title}
+                </h3>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-white/80 text-sm font-medium">Live Project</span>
+                </div>
+              </div>
+            </div>
             
-            {project.liveLink && (
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-colors"
-              >
-                <ExternalLink size={18} />
-              </motion.a>
-            )}
+            {/* Enhanced Action buttons */}
+            <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              {project.githubLink && (
+                <motion.a
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/30 transition-all duration-200 shadow-lg"
+                >
+                  <Github size={20} />
+                </motion.a>
+              )}
+              
+              {project.liveLink && (
+                <motion.a
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/30 transition-all duration-200 shadow-lg"
+                >
+                  <ExternalLink size={20} />
+                </motion.a>
+              )}
+            </div>
           </div>
         </div>
         
-        {/* Content section */}
-        <div className="p-6">
-          <p className="text-slate-600 mb-4 leading-relaxed">
+        {/* Enhanced Content section - flex-1 to fill remaining space */}
+        <div className="p-8 flex-1 flex flex-col">
+          <p className="text-slate-600 mb-6 leading-relaxed text-base font-medium flex-1">
             {project.description}
           </p>
           
-          {/* Technology tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          {/* Enhanced Technology tags - fixed position at bottom of content */}
+          <div className="flex flex-wrap gap-3 mb-6">
             {project.technologies.slice(0, 4).map((tech, i) => (
-              <span
+              <motion.span
                 key={i}
-                className="px-3 py-1 text-sm bg-slate-100 text-slate-700 rounded-full border"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 * i }}
+                whileHover={{ scale: 1.05, y: -1 }}
+                className="px-4 py-2 text-sm bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 rounded-full border border-slate-200 font-medium shadow-sm hover:shadow-md transition-all duration-200"
               >
                 {tech}
-              </span>
+              </motion.span>
             ))}
             {project.technologies.length > 4 && (
-              <span className="px-3 py-1 text-sm bg-slate-100 text-slate-500 rounded-full border">
+              <motion.span 
+                whileHover={{ scale: 1.05 }}
+                className="px-4 py-2 text-sm bg-gradient-to-r from-slate-200 to-slate-100 text-slate-500 rounded-full border border-slate-300 font-medium cursor-pointer"
+              >
                 +{project.technologies.length - 4} more
-              </span>
+              </motion.span>
             )}
           </div>
         </div>
         
-        {/* Stats Section */}
+        {/* Enhanced Stats Section - fixed height at bottom */}
         {project.stats && (
-          <div className="grid grid-cols-3 border-t border-slate-100 bg-slate-50">
+          <div className="grid grid-cols-3 border-t border-slate-100 bg-gradient-to-r from-slate-50 to-white flex-shrink-0">
             {project.stats.map((stat, i) => {
-              // Determine color based on stat label
-              let textColor = "text-sky-600";
-              if (stat.label.includes("Load") || stat.label.includes("Time")) textColor = "text-rose-600";
-              else if (stat.label.includes("Reduction") || stat.label.includes("Cost")) textColor = "text-amber-600";
-              else if (stat.label.includes("Uptime") || stat.label.includes("Coverage")) textColor = "text-emerald-600";
+              // Enhanced color coding
+              let colorClasses = "text-blue-600 bg-blue-50";
+              if (stat.label.includes("Load") || stat.label.includes("Time")) {
+                colorClasses = "text-emerald-600 bg-emerald-50";
+              } else if (stat.label.includes("Reduction") || stat.label.includes("Cost")) {
+                colorClasses = "text-amber-600 bg-amber-50";
+              } else if (stat.label.includes("Uptime") || stat.label.includes("Coverage")) {
+                colorClasses = "text-green-600 bg-green-50";
+              }
               
               return (
-                <div key={i} className="py-4 px-2 text-center">
-                  <div className={`text-lg font-bold ${textColor}`}>
+                <motion.div 
+                  key={i} 
+                  className="py-6 px-4 text-center group/stat hover:bg-white transition-all duration-200"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className={`text-2xl font-bold ${colorClasses.split(' ')[0]} group-hover/stat:scale-110 transition-transform duration-200`}>
                     {stat.value}
                   </div>
-                  <div className="text-xs text-slate-500 font-medium">{stat.label}</div>
-                </div>
+                  <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider mt-1">
+                    {stat.label}
+                  </div>
+                  <div className={`w-8 h-0.5 ${colorClasses.split(' ')[1]} mx-auto mt-2 rounded-full`} />
+                </motion.div>
               );
             })}
           </div>
         )}
       </div>
       
-      {/* Key Features Accordion */}
+      {/* Enhanced Key Features Accordion - outside main card to not affect height */}
       {project.keyFeatures && (
-        <div className="mt-4">
+        <motion.div 
+          className="mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
           <motion.button
             onClick={() => setShowFeatures(!showFeatures)}
-            className="w-full flex items-center justify-between p-3 text-sm text-slate-700 
-                     bg-white rounded-lg border border-slate-200 hover:border-slate-300 
-                     hover:text-sky-600 transition-all duration-300 shadow-sm"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full flex items-center justify-between p-4 text-sm text-slate-700 
+                     bg-gradient-to-r from-white to-slate-50 rounded-xl border border-slate-200 
+                     hover:border-slate-300 hover:shadow-md hover:text-sky-600 
+                     transition-all duration-300 shadow-sm backdrop-blur-sm"
           >
-            <span className="font-medium">Key Features & Highlights</span>
-            <ChevronDown
-              className={`w-4 h-4 transform transition-transform duration-300 
-                       ${showFeatures ? 'rotate-180' : ''}`}
-            />
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-sky-500 rounded-full" />
+              <span className="font-semibold">Key Features & Highlights</span>
+            </div>
+            <motion.div
+              animate={{ rotate: showFeatures ? 180 : 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+              <ChevronDown className="w-5 h-5" />
+            </motion.div>
           </motion.button>
 
           <AnimatePresence>
@@ -370,21 +441,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden bg-white border border-slate-200 border-t-0 rounded-b-lg shadow-sm"
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="overflow-hidden bg-gradient-to-br from-white to-slate-50 border border-slate-200 border-t-0 rounded-b-xl shadow-lg backdrop-blur-sm"
               >
-                <div className="p-4">
-                  <ul className="space-y-3">
+                <div className="p-6">
+                  <ul className="space-y-4">
                     {project.keyFeatures.map((feature, i) => (
                       <motion.li
                         key={i}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="flex items-start gap-3 text-sm text-slate-600"
+                        transition={{ delay: i * 0.1, duration: 0.3 }}
+                        className="flex items-start gap-4 text-sm text-slate-600 group/feature"
                       >
-                        <div className="w-1.5 h-1.5 bg-sky-500 rounded-full flex-shrink-0 mt-2"></div>
-                        <span className="leading-relaxed">{feature}</span>
+                        <motion.div 
+                          className="w-6 h-6 bg-gradient-to-r from-sky-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                          whileHover={{ scale: 1.2, rotate: 90 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <div className="w-2 h-2 bg-white rounded-full" />
+                        </motion.div>
+                        <span className="leading-relaxed font-medium group-hover/feature:text-slate-800 transition-colors duration-200">
+                          {feature}
+                        </span>
                       </motion.li>
                     ))}
                   </ul>
@@ -392,7 +471,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </motion.div>
       )}
     </motion.div>
   );
