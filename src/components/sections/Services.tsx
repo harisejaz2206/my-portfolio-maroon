@@ -179,7 +179,7 @@ export const Services: React.FC = () => {
     },
     {
       title: "F1IQ.com",
-      description: "Interactive racing stats platform with real-time data visualizations.",
+      description: "Premium F1 analytics SaaS with race intelligence, driver and team modeling, and season storyline insights.",
       link: "#projects"
     }
   ];

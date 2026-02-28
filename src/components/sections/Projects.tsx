@@ -37,22 +37,24 @@ const projects: Project[] = [
   },  
   {
     title: 'F1IQ - Formula 1 Analytics Platform',
-    description: 'Comprehensive Formula 1 analytics platform featuring real-time race tracking, driver statistics, and interactive circuit insights with responsive data visualizations.',
+    description: 'Revamped F1IQ into a premium Formula 1 analytics SaaS with a full UI/UX re-architecture, advanced race intelligence, driver and team modeling, circuit context analytics, and narrative season storytelling while preserving existing data integrity.',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts'],
     image: 'https://images2.alphacoders.com/121/1214052.png',
     githubLink: 'https://github.com/harisejaz2206/formula1-analytics',
     liveLink: 'https://f1iq.com',
     keyFeatures: [
-      'Engineered real-time race tracking system with position changes and lap time analysis',
-      'Implemented responsive data visualizations using Recharts for race statistics',
-      'Designed custom Formula 1 themed UI system with animated components',
-      'Built interactive track insights feature with circuit details and race history',
-      'Created comprehensive F1 guide section with technical regulations and procedures'
+      'Led an end-to-end UI and UX revamp with light and dark themes, refined hierarchy, polished motion, and upgraded brand presentation',
+      'Redesigned desktop and mobile navigation with a premium indexed sidebar, active-route emphasis, and stronger interaction states',
+      'Expanded Live Race Intelligence with lap-time trends, pit-stop context, position-change analytics, and qualifying-versus-finish comparisons',
+      'Built Driver and Team Modeling with Form Index, Consistency, Racecraft Delta, Pressure Index, Efficiency, Balance, and Depth metrics',
+      'Launched the Circuit Context Engine with archetype modeling, weather-pressure and volatility signals, plus circuit-history API integration',
+      'Rebuilt Season Overview into a storyline lab with title-pressure indicators, momentum visualizations, and interpretation for non-technical users',
+      'Improved reliability with multi-season fallback logic, standardized loading and error states, and rapid regression fixes including the /tracks crash'
     ],
     stats: [
-      { value: '< 1s', label: 'Load Time' },
-      { value: '40%', label: 'Code Reduction' },
-      { value: '20+', label: 'Components' }
+      { value: '4', label: 'Core Modules' },
+      { value: '8+', label: 'Derived Metrics' },
+      { value: 'Multi-Season', label: 'Fallback Ready' }
     ]
   },
   {
@@ -203,8 +205,8 @@ export const Projects: React.FC = () => {
           </motion.p>
         </div>
 
-        {/* Projects Grid - add items-stretch to ensure equal heights */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        {/* Projects Grid - keep cards independent so one expansion doesn't stretch siblings */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {projects.map((project, index) => (
             <ProjectCard
               key={index}
@@ -261,13 +263,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       }}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative h-full flex flex-col"
+      className="group relative flex flex-col"
     >
       {/* Floating glow effect */}
       <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-2xl blur opacity-0 group-hover:opacity-20 transition-all duration-500`} />
       
-      {/* Main Card - flex-1 to fill available height */}
-      <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl border border-slate-200/50 group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-500 backdrop-blur-sm flex-1 flex flex-col">
+      {/* Main Card */}
+      <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl border border-slate-200/50 group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-500 backdrop-blur-sm flex flex-col">
         
         {/* Enhanced Header with animated gradient - fixed height */}
         <div className={`relative h-40 bg-gradient-to-br ${gradient} p-8 overflow-hidden flex-shrink-0`}>
@@ -341,9 +343,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         
-        {/* Enhanced Content section - flex-1 to fill remaining space */}
-        <div className="p-8 flex-1 flex flex-col">
-          <p className="text-slate-600 mb-6 leading-relaxed text-base font-medium flex-1">
+        {/* Enhanced Content section */}
+        <div className="p-8">
+          <p className="text-slate-600 mb-6 leading-relaxed text-base font-medium">
             {project.description}
           </p>
           
