@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Briefcase, CheckCircle2, Clock3, Layers3, Rocket, ShieldCheck } from 'lucide-react';
 import { PrimaryCTA, SectionHeader, SecondaryCTA, SurfaceCard, TagChip } from '../ui/primitives';
 import { MotionReveal } from '../ui/MotionReveal';
+import { UpworkLink } from '../ui/UpworkLink';
 
 const offers = [
   {
@@ -12,6 +13,7 @@ const offers = [
     outcome: 'Launch a real product quickly without sacrificing quality.',
     icon: <Rocket size={18} />,
     stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
+    upworkPlacement: 'services_product_build',
   },
   {
     title: 'Frontend System Upgrade',
@@ -20,6 +22,7 @@ const offers = [
     outcome: 'Turn a functional UI into a premium, conversion-ready product experience.',
     icon: <Layers3 size={18} />,
     stack: ['Tailwind CSS', 'Framer Motion', 'Design Systems'],
+    upworkPlacement: 'services_frontend_upgrade',
   },
   {
     title: 'Platform Reliability & Security',
@@ -28,6 +31,7 @@ const offers = [
     outcome: 'Improve production confidence for multi-tenant and growth-stage systems.',
     icon: <ShieldCheck size={18} />,
     stack: ['NestJS', 'Redis', 'Cloudflare', 'CI/CD'],
+    upworkPlacement: 'services_platform_reliability',
   },
 ];
 
@@ -78,7 +82,7 @@ export const Services: React.FC = () => {
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.4, delay: index * 0.06 }}
           >
-            <SurfaceCard className="h-full p-6" interactive>
+            <SurfaceCard className="group h-full p-6" interactive>
               <div className="mb-4 inline-flex rounded-md border border-brand/20 bg-brand-soft p-2 text-brand">{offer.icon}</div>
               <h3 className="text-xl font-bold text-text-strong">{offer.title}</h3>
               <p className="mt-3 text-sm text-text-body">{offer.outcome}</p>
@@ -105,6 +109,15 @@ export const Services: React.FC = () => {
                   <TagChip key={tech} label={tech} />
                 ))}
               </div>
+
+              <UpworkLink
+                placement={offer.upworkPlacement}
+                variant="inline"
+                className="mt-4 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+                ariaLabel={`Book ${offer.title} via Upwork`}
+              >
+                Book via Upwork
+              </UpworkLink>
             </SurfaceCard>
           </motion.div>
         ))}

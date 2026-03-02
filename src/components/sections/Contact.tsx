@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, CheckCircle2, Github, Linkedin, Loader2, Mail, Send, Twitter, XCircle } from 'lucide-react';
-import { PrimaryCTA, SectionHeader, SurfaceCard, TagChip } from '../ui/primitives';
+import { CheckCircle2, Github, Linkedin, Loader2, Mail, Send, Twitter, XCircle } from 'lucide-react';
+import { InlineProof, PrimaryCTA, SectionHeader, SurfaceCard, TagChip } from '../ui/primitives';
 import { MotionReveal } from '../ui/MotionReveal';
+import { UpworkLink } from '../ui/UpworkLink';
 
 type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -103,22 +104,6 @@ export const Contact: React.FC = () => {
                   className="ring-focus rounded-sm text-sm text-text-body hover:text-brand"
                 >
                   linkedin.com/in/harisejaz22
-                </a>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="rounded-md border border-line bg-surface-2 p-2 text-brand">
-                <Briefcase size={16} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-text-strong">Upwork</p>
-                <a
-                  href="https://www.upwork.com/freelancers/harisejaz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ring-focus rounded-sm text-sm text-text-body hover:text-brand"
-                >
-                  upwork.com/freelancers/harisejaz
                 </a>
               </div>
             </div>
@@ -230,21 +215,34 @@ export const Contact: React.FC = () => {
               </Field>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <PrimaryCTA
-                type="submit"
-                icon={
-                  submitState === 'loading' ? (
-                    <Loader2 size={16} className="animate-spin" />
-                  ) : (
-                    <Send size={16} />
-                  )
-                }
-                disabled={submitState === 'loading'}
-                ariaLabel="Send project inquiry"
-              >
-                {submitState === 'loading' ? 'Sending...' : 'Send Inquiry'}
-              </PrimaryCTA>
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-3">
+                <PrimaryCTA
+                  type="submit"
+                  icon={
+                    submitState === 'loading' ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <Send size={16} />
+                    )
+                  }
+                  disabled={submitState === 'loading'}
+                  ariaLabel="Send project inquiry"
+                >
+                  {submitState === 'loading' ? 'Sending...' : 'Send Message'}
+                </PrimaryCTA>
+                <UpworkLink placement="contact_cta" variant="button" ariaLabel="Hire via Upwork from contact section">
+                  Hire via Upwork
+                </UpworkLink>
+              </div>
+
+              <InlineProof className="text-xs">
+                If you prefer escrow + platform contracts,{' '}
+                <UpworkLink placement="contact_reassurance" variant="inline" ariaLabel="Open Upwork profile from contact reassurance">
+                  Upwork works
+                </UpworkLink>
+                .
+              </InlineProof>
 
               <p className="font-mono text-xs uppercase tracking-[0.13em] text-text-muted">No spam. Clear scope-first communication.</p>
             </div>

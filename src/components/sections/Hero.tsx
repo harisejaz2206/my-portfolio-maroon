@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Briefcase, ExternalLink, Github, Linkedin, Trophy, Twitter, X } from 'lucide-react';
-import { PrimaryCTA, SecondaryCTA, SurfaceCard } from '../ui/primitives';
+import { PrimaryCTA, SecondaryCTA, SurfaceCard, TrustChip } from '../ui/primitives';
 import { loadGsap } from '../../lib/gsap';
+import { UpworkLink } from '../ui/UpworkLink';
 
 type ProofMetric = {
   label: string;
@@ -331,6 +332,23 @@ export const Hero: React.FC = () => {
           ))}
         </div>
 
+        <TrustChip
+          label="Available on Upwork"
+          detail="Contracts + escrow supported"
+          icon={<Briefcase size={14} />}
+          action={
+            <UpworkLink
+              placement="hero_chip"
+              variant="inline"
+              showIcon
+              className="text-xs"
+              ariaLabel="Open Upwork profile from hero trust chip"
+            >
+              View profile
+            </UpworkLink>
+          }
+        />
+
         <button
           ref={endorsementTriggerRef}
           type="button"
@@ -390,9 +408,6 @@ export const Hero: React.FC = () => {
           </SocialLink>
           <SocialLink href="https://x.com/buildwithharis" label="X">
             <Twitter size={18} />
-          </SocialLink>
-          <SocialLink href="https://www.upwork.com/freelancers/harisejaz" label="Upwork">
-            <Briefcase size={18} />
           </SocialLink>
         </div>
       </div>

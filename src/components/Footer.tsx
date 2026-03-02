@@ -1,5 +1,6 @@
 import React from 'react';
-import { Briefcase, ExternalLink, Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { ExternalLink, Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { UpworkLink } from './ui/UpworkLink';
 
 export const Footer: React.FC = () => {
   return (
@@ -9,6 +10,13 @@ export const Footer: React.FC = () => {
           <p className="font-display text-xl font-bold text-brand">Haris Ejaz</p>
           <p className="mt-3 max-w-md text-sm text-text-body">
             Software engineer focused on premium product UX, platform-grade frontend systems, and practical delivery.
+          </p>
+          <p className="mt-3 text-sm text-text-muted">
+            Prefer platforms? You can also hire me on{' '}
+            <UpworkLink placement="footer_trust" variant="inline" ariaLabel="Open Upwork profile from footer">
+              Upwork
+            </UpworkLink>
+            .
           </p>
         </div>
 
@@ -57,9 +65,6 @@ export const Footer: React.FC = () => {
             </a>
             <a href="https://x.com/buildwithharis" target="_blank" rel="noopener noreferrer" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="X">
               <Twitter size={16} />
-            </a>
-            <a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noopener noreferrer" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="Upwork">
-              <Briefcase size={16} />
             </a>
             <a href="mailto:harisejaz2206@gmail.com" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="Email">
               <Mail size={16} />

@@ -1,9 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Calendar, ChevronDown, ExternalLink, MapPin } from 'lucide-react';
+import { Briefcase, Calendar, ChevronDown, ExternalLink, MapPin } from 'lucide-react';
 import { Experience } from '../../types';
-import { SectionHeader, SurfaceCard } from '../ui/primitives';
+import { InlineProof, SectionHeader, SurfaceCard } from '../ui/primitives';
 import { MotionReveal } from '../ui/MotionReveal';
+import { UpworkLink } from '../ui/UpworkLink';
 
 const experiences: Experience[] = [
   {
@@ -99,6 +100,14 @@ export const ExperienceSection: React.FC = () => {
         title="Professional journey with platform-level impact."
         subtitle="From productized frontend systems to secure multi-tenant architecture and delivery pipelines."
       />
+
+      <InlineProof icon={<Briefcase size={14} />} className="-mt-6">
+        Client-style engagement available on{' '}
+        <UpworkLink placement="experience_meta" variant="inline" ariaLabel="Open Upwork profile from experience section">
+          Upwork
+        </UpworkLink>
+        .
+      </InlineProof>
 
       <MotionReveal delay={0.08}>
       <div className="grid gap-8 lg:grid-cols-[260px_1fr]">

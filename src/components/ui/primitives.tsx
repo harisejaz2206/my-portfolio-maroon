@@ -95,6 +95,37 @@ export const TagChip: React.FC<{
   </span>
 );
 
+export const TrustChip: React.FC<{
+  label: string;
+  detail?: string;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
+  className?: string;
+}> = ({ label, detail, icon, action, className }) => (
+  <div
+    className={cx(
+      'inline-flex flex-wrap items-center gap-2 rounded-full border border-line bg-surface-2 px-3 py-2 text-xs text-text-body',
+      className
+    )}
+  >
+    {icon ? <span className="text-brand">{icon}</span> : null}
+    <span className="font-semibold text-text-strong">{label}</span>
+    {detail ? <span className="text-text-muted">{detail}</span> : null}
+    {action ? <span className="pl-1">{action}</span> : null}
+  </div>
+);
+
+export const InlineProof: React.FC<{
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+  className?: string;
+}> = ({ children, icon, className }) => (
+  <p className={cx('inline-flex items-center gap-2 text-sm text-text-muted', className)}>
+    {icon ? <span className="text-brand">{icon}</span> : null}
+    <span>{children}</span>
+  </p>
+);
+
 export const MetricPill: React.FC<{
   value: string;
   label: string;

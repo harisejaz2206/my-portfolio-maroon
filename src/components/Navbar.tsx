@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Code2, Send, Home, Briefcase, Zap } from 'lucide-react';
 import { PrimaryCTA } from './ui/primitives';
+import { UpworkLink } from './ui/UpworkLink';
 
 interface NavbarProps {
   activeSection: string;
@@ -72,7 +73,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onSectionChange }
               })}
             </div>
 
-            <div className="hidden md:block">
+            <div className="hidden items-center gap-3 md:flex">
+              <UpworkLink placement="navbar_link" variant="subtle" ariaLabel="Open Upwork profile">
+                Upwork
+              </UpworkLink>
               <PrimaryCTA
                 href="#contact"
                 className="px-4 py-2 text-sm"

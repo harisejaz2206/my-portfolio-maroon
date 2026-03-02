@@ -4,6 +4,7 @@ import { ChevronDown, ExternalLink, Eye, Github, X } from 'lucide-react';
 import { MetricPill, SectionHeader, SecondaryCTA, SurfaceCard, TagChip } from '../ui/primitives';
 import { loadGsap } from '../../lib/gsap';
 import { MotionReveal } from '../ui/MotionReveal';
+import { UpworkLink } from '../ui/UpworkLink';
 
 interface Project {
   title: string;
@@ -365,6 +366,15 @@ const ProjectCard: React.FC<{
                   </li>
                 ))}
               </ul>
+              <div className="border-t border-line px-4 py-3">
+                <UpworkLink
+                  placement="projects_highlight_drawer"
+                  variant="inline"
+                  ariaLabel="Hire via Upwork from project highlights"
+                >
+                  Want something like this? Hire via Upwork
+                </UpworkLink>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
