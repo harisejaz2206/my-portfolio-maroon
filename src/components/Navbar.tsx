@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Code2, Send, Home, Briefcase, Zap } from 'lucide-react';
+import { PrimaryCTA } from './ui/primitives';
 
 interface NavbarProps {
   activeSection: string;
@@ -24,47 +25,45 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onSectionChange }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Subtle shadow for depth */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm">
+      <nav className="border-b border-line/70 bg-surface-1/85 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+          <div className="flex h-16 items-center justify-between gap-3">
             <div className="flex-shrink-0">
-              <a href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-                builds.so
+              <a href="#home" className="ring-focus rounded-md px-1 py-0.5">
+                <span className="font-display text-lg font-bold text-brand">
+                  harisejaz.com
+                </span>
               </a>
             </div>
 
-            {/* Navigation items */}
-            <div className="flex items-center justify-center space-x-1 sm:space-x-4">
+            <div className="flex items-center justify-center gap-1.5 sm:gap-2">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
                   <motion.button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
-                    className={`relative px-2 sm:px-4 py-2 rounded-lg transition-all duration-300 group
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`ring-focus relative rounded-md px-2 py-2 transition-all duration-300 group
                               ${isActive
-                        ? 'text-sky-600'
-                        : 'text-slate-600 hover:text-sky-600'
+                        ? 'text-brand'
+                        : 'text-text-body hover:text-brand'
                       }`}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {/* Background for active state */}
                     {isActive && (
                       <motion.div
                         layoutId="navbar-active"
-                        className="absolute inset-0 bg-sky-100 rounded-lg"
+                        className="absolute inset-0 rounded-md bg-brand-soft"
                         initial={false}
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        transition={{ type: 'spring', bounce: 0.18, duration: 0.5 }}
                       />
                     )}
 
-                    {/* Icon and label */}
-                    <span className="relative flex items-center gap-1 sm:gap-2">
-                      <span className="text-lg sm:text-xl">{item.icon}</span>
-                      <span className="hidden sm:inline text-sm font-medium">
+                    <span className="relative flex items-center gap-1.5 sm:gap-2">
+                      <span className="text-base">{item.icon}</span>
+                      <span className="hidden sm:inline text-sm font-semibold">
                         {item.label}
                       </span>
                     </span>
@@ -73,20 +72,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onSectionChange }
               })}
             </div>
 
-            {/* CTA Button */}
             <div className="hidden md:block">
-              <motion.a
+              <PrimaryCTA
                 href="#contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
+                className="px-4 py-2 text-sm"
               >
-                Let's Connect
-              </motion.a>
+                Start a Project
+              </PrimaryCTA>
             </div>
           </div>
         </div>
       </nav>
     </header>
   );
-} 
+};

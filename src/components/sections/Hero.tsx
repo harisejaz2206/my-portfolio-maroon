@@ -1,347 +1,482 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { Github, Linkedin, BookOpen, ExternalLink, Sparkles, Trophy, ArrowRight, Clock, Users } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Briefcase, ExternalLink, Github, Linkedin, Trophy, Twitter, X } from 'lucide-react';
+import { PrimaryCTA, SecondaryCTA, SurfaceCard } from '../ui/primitives';
+import { loadGsap } from '../../lib/gsap';
+
+type ProofMetric = {
+  label: string;
+  target: number;
+  format: (value: number) => string;
+};
+
+const proofMetrics: ProofMetric[] = [
+  { label: 'Products Shipped', target: 4, format: (value) => `${Math.round(value)}` },
+  { label: 'Monthly Users', target: 5000, format: (value) => `${(Math.round(value) / 1000).toFixed(1).replace('.0', '')}k+` },
+  { label: 'Avg Response SLA', target: 24, format: (value) => `${Math.round(value)}h` },
+];
 
 export const Hero: React.FC = () => {
-  const raceLineRef = useRef<SVGPathElement>(null);
-  const controls = useAnimation();
-  const [showEndorsement, setShowEndorsement] = useState(false);
-  
+  const prefersReducedMotion = useReducedMotion();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const endorsementTriggerRef = useRef<HTMLButtonElement>(null);
+  const endorsementModalRef = useRef<HTMLDivElement>(null);
+  const primaryCtaRef = useRef<HTMLDivElement>(null);
+  const secondaryCtaRef = useRef<HTMLDivElement>(null);
+  const [metricValues, setMetricValues] = useState<string[]>(() => proofMetrics.map(() => '0'));
+  const [showEndorsementHoverPreview, setShowEndorsementHoverPreview] = useState(false);
+  const [isEndorsementModalOpen, setIsEndorsementModalOpen] = useState(false);
+
+  const supportsHover = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  }, []);
+
   useEffect(() => {
-    // Start the race line animation after component mounts
-    controls.start({
-      strokeDashoffset: 0,
-      transition: { duration: 3, ease: "easeOut" }
-    });
-  }, [controls]);
+    if (prefersReducedMotion) {
+      setMetricValues(proofMetrics.map((metric) => metric.format(metric.target)));
+      return;
+    }
+
+    if (!heroRef.current) return;
+
+    let cleanup: (() => void) | undefined;
+    const showMarkers = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('stdebug');
+
+    const runHeroTimeline = async () => {
+      try {
+        const { gsap } = await loadGsap();
+        const localCleanups: Array<() => void> = [];
+
+        const ctx = gsap.context(() => {
+          const introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 });
+
+          introTimeline
+            .fromTo(
+              '[data-hero-mask="kicker"]',
+              { opacity: 0, y: 18, clipPath: 'inset(0 0 100% 0)' },
+              { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.95 }
+            )
+            .fromTo(
+              '[data-hero-mask="title"]',
+              { opacity: 0, y: 52, clipPath: 'inset(0 0 100% 0)' },
+              { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.55 },
+              '-=0.45'
+            )
+            .fromTo(
+              '[data-hero-mask="subtitle"]',
+              { opacity: 0, y: 36, clipPath: 'inset(0 0 100% 0)' },
+              { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.25 },
+              '-=0.88'
+            )
+            .fromTo(
+              '[data-proof-chip]',
+              { opacity: 0, y: 24, scale: 0.95 },
+              { opacity: 1, y: 0, scale: 1, duration: 0.82, stagger: 0.28, ease: 'power2.out' },
+              '-=0.5'
+            )
+            .fromTo(
+              '[data-hero-cta]',
+              { opacity: 0, y: 16 },
+              { opacity: 1, y: 0, duration: 0.78, stagger: 0.18 },
+              '-=0.48'
+            )
+            .fromTo(
+              '[data-hero-endorsement]',
+              { opacity: 0, y: 14 },
+              { opacity: 1, y: 0, duration: 0.8 },
+              '-=0.5'
+            )
+            .fromTo(
+              '[data-hero-socials]',
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.62 },
+              '-=0.46'
+            )
+            .fromTo(
+              '[data-hero-visual]',
+              { opacity: 0, y: 32, scale: 0.98 },
+              { opacity: 1, y: 0, scale: 1, duration: 1.1 },
+              '-=1.28'
+            );
+
+          introTimeline.call(() => {
+            proofMetrics.forEach((metric, index) => {
+              const proxy = { value: 0 };
+              gsap.to(proxy, {
+                value: metric.target,
+                duration: 2.05,
+                delay: index * 0.12,
+                ease: 'power2.out',
+                onUpdate: () => {
+                  const nextValue = metric.format(proxy.value);
+                  setMetricValues((current) => {
+                    if (current[index] === nextValue) return current;
+                    const copy = [...current];
+                    copy[index] = nextValue;
+                    return copy;
+                  });
+                },
+                onComplete: () => {
+                  const nextValue = metric.format(metric.target);
+                  setMetricValues((current) => {
+                    if (current[index] === nextValue) return current;
+                    const copy = [...current];
+                    copy[index] = nextValue;
+                    return copy;
+                  });
+                },
+              });
+            });
+          }, undefined, '>-0.7');
+
+          gsap.to('[data-hero-parallax="text"]', {
+            y: -34,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: 'top top+=70',
+              end: 'bottom top',
+              scrub: 0.85,
+              markers: showMarkers,
+            },
+          });
+
+          gsap.to('[data-hero-parallax="visual"]', {
+            y: 26,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: 'top top+=70',
+              end: 'bottom top',
+              scrub: 0.85,
+              markers: showMarkers,
+            },
+          });
+
+          gsap.to('[data-hero-grid]', {
+            y: 54,
+            scale: 1.04,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: 'top top+=70',
+              end: 'bottom top',
+              scrub: 1,
+              markers: showMarkers,
+            },
+          });
+
+          if (supportsHover) {
+            const grid = heroRef.current?.querySelector<HTMLElement>('[data-hero-grid]');
+            if (grid) {
+              const moveGridX = gsap.quickTo(grid, 'x', { duration: 0.5, ease: 'power3.out' });
+              const moveGridY = gsap.quickTo(grid, 'y', { duration: 0.5, ease: 'power3.out' });
+
+              const onPointerMove = (event: PointerEvent) => {
+                if (!heroRef.current) return;
+                const rect = heroRef.current.getBoundingClientRect();
+                const pointerX = (event.clientX - rect.left) / rect.width - 0.5;
+                const pointerY = (event.clientY - rect.top) / rect.height - 0.5;
+                moveGridX(pointerX * 22);
+                moveGridY(pointerY * 16);
+              };
+
+              const onPointerLeave = () => {
+                moveGridX(0);
+                moveGridY(0);
+              };
+
+              heroRef.current.addEventListener('pointermove', onPointerMove);
+              heroRef.current.addEventListener('pointerleave', onPointerLeave);
+              localCleanups.push(() => {
+                heroRef.current?.removeEventListener('pointermove', onPointerMove);
+                heroRef.current?.removeEventListener('pointerleave', onPointerLeave);
+              });
+            }
+
+            const setupMagneticHover = (element: HTMLElement | null, strength = 10) => {
+              if (!element) return;
+              const moveX = gsap.quickTo(element, 'x', { duration: 0.26, ease: 'power3.out' });
+              const moveY = gsap.quickTo(element, 'y', { duration: 0.26, ease: 'power3.out' });
+              const onMove = (event: PointerEvent) => {
+                const rect = element.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                moveX(x * strength);
+                moveY(y * strength);
+              };
+              const onLeave = () => {
+                moveX(0);
+                moveY(0);
+              };
+              element.addEventListener('pointermove', onMove);
+              element.addEventListener('pointerleave', onLeave);
+              localCleanups.push(() => {
+                element.removeEventListener('pointermove', onMove);
+                element.removeEventListener('pointerleave', onLeave);
+              });
+            };
+
+            setupMagneticHover(primaryCtaRef.current, 11);
+            setupMagneticHover(secondaryCtaRef.current, 9);
+          }
+        }, heroRef);
+
+        cleanup = () => {
+          localCleanups.forEach((dispose) => dispose());
+          ctx.revert();
+        };
+      } catch {
+        setMetricValues(proofMetrics.map((metric) => metric.format(metric.target)));
+      }
+    };
+
+    runHeroTimeline();
+    return () => cleanup?.();
+  }, [prefersReducedMotion, supportsHover]);
+
+  useEffect(() => {
+    if (!isEndorsementModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const triggerElement = endorsementTriggerRef.current;
+    document.body.style.overflow = 'hidden';
+
+    const focusableElements = endorsementModalRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    focusableElements?.[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setIsEndorsementModalOpen(false);
+        return;
+      }
+
+      if (event.key !== 'Tab' || !focusableElements || focusableElements.length === 0) return;
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+      triggerElement?.focus();
+    };
+  }, [isEndorsementModalOpen]);
 
   return (
-    <div className="relative flex flex-col md:flex-row items-center justify-between py-8 md:py-20 gap-4 md:gap-8 overflow-hidden">
-      {/* Racing-themed data line (F1-inspired circuit) */}
-      <svg 
-        className="absolute inset-0 w-full h-full -z-10 opacity-50" 
-        viewBox="0 0 1000 600" 
-        fill="none"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          ref={raceLineRef}
-          d="M-100,300 C50,100 150,500 300,300 S500,100 700,300 S900,500 1100,300"
-          stroke="url(#raceLineGradient)"
-          strokeWidth="3"
-          strokeDasharray="1800"
-          initial={{ strokeDashoffset: 1800 }}
-          animate={controls}
-          fill="none"
+    <div ref={heroRef} className="relative grid gap-10 pt-24 md:grid-cols-[1.25fr_0.9fr] md:items-center md:gap-12 md:pt-28">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          data-hero-grid
+          className="absolute inset-[-10%] opacity-40 [background-image:linear-gradient(to_right,hsl(var(--color-line)/0.55)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--color-line)/0.55)_1px,transparent_1px)] [background-size:34px_34px]"
         />
-        <defs>
-          <linearGradient id="raceLineGradient" x1="0" y1="0" x2="100%" y2="0">
-            <stop offset="0%" stopColor="#ff1e00" />
-            <stop offset="100%" stopColor="#3b82f6" />
-          </linearGradient>
-        </defs>
-      </svg>
-      
-      {/* Animated background elements with racing-inspired theme */}
-      <div className="absolute inset-0 -z-10">
-        <motion.div 
-          initial={{ scale: 1.1, opacity: 0.4 }}
-          animate={{ 
-            scale: [1.1, 1.15, 1.1],
-            opacity: [0.4, 0.5, 0.4]
-          }}
-          transition={{ 
-            repeat: Infinity,
-            duration: 15,
-            ease: "easeInOut" 
-          }}
-          className="absolute -top-40 -left-40 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-sky-100/30 to-indigo-100/30 blur-3xl"
-        />
-        <motion.div 
-          initial={{ scale: 1.1, opacity: 0.3 }}
-          animate={{ 
-            scale: [1.1, 1.2, 1.1],
-            opacity: [0.3, 0.4, 0.3]
-          }}
-          transition={{ 
-            repeat: Infinity,
-            duration: 20,
-            ease: "easeInOut",
-            delay: 2 
-          }}
-          className="absolute -bottom-60 -right-40 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-red-100/20 to-amber-100/20 blur-3xl"
-        />
+        <div className="absolute -right-16 top-2 h-64 w-64 rounded-full bg-brand-soft/70 blur-3xl" />
       </div>
-      
-      {/* Text Content */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full md:flex-1 space-y-4 md:space-y-5 z-10 px-4 sm:px-2"
-      >
-        <div className="space-y-2">
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-slate-800 font-display tracking-tight">
-            <span className="block mb-1">Hi, I'm</span>
-            <motion.span 
-              initial={{ backgroundPosition: "0% 50%" }}
-              animate={{ 
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
-              }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-              className="bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-500 bg-clip-text text-transparent bg-[size:200%] block text-3xl sm:text-4xl md:text-6xl"
-            >
-              Haris Ejaz
-            </motion.span>
-          </h1>
-          <h2 className="text-base sm:text-xl md:text-2xl font-semibold text-slate-700 flex items-center mt-2">
-            <Sparkles size={14} className="text-amber-500 mr-1 sm:mr-2 flex-shrink-0" />
-            <span className="leading-tight">Founder & Solopreneur @ Quickevent.app</span>
-          </h2>
-          <h2 className="text-base sm:text-xl md:text-2xl font-semibold text-slate-700 flex items-center mt-2">
-            <Sparkles size={14} className="text-red-500 mr-1 sm:mr-2 flex-shrink-0" />
-            <span className="leading-tight">Creator @ F1IQ.com</span>
-          </h2>
-        </div>
-        
-        <div className="relative p-1 bg-gradient-to-r from-slate-800/5 to-slate-800/10 rounded-xl backdrop-blur-sm">
-          <p className="text-slate-700 text-lg sm:text-xl font-medium max-w-xl leading-relaxed p-3 sm:p-4">
-            Crafting <span className="font-bold text-indigo-600">no-BS micro-SaaS</span> that solves real problems. 
-            I build tools for creators who hate bloated software and racing fans craving data-driven insights.
-            <span className="block mt-2 text-base sm:text-lg text-slate-600 italic">Because life's too short for clunky UIs.</span>
-          </p>
-        </div>
-        
-        {/* Stats cards row */}
-        <div className="flex flex-wrap gap-3">
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="bg-white p-2 sm:p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-1 sm:gap-2"
-          >
-            <Clock className="text-indigo-500" size={16} />
-            <span className="text-xs sm:text-sm font-medium">Shipped 3 products in 2023</span>
-          </motion.div>
-          
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="bg-white p-2 sm:p-3 rounded-lg shadow-sm border border-slate-100 flex items-center gap-1 sm:gap-2"
-          >
-            <Users className="text-sky-500" size={16} />
-            <span className="text-xs sm:text-sm font-medium">Serving 5K+ users monthly</span>
-          </motion.div>
-        </div>
-        
-        {/* F1IQ Endorsement Badge */}
-        <div 
-          className="relative max-w-xl group"
-          onMouseEnter={() => setShowEndorsement(true)}
-          onMouseLeave={() => setShowEndorsement(false)}
+
+      <div data-hero-parallax="text" className="relative z-10 space-y-8">
+        <p data-hero-mask="kicker" className="font-mono text-xs uppercase tracking-[0.22em] text-brand">
+          Product Engineer • Frontend Systems • SaaS Execution
+        </p>
+
+        <h1
+          data-hero-mask="title"
+          className="max-w-4xl text-balance text-4xl font-bold leading-[1.04] text-text-strong sm:text-5xl md:text-6xl"
         >
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-blue-600 rounded-xl blur-[1px]"></div>
-            <div className="relative bg-white rounded-lg p-3 sm:p-4 shadow-lg border border-slate-100 overflow-hidden">
-              {/* Racing stripe accent */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-[length:200%_100%]"></div>
-              
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="flex-shrink-0 relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600 rounded-full blur-[1px]"></div>
-                  <div className="relative p-0.5 rounded-full bg-gradient-to-r from-red-500 to-blue-600">
-                    <div className="bg-white p-1 rounded-full">
-                      <img 
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqMZTpbP5WbVTQPFQzW5ITrZII8ubb0CveA&s" 
-                        alt="F1 Logo" 
-                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
-                        onError={(e) => {
-                          e.currentTarget.src = "https://placehold.co/40x40/f0f0f0/ff1e00?text=F1";
-                        }}
-                      />
-                    </div>
-                  </div>
+          I build software products that make complex systems feel obvious.
+        </h1>
+
+        <p data-hero-mask="subtitle" className="max-w-2xl text-lg text-text-body">
+          Software Engineer at Septem Systems. I ship product-grade UX and platform logic that hold up in production.
+        </p>
+
+        <div className="flex flex-wrap gap-3">
+          <div ref={primaryCtaRef} data-hero-cta className="inline-flex">
+            <PrimaryCTA href="#projects" icon={<ArrowRight size={16} />}>
+              View Featured Work
+            </PrimaryCTA>
+          </div>
+          <div ref={secondaryCtaRef} data-hero-cta className="inline-flex">
+            <SecondaryCTA href="#contact" icon={<ExternalLink size={16} />}>
+              Start a Project
+            </SecondaryCTA>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {proofMetrics.map((metric, index) => (
+            <div
+              key={metric.label}
+              data-proof-chip
+              className="rounded-md border border-line bg-surface-2 px-4 py-3"
+            >
+              <div className="font-mono text-lg font-semibold text-brand">{metricValues[index]}</div>
+              <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">{metric.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <button
+          ref={endorsementTriggerRef}
+          type="button"
+          data-hero-endorsement
+          onClick={() => setIsEndorsementModalOpen(true)}
+          onMouseEnter={() => supportsHover && setShowEndorsementHoverPreview(true)}
+          onMouseLeave={() => supportsHover && setShowEndorsementHoverPreview(false)}
+          className="ring-focus relative w-full max-w-2xl rounded-md text-left"
+          aria-haspopup="dialog"
+          aria-expanded={isEndorsementModalOpen}
+          aria-controls="endorsement-dialog"
+        >
+          <SurfaceCard className="p-4 sm:p-5" interactive>
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="mt-0.5 rounded-full bg-brand-soft p-2 text-brand">
+                <Trophy size={18} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-text-muted">Endorsement</p>
+                <p className="mt-1 text-sm text-text-body sm:text-base">
+                  “You have some really sleek design concepts.” <span className="font-semibold text-text-strong">Ian Brunton</span>, Head of Software Engineering at Red Bull Racing.
+                </p>
+                <p className="mt-2 font-mono text-xs uppercase tracking-[0.13em] text-brand">
+                  {supportsHover ? 'Hover to preview • Click to open' : 'Tap to open'}
+                </p>
+              </div>
+            </div>
+          </SurfaceCard>
+
+          <AnimatePresence>
+            {showEndorsementHoverPreview && supportsHover && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                className="absolute bottom-full right-0 z-40 mb-3 hidden w-[360px] md:block"
+              >
+                <div className="rounded-md border border-line bg-surface-1 p-2 shadow-surface-xl">
+                  <img
+                    src="/images/ian-endorsement-dm.png"
+                    alt="Preview of Ian Brunton endorsement screenshot"
+                    className="w-full rounded-md border border-line/70"
+                  />
                 </div>
-                
-                <div className="flex-1">
-                  <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
-                    <span className="font-bold text-slate-900 text-base sm:text-lg">F1IQ.com</span>
-                    <Trophy size={14} className="text-amber-500" />
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-700">
-                    "You have some really sleek design concepts" —<span className="font-semibold text-slate-800"> Ian Brunton</span>, 
-                    <span className="text-red-600 font-medium"> Head of Software Engineering at Red Bull Racing.</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </button>
+
+        <div data-hero-socials className="flex items-center gap-3">
+          <SocialLink href="https://github.com/harisejaz2206" label="GitHub">
+            <Github size={18} />
+          </SocialLink>
+          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" label="LinkedIn">
+            <Linkedin size={18} />
+          </SocialLink>
+          <SocialLink href="https://x.com/buildwithharis" label="X">
+            <Twitter size={18} />
+          </SocialLink>
+          <SocialLink href="https://www.upwork.com/freelancers/harisejaz" label="Upwork">
+            <Briefcase size={18} />
+          </SocialLink>
+        </div>
+      </div>
+
+      <div data-hero-parallax="visual" data-hero-visual className="relative z-10">
+        <SurfaceCard className="overflow-hidden p-2 shadow-surface-lg">
+          <img
+            src="/images/profilepic.png"
+            alt="Portrait of Haris Ejaz"
+            className="h-full min-h-[320px] w-full rounded-md object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute bottom-6 left-6 rounded-md border border-white/70 bg-white/90 px-4 py-2 backdrop-blur">
+            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-brand">Current Focus</p>
+            <p className="mt-1 text-sm font-semibold text-text-strong">Platform-grade UX + analytics products</p>
+          </div>
+        </SurfaceCard>
+      </div>
+
+      <AnimatePresence>
+        {isEndorsementModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[90] flex items-end justify-center bg-slate-950/70 p-0 md:items-center md:p-4"
+            onClick={() => setIsEndorsementModalOpen(false)}
+          >
+            <motion.div
+              id="endorsement-dialog"
+              ref={endorsementModalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="LinkedIn endorsement from Ian Brunton"
+              aria-describedby="endorsement-context"
+              initial={{ opacity: 0, y: 28, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.24 }}
+              className="relative max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-t-xl border border-line bg-surface-1 p-4 shadow-surface-xl md:rounded-lg md:p-6"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="mb-4 flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-brand">LinkedIn Endorsement</p>
+                  <h3 className="mt-1 text-xl font-bold text-text-strong">Ian Brunton • Red Bull Racing</h3>
+                  <p id="endorsement-context" className="mt-2 max-w-2xl text-sm text-text-body">
+                    Why it matters: independent validation from a senior engineering leader in a world-class high-performance environment.
                   </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setIsEndorsementModalOpen(false)}
+                  className="ring-focus rounded-md border border-line bg-surface-2 p-2 text-text-body hover:text-text-strong"
+                  aria-label="Close endorsement dialog"
+                >
+                  <X size={18} />
+                </button>
               </div>
-              
-              {/* Visual hover indicator */}
-              <div className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs flex items-center justify-end text-slate-500 ml-auto">
-                <span className="group-hover:text-sky-600 transition-colors">Hover to view endorsement</span>
-                <ArrowRight size={10} className="ml-1 group-hover:translate-x-1 group-hover:text-sky-600 transition-transform" />
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* Tooltip implementation - only on desktop */}
-          {showEndorsement && (
-            <div className="hidden md:block absolute z-50 bottom-full -right-2 transform translate-y-[-20px]">
-              <div className="relative bg-white p-4 rounded-lg shadow-xl border border-slate-200 w-96">
-                <div className="absolute bottom-[-8px] right-[10px] transform rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
-                <img 
-                  src="/images/ian-endorsement-dm.png" 
-                  alt="Ian Brunton's Endorsement" 
-                  className="w-full rounded shadow-sm"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-        
-        <div className="pt-3 sm:pt-4 flex flex-wrap gap-3 sm:gap-5">
-          <motion.a
-            href="#projects"
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            className="px-4 sm:px-6 py-2 sm:py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-semibold shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-1 sm:gap-2 text-sm sm:text-base"
-          >
-            <span>See My Work</span>
-            <ArrowRight size={14} />
-          </motion.a>
-          
-          <motion.a
-            href="https://quickevent.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, y: -3 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-5 sm:px-7 py-2.5 sm:py-3.5 bg-gradient-to-r from-sky-600 to-indigo-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1 sm:gap-2 group relative overflow-hidden text-sm sm:text-base"
-          >
-            {/* Animated racing stripes */}
-            <motion.div 
-              className="absolute inset-0 w-full h-full"
-              initial={{ backgroundPosition: "200% 0" }}
-              animate={{ backgroundPosition: ["-200% 0", "200% 0"] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
-              style={{
-                backgroundImage: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 55%, rgba(255,255,255,0) 100%)",
-                backgroundSize: "200% 100%"
-              }}
-            />
-            <span className="relative z-10">Check Quickevent.app</span>
-            <ExternalLink size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-          </motion.a>
-        </div>
-        
-        <div className="flex gap-3 sm:gap-5 pt-4 sm:pt-6">
-          <SocialLink href="https://github.com/harisejaz2206" icon={<Github size={18} />} />
-          <SocialLink href="https://www.linkedin.com/in/harisejaz22/" icon={<Linkedin size={18} />} />
-          <SocialLink href="https://harisejaz.substack.com/" icon={<BookOpen size={18} />} />
-        </div>
-      </motion.div>
-      
-      {/* Profile Image with Card Treatment - HIDDEN ON MOBILE */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, delay: 0.3 }}
-        className="hidden md:flex relative flex-1 justify-center md:justify-end z-10"
-      >
-        {/* Decorative race circuit lines */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
-          <motion.circle 
-            cx="200" cy="200" r="150" 
-            stroke="rgba(59, 130, 246, 0.2)" 
-            strokeWidth="1" 
-            strokeDasharray="30 15"
-            initial={{ rotate: 0 }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.circle 
-            cx="200" cy="200" r="180" 
-            stroke="rgba(99, 102, 241, 0.15)" 
-            strokeWidth="1" 
-            strokeDasharray="20 20"
-            initial={{ rotate: 0 }}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-          />
-        </svg>
-        
-        {/* Floating Card Container */}
-        <motion.div 
-          className="relative bg-white rounded-2xl shadow-xl p-6 max-w-sm"
-          whileHover={{ y: -8, rotate: -1 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          {/* Profile Image */}
-          <div className="relative w-56 h-56 md:w-72 md:h-72 mb-3">
-            {/* Racing-inspired animated gradient ring */}
-            <motion.div 
-              animate={{ 
-                background: [
-                  "linear-gradient(90deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
-                  "linear-gradient(180deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
-                  "linear-gradient(270deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
-                  "linear-gradient(360deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
-                  "linear-gradient(90deg, #ff1e00 0%, #3b82f6 50%, #ff1e00 100%)",
-                ],
-                rotate: [0, 360],
-              }}
-              transition={{ 
-                duration: 10, 
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute -inset-2 rounded-full blur-sm opacity-70"
-            />
-            
-            <div className="absolute inset-0 bg-white rounded-full"></div>
-            
-            {/* Inner border with F1-inspired color scheme */}
-            <div className="absolute inset-0.5 rounded-full overflow-hidden border-4 border-white">
               <img
-                src="/images/profilepic.png"
-                alt="Haris Ejaz"
-                className="w-full h-full object-cover"
+                src="/images/ian-endorsement-dm.png"
+                alt="Screenshot of endorsement message from Ian Brunton"
+                className="w-full rounded-md border border-line/80 shadow-surface"
+                loading="lazy"
               />
-            </div>
-          </div>
-          
-          {/* Caption/Tagline */}
-          <div className="text-center">
-            <p className="text-slate-600 font-semibold">
-              <span className="inline-block relative">
-                <span className="relative z-10">Obsessed with performance</span>
-                <motion.span 
-                  className="absolute bottom-0 left-0 w-full h-2 bg-amber-200 -z-10"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                />
-              </span>
-              <span> — both in code and on track</span>
-            </p>
-          </div>
-        </motion.div>
-      </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-const SocialLink: React.FC<{ href: string; icon: React.ReactNode }> = ({
-  href,
-  icon
-}) => (
+const SocialLink: React.FC<{ href: string; label: string; children: React.ReactNode }> = ({ href, label, children }) => (
   <motion.a
-    whileHover={{ scale: 1.15, y: -4 }}
-    whileTap={{ scale: 0.95 }}
+    whileHover={{ y: -2 }}
+    whileTap={{ scale: 0.98 }}
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-white border-2 border-slate-200 text-slate-600 shadow-sm hover:shadow-md transition-all duration-300 hover:text-sky-500 hover:border-sky-300"
+    aria-label={label}
+    className="ring-focus flex h-10 w-10 items-center justify-center rounded-md border border-line bg-surface-1 text-text-body shadow-surface hover:border-brand/30 hover:text-brand"
   >
-    {icon}
+    {children}
   </motion.a>
-); 
+);

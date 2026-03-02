@@ -1,107 +1,72 @@
 import React from 'react';
-import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
+import { Briefcase, ExternalLink, Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-slate-200 bg-white/50 backdrop-blur-sm mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Logo and bio */}
-          <div className="mb-8 md:mb-0 text-center md:text-left max-w-xs">
-            <div className="mb-4">
-              <span className="text-xl font-bold bg-gradient-to-r from-sky-500 to-indigo-500 bg-clip-text text-transparent">
-                HE
-              </span>
-            </div>
-            <p className="text-slate-600 text-sm">
-              Building profitable micro-SaaS for creators and racing fans. Turning ideas into streamlined solutions.
-            </p>
+    <footer className="mt-20 border-t border-line/80 bg-surface-1/80">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+        <div>
+          <p className="font-display text-xl font-bold text-brand">Haris Ejaz</p>
+          <p className="mt-3 max-w-md text-sm text-text-body">
+            Software engineer focused on premium product UX, platform-grade frontend systems, and practical delivery.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-8">
+          <div>
+            <h4 className="font-mono text-xs uppercase tracking-[0.14em] text-text-muted">Navigation</h4>
+            <ul className="mt-3 space-y-2 text-sm text-text-body">
+              <li><a href="#home" className="ring-focus rounded-sm hover:text-brand">Home</a></li>
+              <li><a href="#about" className="ring-focus rounded-sm hover:text-brand">About</a></li>
+              <li><a href="#projects" className="ring-focus rounded-sm hover:text-brand">Projects</a></li>
+              <li><a href="#contact" className="ring-focus rounded-sm hover:text-brand">Contact</a></li>
+            </ul>
           </div>
-          
-          {/* Links */}
-          <div className="grid grid-cols-2 gap-8 sm:gap-16">
-            <div>
-              <h4 className="text-sm font-semibold text-slate-800 mb-3">Navigation</h4>
-              <ul className="space-y-2">
-                <li><a href="#home" className="text-slate-600 hover:text-sky-600 text-sm">Home</a></li>
-                <li><a href="#about" className="text-slate-600 hover:text-sky-600 text-sm">About</a></li>
-                <li><a href="#projects" className="text-slate-600 hover:text-sky-600 text-sm">Projects</a></li>
-                <li><a href="#contact" className="text-slate-600 hover:text-sky-600 text-sm">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-slate-800 mb-3">Projects</h4>
-              <ul className="space-y-2">
-                <li>
-                  <a 
-                    href="https://quickevent.app" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-slate-600 hover:text-sky-600 text-sm flex items-center gap-1"
-                  >
-                    Quickevent
-                    <ExternalLink size={12} />
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://f1iq.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-slate-600 hover:text-sky-600 text-sm flex items-center gap-1"
-                  >
-                    F1IQ
-                    <ExternalLink size={12} />
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://floty.ai" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-slate-600 hover:text-sky-600 text-sm flex items-center gap-1"
-                  >
-                    Floty
-                    <ExternalLink size={12} />
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div>
+            <h4 className="font-mono text-xs uppercase tracking-[0.14em] text-text-muted">Flagship Projects</h4>
+            <ul className="mt-3 space-y-2 text-sm text-text-body">
+              <li>
+                <a href="https://quickevent.app" target="_blank" rel="noopener noreferrer" className="ring-focus inline-flex items-center gap-1 rounded-sm hover:text-brand">
+                  Quickevent <ExternalLink size={12} />
+                </a>
+              </li>
+              <li>
+                <a href="https://f1iq.com" target="_blank" rel="noopener noreferrer" className="ring-focus inline-flex items-center gap-1 rounded-sm hover:text-brand">
+                  F1IQ <ExternalLink size={12} />
+                </a>
+              </li>
+              <li>
+                <a href="https://thesystem.harisejaz.com" target="_blank" rel="noopener noreferrer" className="ring-focus inline-flex items-center gap-1 rounded-sm hover:text-brand">
+                  THE SYSTEM <ExternalLink size={12} />
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-        
-        {/* Bottom bar */}
-        <div className="border-t border-slate-200 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-slate-500 text-sm mb-4 sm:mb-0">
-            © {new Date().getFullYear()} Haris Ejaz. All rights reserved.
-          </p>
-          
-          <div className="flex items-center space-x-4">
-            <a 
-              href="https://github.com/harisejaz2206" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-slate-500 hover:text-sky-600 transition-colors"
-            >
-              <Github size={18} />
+      </div>
+
+      <div className="border-t border-line/70">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-5 sm:px-6 md:flex-row lg:px-8">
+          <p className="text-sm text-text-muted">© {new Date().getFullYear()} Haris Ejaz. All rights reserved.</p>
+          <div className="flex items-center gap-3">
+            <a href="https://github.com/harisejaz2206" target="_blank" rel="noopener noreferrer" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="GitHub">
+              <Github size={16} />
             </a>
-            <a 
-              href="https://www.linkedin.com/in/harisejaz22/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-slate-500 hover:text-sky-600 transition-colors"
-            >
-              <Linkedin size={18} />
+            <a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noopener noreferrer" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="LinkedIn">
+              <Linkedin size={16} />
             </a>
-            <a 
-              href="mailto:harisejaz2206@gmail.com" 
-              className="text-slate-500 hover:text-sky-600 transition-colors"
-            >
-              <Mail size={18} />
+            <a href="https://x.com/buildwithharis" target="_blank" rel="noopener noreferrer" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="X">
+              <Twitter size={16} />
+            </a>
+            <a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noopener noreferrer" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="Upwork">
+              <Briefcase size={16} />
+            </a>
+            <a href="mailto:harisejaz2206@gmail.com" className="ring-focus rounded-md border border-line bg-surface-1 p-2 text-text-muted hover:text-brand" aria-label="Email">
+              <Mail size={16} />
             </a>
           </div>
         </div>
       </div>
     </footer>
   );
-}; 
+};

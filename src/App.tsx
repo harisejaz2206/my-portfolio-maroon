@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
@@ -32,42 +31,37 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen fixed inset-0">
+    <div className="min-h-screen">
       <Background />
-      <div className="absolute inset-0 overflow-y-auto">
-        <Navbar activeSection={activeSection} onSectionChange={setActiveSection} />
-        <main>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <AnimatePresence mode="wait">
-              <section id="home" className="min-h-screen">
-                <Hero />
-              </section>
+      <Navbar activeSection={activeSection} onSectionChange={setActiveSection} />
+      <main className="relative z-10 pt-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <section id="home" className="min-h-screen">
+            <Hero />
+          </section>
 
-              <section id="about" className="min-h-screen">
-                <About />
-              </section>
+          <section id="about" className="py-section">
+            <About />
+          </section>
 
+          <section id="projects" className="py-section">
+            <Projects />
+          </section>
 
-              <section id="projects" className="min-h-screen">
-                <Projects />
-              </section>
+          <section id="experience" className="py-section">
+            <ExperienceSection />
+          </section>
 
-              <section id="experience" className="min-h-screen">
-                <ExperienceSection />
-              </section>
+          <section id="services" className="py-section">
+            <Services />
+          </section>
 
-              <section id="services" className="min-h-screen">
-                <Services />
-              </section>
-
-              <section id="contact" className="min-h-screen">
-                <Contact />
-              </section>
-            </AnimatePresence>
-          </div>
-        </main>
-        <Footer />
-      </div>
+          <section id="contact" className="py-section">
+            <Contact />
+          </section>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }

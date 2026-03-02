@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MessageSquare, Send } from 'lucide-react';
+import { Briefcase, CheckCircle2, Github, Linkedin, Loader2, Mail, Send, Twitter, XCircle } from 'lucide-react';
+import { PrimaryCTA, SectionHeader, SurfaceCard, TagChip } from '../ui/primitives';
+import { MotionReveal } from '../ui/MotionReveal';
+
+type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -8,185 +12,276 @@ export const Contact: React.FC = () => {
     email: '',
     description: '',
     budget: '',
-    timeline: ''
+    timeline: '',
   });
+  const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(formData);
-    alert('Thanks for reaching out! I\'ll get back to you soon.');
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmitState('loading');
+    setStatusMessage('Preparing your message...');
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 900));
+
+      const subject = encodeURIComponent(`New project inquiry from ${formData.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nBudget: ${formData.budget || 'Not specified'}\nTimeline: ${
+          formData.timeline || 'Not specified'
+        }\n\nProject details:\n${formData.description}`
+      );
+
+      window.location.href = `mailto:harisejaz2206@gmail.com?subject=${subject}&body=${body}`;
+      setSubmitState('success');
+      setStatusMessage('Thanks. Your email draft is ready and I will respond within 24 hours.');
+    } catch {
+      setSubmitState('error');
+      setStatusMessage('Something went wrong. Please email me directly at harisejaz2206@gmail.com.');
+    }
   };
 
   return (
-    <div className="py-8 md:py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto"
-      >
-        {/* Section header with icon */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center gap-3">
-            <Send className="text-sky-500" size={32} />
-            Let's make it real.
-          </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Tell me about your project and I'll get back to you within 24 hours.
-          </p>
-        </div>
+    <div className="space-y-12" id="contact-form">
+      <SectionHeader
+        eyebrow="Contact"
+        title="Tell me what you’re building."
+        subtitle="I reply within 24 hours with clear next steps, scope notes, and a practical delivery path."
+      />
 
-        {/* Contact form and info */}
-        <div className="grid md:grid-cols-5 gap-8">
-          {/* Contact info */}
-          <div className="md:col-span-2 space-y-6">
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Get in Touch</h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
-                    <Mail size={18} />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500">Email</p>
-                    <p className="text-slate-700">harisejaz2206@gmail.com</p>
-                  </div>
-                </div>
+      <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <MotionReveal delay={0.08}>
+        <SurfaceCard className="space-y-6 p-6">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-brand">Response SLA</p>
+            <p className="mt-2 text-lg font-semibold text-text-strong">Typically within 24 hours (Mon–Fri)</p>
+          </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                    <MessageSquare size={18} />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500">Social</p>
-                    <p className="text-slate-700">@harisejaz_dev on Twitter/X</p>
-                  </div>
-                </div>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="rounded-md border border-line bg-surface-2 p-2 text-brand">
+                <Mail size={16} />
               </div>
-              
-              <div className="mt-8 pt-6 border-t border-slate-100">
-                <h4 className="text-sm font-medium text-slate-500 mb-3">Or check out my products</h4>
-                <a 
-                  href="https://quickevent.app" 
-                  target="_blank" 
+              <div>
+                <p className="text-sm font-semibold text-text-strong">Email</p>
+                <a href="mailto:harisejaz2206@gmail.com" className="ring-focus rounded-sm text-sm text-text-body hover:text-brand">
+                  harisejaz2206@gmail.com
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="rounded-md border border-line bg-surface-2 p-2 text-brand">
+                <Twitter size={16} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-text-strong">X</p>
+                <a
+                  href="https://x.com/buildwithharis"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block px-4 py-2 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg text-sm font-medium hover:shadow-md transition-all duration-300"
+                  className="ring-focus rounded-sm text-sm text-text-body hover:text-brand"
                 >
-                  Visit Quickevent.app
+                  @buildwithharis
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="rounded-md border border-line bg-surface-2 p-2 text-brand">
+                <Linkedin size={16} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-text-strong">LinkedIn</p>
+                <a
+                  href="https://www.linkedin.com/in/harisejaz22/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ring-focus rounded-sm text-sm text-text-body hover:text-brand"
+                >
+                  linkedin.com/in/harisejaz22
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="rounded-md border border-line bg-surface-2 p-2 text-brand">
+                <Briefcase size={16} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-text-strong">Upwork</p>
+                <a
+                  href="https://www.upwork.com/freelancers/harisejaz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ring-focus rounded-sm text-sm text-text-body hover:text-brand"
+                >
+                  upwork.com/freelancers/harisejaz
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="rounded-md border border-line bg-surface-2 p-2 text-brand">
+                <Github size={16} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-text-strong">GitHub</p>
+                <a
+                  href="https://github.com/harisejaz2206"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ring-focus rounded-sm text-sm text-text-body hover:text-brand"
+                >
+                  github.com/harisejaz2206
                 </a>
               </div>
             </div>
           </div>
-          
-          {/* Contact form */}
-          <div className="md:col-span-3">
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
-                      placeholder="Your email"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-slate-700 mb-1">
-                    Project Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    rows={4}
-                    required
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition"
-                    placeholder="Tell me about your project, question, or idea"
-                  ></textarea>
-                </div>
-                
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="budget" className="block text-sm font-medium text-slate-700 mb-1">Budget (Optional)</label>
-                    <select
-                      id="budget"
-                      name="budget"
-                      value={formData.budget}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition"
-                    >
-                      <option value="">Select a range</option>
-                      <option value="<$1k">Less than $1,000</option>
-                      <option value="$1-3k">$1,000 - $3,000</option>
-                      <option value="$3-5k">$3,000 - $5,000</option>
-                      <option value="$5k+">$5,000+</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="timeline" className="block text-sm font-medium text-slate-700 mb-1">Preferred Timeline</label>
-                    <select
-                      id="timeline"
-                      name="timeline"
-                      value={formData.timeline}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="ASAP">As soon as possible</option>
-                      <option value="1-2 weeks">1-2 weeks</option>
-                      <option value="2-4 weeks">2-4 weeks</option>
-                      <option value="1-2 months">1-2 months</option>
-                      <option value="3+ months">3+ months</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300"
-                >
-                  <span>Send Message</span>
-                  <Send size={16} />
-                </motion.button>
-              </form>
+
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-brand">Trust cues</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <TagChip label="Production SaaS experience" />
+              <TagChip label="Platform engineering background" />
+              <TagChip label="Clear delivery communication" />
             </div>
           </div>
-        </div>
-      </motion.div>
+        </SurfaceCard>
+        </MotionReveal>
+
+        <MotionReveal delay={0.14}>
+        <SurfaceCard className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="Name" htmlFor="name">
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="ring-focus w-full rounded-md border border-line bg-surface-1 px-4 py-2.5 text-sm text-text-strong"
+                  placeholder="Your name"
+                />
+              </Field>
+
+              <Field label="Email" htmlFor="email">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="ring-focus w-full rounded-md border border-line bg-surface-1 px-4 py-2.5 text-sm text-text-strong"
+                  placeholder="you@company.com"
+                />
+              </Field>
+            </div>
+
+            <Field label="Project Description" htmlFor="description">
+              <textarea
+                id="description"
+                name="description"
+                rows={5}
+                required
+                value={formData.description}
+                onChange={handleInputChange}
+                className="ring-focus w-full rounded-md border border-line bg-surface-1 px-4 py-2.5 text-sm text-text-strong"
+                placeholder="Goal, current state, and what success looks like."
+              />
+            </Field>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="Budget (Optional)" htmlFor="budget">
+                <select
+                  id="budget"
+                  name="budget"
+                  value={formData.budget}
+                  onChange={handleInputChange}
+                  className="ring-focus w-full rounded-md border border-line bg-surface-1 px-4 py-2.5 text-sm text-text-strong"
+                >
+                  <option value="">Select budget range</option>
+                  <option value="<$1k">Less than $1,000</option>
+                  <option value="$1k-$3k">$1,000 - $3,000</option>
+                  <option value="$3k-$5k">$3,000 - $5,000</option>
+                  <option value="$5k+">$5,000+</option>
+                </select>
+              </Field>
+
+              <Field label="Timeline" htmlFor="timeline">
+                <select
+                  id="timeline"
+                  name="timeline"
+                  value={formData.timeline}
+                  onChange={handleInputChange}
+                  className="ring-focus w-full rounded-md border border-line bg-surface-1 px-4 py-2.5 text-sm text-text-strong"
+                >
+                  <option value="">Select timeline</option>
+                  <option value="ASAP">ASAP</option>
+                  <option value="1-2 weeks">1-2 weeks</option>
+                  <option value="2-4 weeks">2-4 weeks</option>
+                  <option value="1-2 months">1-2 months</option>
+                  <option value="3+ months">3+ months</option>
+                </select>
+              </Field>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <PrimaryCTA
+                type="submit"
+                icon={
+                  submitState === 'loading' ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Send size={16} />
+                  )
+                }
+                disabled={submitState === 'loading'}
+                ariaLabel="Send project inquiry"
+              >
+                {submitState === 'loading' ? 'Sending...' : 'Send Inquiry'}
+              </PrimaryCTA>
+
+              <p className="font-mono text-xs uppercase tracking-[0.13em] text-text-muted">No spam. Clear scope-first communication.</p>
+            </div>
+
+            {submitState !== 'idle' && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`rounded-md border px-4 py-3 text-sm ${
+                  submitState === 'success'
+                    ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                    : submitState === 'error'
+                    ? 'border-rose-200 bg-rose-50 text-rose-800'
+                    : 'border-sky-200 bg-sky-50 text-sky-700'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {submitState === 'success' && <CheckCircle2 size={15} />}
+                  {submitState === 'error' && <XCircle size={15} />}
+                  {submitState === 'loading' && <Loader2 size={15} className="animate-spin" />}
+                  <span>{statusMessage}</span>
+                </div>
+              </motion.div>
+            )}
+          </form>
+        </SurfaceCard>
+        </MotionReveal>
+      </div>
     </div>
   );
-}; 
+};
+
+const Field: React.FC<{ label: string; htmlFor: string; children: React.ReactNode }> = ({ label, htmlFor, children }) => (
+  <div>
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-semibold text-text-body">
+      {label}
+    </label>
+    {children}
+  </div>
+);
