@@ -10,19 +10,8 @@ declare global {
 
 export const track = (event: string, payload: TrackPayload = {}) => {
   if (typeof window === 'undefined') return;
-
-  if (typeof window.va === 'function') {
-    window.va(event, payload);
-  }
-
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', event, payload);
-  }
-
-  if (typeof window.plausible === 'function') {
-    window.plausible(event, { props: payload });
-  }
-
+  window.va?.(event, payload);
+  window.gtag?.('event', event, payload);
+  window.plausible?.(event, { props: payload });
   window.dispatchEvent(new CustomEvent('portfolio:track', { detail: { event, payload } }));
 };
-

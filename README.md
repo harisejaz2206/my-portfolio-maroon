@@ -1,28 +1,28 @@
-# Modern Portfolio Website
+# Haris Ejaz | Portfolio
 
-A portfolio website built with React, TypeScript, and Framer Motion, featuring a dark theme with glassmorphism effects and 3D animations.
+An editorial, motion-led portfolio for software engineer Haris Ejaz.
 
-## ✨ Features
+## Stack
 
-- Interactive 3D particle background
-- Smooth section transitions
-- Expandable achievement cards
-- Project showcase with hover effects
-- Professional experience timeline
-- Animated skill cards with gradients
-
-## 🛠️ Tech Stack
-
-- React 18 + TypeScript
+- React 18 + TypeScript + Vite
 - Framer Motion
-- Three.js + React Three Fiber
-- Tailwind CSS
-- Lucide React icons
+- Hand-authored responsive CSS
 
-## 🎨 Design
+## Commands
 
-- Custom burgundy theme (`#800020`)
-- Glassmorphism effects
-- Animated gradients
-- Responsive layout
-- Custom fonts (Playfair Display + Inter)
+```bash
+npm install
+npm run dev
+npm run lint
+npm run build
+```
+
+The experience is built as a single narrative homepage focused on Arcflow and Al Thakeel. Motion respects `prefers-reduced-motion`, and the primary layouts are designed independently for desktop, tablet, and mobile.
+
+## Content convention
+
+User-facing portfolio copy does not use em dashes. Rewrite with punctuation or sentence structure instead.
+
+## Credential activation
+
+The AWS Certified Solutions Architect – Associate treatment is prepared but intentionally hidden. After an official passing result, set `credentialFlags.awsSolutionsArchitectAssociate` to `true` in `src/App.tsx`.
