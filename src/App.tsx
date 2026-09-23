@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowUpRight, Mail, Menu, X } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Menu, X } from 'lucide-react';
 import { track } from './lib/analytics';
 
 const links = [
@@ -38,12 +38,10 @@ const projects = [
     statement: 'Heavy equipment. A lighter way to find it.',
     description:
       'I architected and implemented a bilingual heavy-equipment marketplace for Kuwait and the wider Gulf, spanning product flows, accounts, data, and production delivery.',
-    ownershipLabel: 'BUILT END TO END',
-    ownership:
-      'Frontend and backend architecture, database modelling, authentication, individual and business accounts, and marketplace flows for selling, buying, and renting equipment.',
-    deliveryLabel: 'PRODUCT + SYSTEM',
-    delivery:
-      'Arabic and English localization, RTL, responsive interfaces, API integration, infrastructure, deployment, and the engineering decisions connecting them.',
+    ownershipLabel: 'SCOPE',
+    ownership: 'Web · API · Data · Infrastructure · Delivery',
+    deliveryLabel: 'MARKET',
+    delivery: 'Kuwait · Gulf · Arabic / English · RTL',
     image: '/images/al-thakeel-industrial.jpg',
     theme: 'thakeel',
   },
@@ -57,6 +55,11 @@ const credentialFlags = {
 const awsCredential = {
   title: 'AWS Certified Solutions Architect – Associate',
   issuer: 'Amazon Web Services',
+};
+
+const resume = {
+  // Add the PDF at public/haris-ejaz-resume.pdf, then set this value to that path.
+  href: null as string | null,
 };
 
 const experience = [
@@ -161,10 +164,10 @@ function Hero() {
       <motion.div className="hero-intro" style={{ y: reduceMotion ? 0 : copyY }}>
         <p className="eyebrow">PRODUCT ENGINEERING · SYSTEMS · INFRASTRUCTURE</p>
         <h1>Software engineer.<span>Builds the whole thing.</span></h1>
-        <p className="hero-deck">From the interface people touch to the infrastructure that keeps it alive.</p>
+        <p className="hero-deck">I build products from interface to infrastructure.</p>
       </motion.div>
-      <motion.div className="hero-name" initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 1.15, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} aria-label="Haris Ejaz">
-        <span>HARIS</span><span>EJAZ</span>
+      <motion.div className="hero-name" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }} aria-label="Haris Ejaz">
+        <span>HARIS EJAZ</span><span>PORTFOLIO / 2026</span>
       </motion.div>
       <a className="scroll-cue" href="#work"><ArrowDown size={17} /> Selected work</a>
     </section>
@@ -199,17 +202,28 @@ function Project({ project }: { project: typeof projects[number] }) {
   return (
     <article className={`project project-${project.theme}`} id={`project-${project.id}`}>
       <div className="project-topline"><span>{project.number}</span><span>{project.kind}</span><span>{project.stamp}</span></div>
-      <div className="project-title-wrap">
-        <Reveal><h3>{project.title}</h3></Reveal>
-        {project.theme === 'thakeel' && <div className="thakeel-identity"><span className="thakeel-arabic" lang="ar" dir="rtl">الثقيل</span><img src="/images/al-thakeel-logo.png" alt="Al Thakeel logo" loading="lazy" /><small>KUWAIT<br />GULF MARKETPLACE</small></div>}
-        <p>{project.statement}</p>
-      </div>
+      {project.theme === 'thakeel' ? (
+        <div className="project-title-wrap thakeel-title-wrap">
+          <Reveal className="thakeel-title"><h3 aria-label="Al Thakeel"><span>AL</span><span>THAKEEL</span></h3></Reveal>
+          <div className="thakeel-identity">
+            <span className="thakeel-arabic" lang="ar" dir="rtl">الثقيل</span>
+            <img src="/images/al-thakeel-logo.png" alt="Al Thakeel circular mark" loading="lazy" />
+            <small>KUWAIT / GULF<br />HEAVY EQUIPMENT MARKETPLACE</small>
+          </div>
+          <p>{project.statement}</p>
+        </div>
+      ) : (
+        <div className="project-title-wrap">
+          <Reveal><h3>{project.title}</h3></Reveal>
+          <p>{project.statement}</p>
+        </div>
+      )}
       <motion.div className="visual-wrap" initial={{ clipPath: 'inset(8% 8% 8% 8%)', scale: 0.96 }} whileInView={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }} viewport={{ once: true, margin: '-15%' }} transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}>
         {project.theme === 'arcflow' ? <ArcflowVisual /> : <ThakeelVisual />}
       </motion.div>
       <div className="project-details">
         <p className="project-description">{project.theme === 'arcflow' ? <>I founded <ArcflowLink className="project-arcflow-word" /> to make serious engineering concepts easier to understand. It is a structured learning platform for system design, distributed systems, backend architecture, AWS, scalability, reliability, and AI engineering from first principles.</> : project.description}</p>
-        <div className="project-meta"><div><span>{project.ownershipLabel}</span><p>{project.ownership}</p></div><div><span>{project.deliveryLabel}</span><p>{project.delivery}</p></div></div>
+        <div className={`project-meta ${project.theme === 'thakeel' ? 'project-meta-thakeel' : ''}`}><div><span>{project.ownershipLabel}</span><p>{project.ownership}</p></div><div><span>{project.deliveryLabel}</span><p>{project.delivery}</p></div></div>
         {project.href && <a className="text-link" href={project.href} target="_blank" rel="noreferrer" onClick={() => track('project_visit', { project: project.title })}>Visit the product <ArrowUpRight size={17} /></a>}
       </div>
     </article>
@@ -289,7 +303,7 @@ function Engineering() {
   ];
   return (
     <section className="engineering" aria-labelledby="engineering-title">
-      <div className="section-tag"><span>03</span>How I engineer</div><Reveal className="engineering-title"><h2 id="engineering-title">Fundamentals first.<br /><em>AI in the loop.</em></h2></Reveal>
+      <div className="section-tag"><span>03</span>How I think</div><Reveal className="engineering-title"><h2 id="engineering-title">Fundamentals first.<br /><em>AI in the loop.</em></h2></Reveal>
       <div className="principles">{principles.map(([number, title, copy], index) => <Reveal className="principle" key={title} delay={index * 0.08}><span>{number}</span><h3>{title}</h3><p>{copy}</p></Reveal>)}</div>
     </section>
   );
@@ -299,11 +313,11 @@ function Capabilities() {
   const capabilities = [
     ['01', 'Product engineering', 'I take products from rough requirements to working software. Architecture, interface, data, deployment, and the decisions between them.'],
     ['02', 'Backend + systems', 'APIs, authentication, data models, service boundaries, cloud infrastructure, and systems that keep their shape under real use.'],
-    ['03', 'Delivery with ownership', 'I turn ambiguous product problems into shipped, operated software. One accountable engineering loop, not disconnected handoffs.'],
+    ['03', 'End-to-end delivery', 'I turn ambiguous product problems into shipped, operated software. One accountable engineering loop, not disconnected handoffs.'],
   ];
   return (
     <section className="capabilities" aria-labelledby="capabilities-title">
-      <div className="section-tag light"><span>04</span>Capabilities</div>
+      <div className="section-tag light"><span>04</span>What I can own</div>
       <div className="capabilities-intro"><Reveal><h2 id="capabilities-title">Bring me the part<br /><em>that crosses layers.</em></h2></Reveal><p>Most useful when product, system, and delivery decisions need to be made together.</p></div>
       <div className="capability-list">{capabilities.map(([number, title, copy], index) => <Reveal className="capability-row" key={title} delay={index * 0.06}><span>{number}</span><h3>{title}</h3><p>{copy}</p><ArrowUpRight aria-hidden="true" /></Reveal>)}</div>
     </section>
@@ -314,7 +328,7 @@ function Experience() {
   return (
     <section id="experience" className="experience" aria-labelledby="experience-title">
       <div className="section-tag"><span>05</span>Experience</div>
-      <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><p>Founder-led product work, engineering partnerships, and the systems experience underneath.</p></div>
+      <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><div className="experience-aside"><p>Founder-led product work, engineering partnerships, and the systems experience underneath.</p>{resume.href && <a className="resume-link" href={resume.href} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={16} /></a>}</div></div>
       <div className="experience-list">{experience.map((item) => <article className={item.current ? 'is-current' : ''} key={`${item.company}-${item.role}`}><span>{item.period}</span><div><h3>{item.role}</h3><p>{item.companyHref ? <ArcflowLink className="experience-arcflow" /> : item.company}</p></div><p>{item.copy}</p></article>)}</div>
     </section>
   );
@@ -332,9 +346,12 @@ function About() {
 function Contact() {
   return (
     <footer id="contact" className="contact">
-      <div className="contact-top"><div className="section-tag light"><span>07</span>Contact</div><p>Software engineer and founder. I take products from first architecture to production.</p></div>
-      <a className="contact-link" href="mailto:harisejaz2206@gmail.com" onClick={() => track('contact_click', { placement: 'footer' })} aria-label="Email Haris Ejaz"><span>BRING ME</span><span>THE HARD PART.</span><Mail /><small><b>START A CONVERSATION</b>harisejaz2206@gmail.com</small></a>
-      <div className="footer-meta"><p>HARIS EJAZ © {new Date().getFullYear()}</p><div><a href="https://github.com/harisejaz2206" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://x.com/buildwithharis" target="_blank" rel="noreferrer">X ↗</a><a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noreferrer">Upwork ↗</a></div><p>LAHORE / PK<br />UTC +5</p></div>
+      <div className="contact-top"><div className="section-tag light"><span>07</span>Available for select work</div><p>Software engineer and founder. Product, system, and delivery decisions owned together.</p></div>
+      <div className="contact-main">
+        <h2>Let’s build<br /><em>something difficult.</em></h2>
+        <a className="contact-email" href="mailto:harisejaz2206@gmail.com" onClick={() => track('contact_click', { placement: 'footer' })} aria-label="Email Haris Ejaz"><span>harisejaz2206@gmail.com</span><ArrowUpRight aria-hidden="true" /></a>
+      </div>
+      <div className="footer-meta"><p>HARIS EJAZ © {new Date().getFullYear()}</p><div><a href="https://github.com/harisejaz2206" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noreferrer">LinkedIn ↗</a>{resume.href && <a href={resume.href} target="_blank" rel="noreferrer">Résumé ↗</a>}<a href="https://x.com/buildwithharis" target="_blank" rel="noreferrer">X ↗</a><a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noreferrer">Upwork ↗</a></div><p>LAHORE / PK<br />UTC +5</p></div>
     </footer>
   );
 }
