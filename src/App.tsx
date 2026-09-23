@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, X } from 'lucide-react';
+import { ArcflowMedia } from './components/ArcflowMedia';
+import { InteractionLayer } from './components/InteractionLayer';
+import { ClipReveal, MediaReveal, Reveal } from './components/MotionPrimitives';
 import { track } from './lib/analytics';
+import { EDITORIAL_EASE } from './lib/motion';
 
 const links = [
   { label: 'Work', href: '#work' },
@@ -62,6 +66,12 @@ const resume = {
   href: null as string | null,
 };
 
+const arcflowMotionMedia = {
+  mp4: '/videos/arcflow-systems.mp4' as string | null,
+  // Add the WebM export here when it is available.
+  webm: null as string | null,
+};
+
 const experience = [
   {
     period: 'CURRENT',
@@ -98,26 +108,13 @@ const experience = [
   },
 ];
 
-function Reveal({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 42 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-10%' }}
-      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function ArcflowLink({ className = '' }: { className?: string }) {
-  return <a className={`arcflow-word ${className}`} href="https://arcflow.me" target="_blank" rel="noreferrer" onClick={() => track('project_visit', { project: 'Arcflow', placement: 'inline' })}>arcflow<span aria-hidden="true">↗</span></a>;
+  return <a className={`arcflow-word ${className}`} href="https://arcflow.me" target="_blank" rel="noreferrer" data-cursor="external" onClick={() => track('project_visit', { project: 'Arcflow', placement: 'inline' })}>arcflow<span aria-hidden="true">↗</span></a>;
 }
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -125,8 +122,13 @@ function Header() {
   }, [open]);
 
   return (
-    <header className="site-header">
-      <a className="wordmark" href="#top" aria-label="Haris Ejaz, back to top">
+    <motion.header
+      className="site-header"
+      initial={reduceMotion ? false : { opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.58, ease: EDITORIAL_EASE }}
+    >
+      <a className="wordmark" href="#top" aria-label="Haris Ejaz, back to top" data-magnetic>
         <img className="wordmark-mark" src="/images/haris-mark/svg/mark-white-red.svg" alt="" />
         <img className="wordmark-name" src="/images/haris-identity/web/haris-wordmark-compact-dark.svg" alt="" />
       </a>
@@ -134,11 +136,11 @@ function Header() {
       <nav className="desktop-nav" aria-label="Primary navigation">
         {links.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
       </nav>
-      <a className="availability" href="mailto:harisejaz2206@gmail.com"><span /> Available for select work</a>
+      <a className="availability" href="mailto:harisejaz2206@gmail.com" data-cursor="write"><span /> Available for select work</a>
       <button className="menu-button" type="button" onClick={() => setOpen(true)} aria-label="Open menu"><span className="menu-glyph" aria-hidden="true" /></button>
       <AnimatePresence>
         {open && (
-          <motion.div className="mobile-menu" initial={{ clipPath: 'inset(0 0 100% 0)' }} animate={{ clipPath: 'inset(0)' }} exit={{ clipPath: 'inset(0 0 100% 0)' }} transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}>
+          <motion.div className="mobile-menu" initial={reduceMotion ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }} animate={reduceMotion ? { opacity: 1 } : { clipPath: 'inset(0)' }} exit={reduceMotion ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }} transition={{ duration: reduceMotion ? 0.15 : 0.55, ease: [0.76, 0, 0.24, 1] }}>
             <div className="mobile-menu-top"><span>HARIS EJAZ</span><button type="button" onClick={() => setOpen(false)} aria-label="Close menu"><X /></button></div>
             <nav aria-label="Mobile navigation">
               {links.map((link, index) => <a key={link.href} href={link.href} onClick={() => setOpen(false)}><small>0{index + 1}</small>{link.label}</a>)}
@@ -147,7 +149,7 @@ function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }
 
@@ -157,22 +159,43 @@ function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const photoY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
   const copyY = useTransform(scrollYProgress, [0, 1], ['0%', '-18%']);
+  const intro = {
+    hidden: {},
+    visible: { transition: { delayChildren: 0.16, staggerChildren: 0.1 } },
+  };
+  const introItem = {
+    hidden: { opacity: 0, y: 22 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.68, ease: EDITORIAL_EASE } },
+  };
+  const introLine = {
+    hidden: { opacity: 0, y: '108%' },
+    visible: { opacity: 1, y: '0%', transition: { duration: 0.82, ease: EDITORIAL_EASE } },
+  };
 
   return (
     <section className="hero" id="top" ref={ref}>
-      <motion.div className="hero-photo" style={{ y: reduceMotion ? 0 : photoY }}>
+      <motion.div
+        className="hero-photo"
+        style={{ y: reduceMotion ? 0 : photoY }}
+        initial={reduceMotion ? false : { opacity: 0, scale: 1.025 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.95, ease: EDITORIAL_EASE }}
+      >
         <img src="/images/IMG_6997-portfolio.jpg" alt="Low-angle portrait of Haris Ejaz beneath a vivid blue sky" loading="eager" />
       </motion.div>
       <div className="hero-shade" />
-      <motion.div className="hero-intro" style={{ y: reduceMotion ? 0 : copyY }}>
-        <p className="eyebrow">PRODUCT ENGINEERING · SYSTEMS · INFRASTRUCTURE</p>
-        <h1>Software engineer.<span>Builds the whole thing.</span></h1>
-        <p className="hero-deck">I build products from interface to infrastructure.</p>
+      <motion.div className="hero-intro" style={{ y: reduceMotion ? 0 : copyY }} variants={intro} initial={reduceMotion ? false : 'hidden'} animate="visible">
+        <motion.p className="eyebrow" variants={introItem}>PRODUCT ENGINEERING · SYSTEMS · INFRASTRUCTURE</motion.p>
+        <h1>
+          <span className="hero-line-mask"><motion.span className="hero-line" variants={introLine}>Software engineer.</motion.span></span>
+          <span className="hero-line-mask hero-script-mask"><motion.span className="hero-line hero-line-script" variants={introLine}>Builds the whole thing.</motion.span></span>
+        </h1>
+        <motion.p className="hero-deck" variants={introItem}>I build products from interface to infrastructure.</motion.p>
       </motion.div>
-      <motion.div className="hero-name" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }} aria-label="Haris Ejaz">
+      <motion.div className="hero-name" initial={reduceMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.48, ease: EDITORIAL_EASE }} aria-label="Haris Ejaz">
         <span>HARIS EJAZ</span><span>PORTFOLIO / 2026</span>
       </motion.div>
-      <a className="scroll-cue" href="#work"><ArrowDown size={17} /> Selected work</a>
+      <motion.a className="scroll-cue" href="#work" initial={reduceMotion ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.68, ease: EDITORIAL_EASE }}><ArrowDown size={17} /> Selected work</motion.a>
     </section>
   );
 }
@@ -181,10 +204,10 @@ function Manifesto() {
   return (
     <section className="manifesto" aria-labelledby="manifesto-title">
       <div className="section-tag"><span>00</span>Point of view</div>
-      <Reveal className="manifesto-copy">
-        <h2 id="manifesto-title">Good software is more than code that works.</h2>
-        <p>It should make the hard parts feel deliberate: the model, the failure path, the interface, the tradeoff.</p>
-      </Reveal>
+      <div className="manifesto-copy">
+        <ClipReveal><h2 id="manifesto-title">Good software is more than code that works.</h2></ClipReveal>
+        <Reveal delay={0.08}><p>It should make the hard parts feel deliberate: the model, the failure path, the interface, the tradeoff.</p></Reveal>
+      </div>
       <Reveal className="manifesto-aside" delay={0.12}>
         <p>I like the seams where product decisions become system decisions. AI speeds up the work. It does not make the call.</p>
         <span>Three years in production systems.<br />Building with founder stakes now.</span>
@@ -194,11 +217,26 @@ function Manifesto() {
 }
 
 function ArcflowVisual() {
-  return <div className="project-visual arcflow-visual" aria-hidden="true"><span className="visual-stamp">PAIN FIRST / MECHANICS SECOND</span><img src="/images/arcflow-architecture.png" alt="" loading="lazy" /><div className="arc-orbit"><span>KNOWLEDGE SHOULD CONNECT</span></div></div>;
+  return <div className="project-visual arcflow-visual" aria-hidden="true"><span className="visual-stamp">PAIN FIRST / MECHANICS SECOND</span><ArcflowMedia poster="/images/arcflow-architecture.png" mp4={arcflowMotionMedia.mp4} webm={arcflowMotionMedia.webm} /><div className="arc-orbit"><span>KNOWLEDGE SHOULD CONNECT</span></div></div>;
 }
 
 function ThakeelVisual() {
-  return <div className="project-visual thakeel-visual" aria-hidden="true"><img src="/images/al-thakeel-industrial.jpg" alt="" loading="lazy" /><div className="thakeel-visual-meta"><span>HEAVY EQUIPMENT MARKETPLACE</span><span>KUWAIT / GULF</span></div><span className="visual-stamp">BUILT FOR THE GULF</span></div>;
+  const ref = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const [desktopMotion, setDesktopMotion] = useState(false);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const imageY = useTransform(scrollYProgress, [0, 1], ['-1.5%', '1.5%']);
+  const imageScale = useTransform(scrollYProgress, [0, 0.55], [1.035, 1]);
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 961px) and (pointer: fine)');
+    const update = () => setDesktopMotion(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+
+  return <div className="project-visual thakeel-visual" ref={ref} aria-hidden="true"><motion.img src="/images/al-thakeel-industrial.jpg" alt="" loading="lazy" style={reduceMotion || !desktopMotion ? undefined : { y: imageY, scale: imageScale }} /><div className="thakeel-visual-meta"><span>HEAVY EQUIPMENT MARKETPLACE</span><span>KUWAIT / GULF</span></div><span className="visual-stamp">BUILT FOR THE GULF</span></div>;
 }
 
 function Project({ project }: { project: typeof projects[number] }) {
@@ -221,13 +259,13 @@ function Project({ project }: { project: typeof projects[number] }) {
           <p>{project.statement}</p>
         </div>
       )}
-      <motion.div className="visual-wrap" initial={{ clipPath: 'inset(8% 8% 8% 8%)', scale: 0.96 }} whileInView={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }} viewport={{ once: true, margin: '-15%' }} transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}>
+      <MediaReveal className="visual-wrap">
         {project.theme === 'arcflow' ? <ArcflowVisual /> : <ThakeelVisual />}
-      </motion.div>
+      </MediaReveal>
       <div className="project-details">
         <p className="project-description">{project.theme === 'arcflow' ? <>I founded <ArcflowLink className="project-arcflow-word" /> to make serious engineering concepts easier to understand. It is a structured learning platform for system design, distributed systems, backend architecture, AWS, scalability, reliability, and AI engineering from first principles.</> : project.description}</p>
         <div className={`project-meta ${project.theme === 'thakeel' ? 'project-meta-thakeel' : ''}`}><div><span>{project.ownershipLabel}</span><p>{project.ownership}</p></div><div><span>{project.deliveryLabel}</span><p>{project.delivery}</p></div></div>
-        {project.href && <a className="text-link" href={project.href} target="_blank" rel="noreferrer" onClick={() => track('project_visit', { project: project.title })}>Visit the product <ArrowUpRight size={17} /></a>}
+        {project.href && <a className="text-link" href={project.href} target="_blank" rel="noreferrer" data-cursor="explore" data-magnetic onClick={() => track('project_visit', { project: project.title })}>Visit the product <ArrowUpRight size={17} /></a>}
       </div>
     </article>
   );
@@ -258,8 +296,8 @@ function ProjectIndex() {
 
   return (
     <div className="work-index" ref={indexRef} onPointerMove={movePreview} onPointerLeave={() => setActive(null)} role="navigation" aria-label="Jump to a selected project">
-      {projects.map((project) => <a href={`#project-${project.id}`} key={project.id} onPointerEnter={() => setActive(project)} onFocus={() => focusPreview(project)} onBlur={() => setActive(null)}><span>{project.number}</span><strong className={`${project.theme}-index-title`}>{project.title}</strong><em>{project.theme === 'arcflow' ? 'Founder-led learning platform' : 'Gulf heavy-equipment marketplace'}</em><img className="work-index-thumb" src={project.image} alt="" loading="lazy" /></a>)}
-      <AnimatePresence>{active && <motion.div className={`work-preview preview-${active.theme}`} aria-hidden="true" style={reduceMotion ? undefined : { x, y }} initial={{ opacity: 0, scale: 0.88, rotate: -3 }} animate={{ opacity: 1, scale: 1, rotate: active.theme === 'arcflow' ? -2 : 2 }} exit={{ opacity: 0, scale: 0.92 }} transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}><img src={active.image} alt="" /><span>{active.number} / VIEW CASE STUDY</span></motion.div>}</AnimatePresence>
+      {projects.map((project) => <a href={`#project-${project.id}`} key={project.id} data-cursor={project.theme === 'arcflow' ? 'explore' : 'view'} onPointerEnter={() => setActive(project)} onFocus={() => focusPreview(project)} onBlur={() => setActive(null)}><span>{project.number}</span><strong className={`${project.theme}-index-title`}>{project.title}</strong><em>{project.theme === 'arcflow' ? 'Founder-led learning platform' : 'Gulf heavy-equipment marketplace'}</em><img className="work-index-thumb" src={project.image} alt="" loading="lazy" /></a>)}
+      <AnimatePresence>{active && <motion.div className={`work-preview preview-${active.theme}`} aria-hidden="true" style={reduceMotion ? undefined : { x, y }} initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.88, rotate: -3 }} animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1, rotate: active.theme === 'arcflow' ? -2 : 2 }} exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }} transition={{ duration: reduceMotion ? 0.12 : 0.28, ease: EDITORIAL_EASE }}><img src={active.image} alt="" /><span>{active.number} / VIEW CASE STUDY</span></motion.div>}</AnimatePresence>
     </div>
   );
 }
@@ -276,6 +314,7 @@ function Work() {
 function Endorsement() {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
   useEffect(() => { const close = (event: KeyboardEvent) => event.key === 'Escape' && setOpen(false); document.addEventListener('keydown', close); return () => document.removeEventListener('keydown', close); }, []);
   useEffect(() => {
     if (!open) return;
@@ -289,11 +328,11 @@ function Endorsement() {
     <section className="endorsement" aria-labelledby="endorsement-title">
       <div className="endorsement-grid" aria-hidden="true" /><div className="section-tag light"><span>02</span>A good day online</div>
       <Reveal className="endorsement-headline"><p>SOMETIMES THE INTERNET</p><h2 id="endorsement-title">sends a message<br />from the <em>fast lane.</em></h2><div className="endorsement-story"><strong>A project I shared online reached Red Bull Racing.</strong><span>Ian Brunton replied with direct feedback and an invitation to discuss an open engineering role in Formula 1.</span></div></Reveal>
-      <motion.button className="message-artifact" type="button" onClick={() => setOpen(true)} whileHover={{ rotate: -1.5, y: -10 }} whileTap={{ scale: 0.98 }} aria-label="Open Ian Brunton's message">
+      <motion.button className="message-artifact" type="button" onClick={() => setOpen(true)} data-cursor="read" initial={reduceMotion ? false : { opacity: 0, y: 34, rotate: 5.5 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, rotate: 2.8 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.9, ease: EDITORIAL_EASE }} whileHover={reduceMotion ? undefined : { rotate: 1.2, y: -8 }} whileTap={reduceMotion ? undefined : { scale: 0.98 }} aria-label="Open Ian Brunton's message">
         <span className="paperclip" aria-hidden="true" /><img src="/images/ian-endorsement-dm.png" alt="LinkedIn message from Ian Brunton praising Haris's design concepts" loading="lazy" /><span className="artifact-note">CLICK TO READ</span>
       </motion.button>
       <div className="endorsement-caption"><p>“You have some really sleek design concepts.”</p><span>IAN BRUNTON<br />HEAD OF SOFTWARE ENGINEERING<br />RED BULL RACING</span></div>
-      <AnimatePresence>{open && <motion.div className="image-dialog" role="dialog" aria-modal="true" aria-label="Ian Brunton message" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)}><button ref={closeRef} type="button" onClick={() => setOpen(false)} aria-label="Close message"><X /></button><motion.img src="/images/ian-endorsement-dm.png" alt="LinkedIn message from Ian Brunton" initial={{ y: 30, rotate: 2 }} animate={{ y: 0, rotate: 0 }} onClick={(event) => event.stopPropagation()} /></motion.div>}</AnimatePresence>
+      <AnimatePresence>{open && <motion.div className="image-dialog" role="dialog" aria-modal="true" aria-label="Ian Brunton message" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)}><button ref={closeRef} type="button" onClick={() => setOpen(false)} aria-label="Close message"><X /></button><motion.img src="/images/ian-endorsement-dm.png" alt="LinkedIn message from Ian Brunton" initial={reduceMotion ? false : { y: 30, rotate: 2 }} animate={reduceMotion ? undefined : { y: 0, rotate: 0 }} onClick={(event) => event.stopPropagation()} /></motion.div>}</AnimatePresence>
     </section>
   );
 }
@@ -328,11 +367,12 @@ function Capabilities() {
 }
 
 function Experience() {
+  const reduceMotion = useReducedMotion();
   return (
     <section id="experience" className="experience" aria-labelledby="experience-title">
       <div className="section-tag"><span>05</span>Experience</div>
-      <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><div className="experience-aside"><p>Founder-led product work, engineering partnerships, and the systems experience underneath.</p>{resume.href && <a className="resume-link" href={resume.href} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={16} /></a>}</div></div>
-      <div className="experience-list">{experience.map((item) => <article className={item.current ? 'is-current' : ''} key={`${item.company}-${item.role}`}><span>{item.period}</span><div><h3>{item.role}</h3><p>{item.companyHref ? <ArcflowLink className="experience-arcflow" /> : item.company}</p></div><p>{item.copy}</p></article>)}</div>
+      <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><div className="experience-aside"><p>Founder-led product work, engineering partnerships, and the systems experience underneath.</p>{resume.href && <a className="resume-link" href={resume.href} target="_blank" rel="noreferrer" data-cursor="external" data-magnetic>View résumé <ArrowUpRight size={16} /></a>}</div></div>
+      <div className="experience-list">{experience.map((item, index) => <motion.article className={item.current ? 'is-current' : ''} key={`${item.company}-${item.role}`} initial={reduceMotion ? false : { opacity: 0, y: 18 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.45 }} transition={{ duration: 0.58, delay: index * 0.045, ease: EDITORIAL_EASE }}><span>{item.period}</span><div><h3>{item.role}</h3><p>{item.companyHref ? <ArcflowLink className="experience-arcflow" /> : item.company}</p></div><p>{item.copy}</p></motion.article>)}</div>
     </section>
   );
 }
@@ -340,7 +380,7 @@ function Experience() {
 function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
-      <div className="about-photo"><img src="/images/haris-youngpic.JPG" alt="Haris as a child, wearing a suit" loading="lazy" /><p>THE EARLY BUILD<br />BEFORE THE BUGS</p></div>
+      <MediaReveal className="about-photo"><img src="/images/haris-youngpic.JPG" alt="Haris as a child, wearing a suit" loading="lazy" /><p>THE EARLY BUILD<br />BEFORE THE BUGS</p></MediaReveal>
       <div className="about-copy"><div className="section-tag"><span>06</span>About, briefly</div><Reveal><h2 id="about-title">Curious enough to take it apart.<br /><em>Stubborn enough to put it back better.</em></h2></Reveal><div className="about-columns"><p>I’m Haris, a software engineer in Lahore. I care about the entire product: how it reads, how it moves, how its data flows, and what happens when something fails.</p><p>Alongside product partnerships, I’m building <ArcflowLink />. It is the learning platform I wish had existed when I started understanding complex systems.</p></div>{credentialFlags.awsSolutionsArchitectAssociate && <div className="credential-line"><span>CREDENTIAL</span><strong>{awsCredential.title}</strong><span>{awsCredential.issuer}</span></div>}</div>
     </section>
   );
@@ -351,10 +391,10 @@ function Contact() {
     <footer id="contact" className="contact">
       <div className="contact-top"><div className="section-tag light"><span>07</span>Available for select work</div><p>Software engineer and founder. Product, system, and delivery decisions owned together.</p></div>
       <div className="contact-main">
-        <h2>Let’s build<br /><em>something difficult.</em></h2>
-        <a className="contact-email" href="mailto:harisejaz2206@gmail.com" onClick={() => track('contact_click', { placement: 'footer' })} aria-label="Email Haris Ejaz"><span>harisejaz2206@gmail.com</span><ArrowUpRight aria-hidden="true" /></a>
+        <ClipReveal><h2>Let’s build<br /><em>something difficult.</em></h2></ClipReveal>
+        <a className="contact-email" href="mailto:harisejaz2206@gmail.com" data-cursor="write" data-magnetic onClick={() => track('contact_click', { placement: 'footer' })} aria-label="Email Haris Ejaz"><span>harisejaz2206@gmail.com</span><ArrowUpRight aria-hidden="true" /></a>
       </div>
-      <div className="footer-meta"><p>HARIS EJAZ © {new Date().getFullYear()}</p><div><a href="https://github.com/harisejaz2206" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noreferrer">LinkedIn ↗</a>{resume.href && <a href={resume.href} target="_blank" rel="noreferrer">Résumé ↗</a>}<a href="https://x.com/buildwithharis" target="_blank" rel="noreferrer">X ↗</a><a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noreferrer">Upwork ↗</a></div><p>LAHORE / PK<br />UTC +5</p></div>
+      <div className="footer-meta"><p>HARIS EJAZ © {new Date().getFullYear()}</p><div><a href="https://github.com/harisejaz2206" target="_blank" rel="noreferrer" data-cursor="external">GitHub ↗</a><a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noreferrer" data-cursor="external">LinkedIn ↗</a>{resume.href && <a href={resume.href} target="_blank" rel="noreferrer" data-cursor="external">Résumé ↗</a>}<a href="https://x.com/buildwithharis" target="_blank" rel="noreferrer" data-cursor="external">X ↗</a><a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noreferrer" data-cursor="external">Upwork ↗</a></div><p>LAHORE / PK<br />UTC +5</p></div>
     </footer>
   );
 }
@@ -362,7 +402,7 @@ function Contact() {
 function ScrollProgress() { const { scrollYProgress } = useScroll(); return <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} />; }
 
 function App() {
-  return <div className="portfolio-shell"><ScrollProgress /><Header /><main><Hero /><Manifesto /><Work /><Endorsement /><Engineering /><Capabilities /><Experience /><About /></main><Contact /></div>;
+  return <div className="portfolio-shell"><InteractionLayer /><ScrollProgress /><Header /><main><Hero /><Manifesto /><Work /><Endorsement /><Engineering /><Capabilities /><Experience /><About /></main><Contact /></div>;
 }
 
 export default App;
