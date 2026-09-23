@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, X } from 'lucide-react';
 import { track } from './lib/analytics';
 
 const links = [
@@ -126,13 +126,16 @@ function Header() {
 
   return (
     <header className="site-header">
-      <a className="wordmark" href="#top" aria-label="Haris Ejaz, back to top">HE<span>®</span></a>
+      <a className="wordmark" href="#top" aria-label="Haris Ejaz, back to top">
+        <img className="wordmark-mark" src="/images/haris-mark/svg/mark-white-red.svg" alt="" />
+        <img className="wordmark-name" src="/images/haris-identity/web/haris-wordmark-compact-dark.svg" alt="" />
+      </a>
       <p className="header-role">Software Engineer<br />Lahore, PK</p>
       <nav className="desktop-nav" aria-label="Primary navigation">
         {links.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
       </nav>
       <a className="availability" href="mailto:harisejaz2206@gmail.com"><span /> Available for select work</a>
-      <button className="menu-button" type="button" onClick={() => setOpen(true)} aria-label="Open menu"><Menu size={24} /></button>
+      <button className="menu-button" type="button" onClick={() => setOpen(true)} aria-label="Open menu"><span className="menu-glyph" aria-hidden="true" /></button>
       <AnimatePresence>
         {open && (
           <motion.div className="mobile-menu" initial={{ clipPath: 'inset(0 0 100% 0)' }} animate={{ clipPath: 'inset(0)' }} exit={{ clipPath: 'inset(0 0 100% 0)' }} transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}>

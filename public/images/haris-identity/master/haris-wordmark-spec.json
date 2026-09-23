@@ -1,0 +1,59 @@
+{
+  "units": "1000 = Paytone One em",
+  "har": {
+    "font": "Paytone One Regular (SIL OFL)",
+    "xHeight": 501,
+    "capHeight": 688,
+    "rTerminal": {
+      "x": 1911,
+      "y": 331
+    }
+  },
+  "is": {
+    "construction": "custom monoline condensed italic, drawn as paths. Height, weight, slant and width are designed per optical size, never scaled.",
+    "variants": {
+      "compact": {
+        "k": 1.1,
+        "w": 96,
+        "a": 7,
+        "gap": 34,
+        "sr": 0.56
+      },
+      "primary": {
+        "k": 1.28,
+        "w": 80,
+        "a": 8,
+        "gap": 30,
+        "sr": 0.5
+      },
+      "medium": {
+        "k": 1.52,
+        "w": 66,
+        "a": 9,
+        "gap": 30,
+        "sr": 0.45
+      },
+      "hero": {
+        "k": 1.85,
+        "w": 54,
+        "a": 9,
+        "gap": 30,
+        "sr": 0.4
+      },
+      "poster": {
+        "k": 2.35,
+        "w": 42,
+        "a": 10,
+        "gap": 30,
+        "sr": 0.35
+      }
+    },
+    "lock": "i-stem left edge clears the r terminal by `gap` units at y=331 (terminal height). Below that, the foot tucks under the r arm.",
+    "dot": "diameter = w*1.35 + (k-1)*50"
+  },
+  "colors": {
+    "ink": "#111014",
+    "paper": "#F6F1E6",
+    "red": "#FF3B1F"
+  }
+}
