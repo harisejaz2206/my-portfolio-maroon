@@ -380,7 +380,7 @@ function Experience() {
 function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
-      <MediaReveal className="about-photo"><img src="/images/haris-youngpic.JPG" alt="Haris as a child, wearing a suit" loading="lazy" /><p>THE EARLY BUILD<br />BEFORE THE BUGS</p></MediaReveal>
+      <MediaReveal className="about-photo"><img src="/images/haris-youngpic-2.jpg" alt="Haris as a child, looking to the side" loading="lazy" /><p>THE EARLY BUILD<br />BEFORE THE BUGS</p></MediaReveal>
       <div className="about-copy"><div className="section-tag"><span>06</span>About, briefly</div><Reveal><h2 id="about-title">Curious enough to take it apart.<br /><em>Stubborn enough to put it back better.</em></h2></Reveal><div className="about-columns"><p>I’m Haris, a software engineer in Lahore. I care about the entire product: how it reads, how it moves, how its data flows, and what happens when something fails.</p><p>Alongside product partnerships, I’m building <ArcflowLink />. It is the learning platform I wish had existed when I started understanding complex systems.</p></div>{credentialFlags.awsSolutionsArchitectAssociate && <div className="credential-line"><span>CREDENTIAL</span><strong>{awsCredential.title}</strong><span>{awsCredential.issuer}</span></div>}</div>
     </section>
   );

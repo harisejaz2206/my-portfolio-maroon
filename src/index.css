@@ -244,8 +244,7 @@ img { max-width: 100%; display: block; }
 
 .about { min-height: 100svh; display: grid; grid-template-columns: 1.05fr 1.55fr; background: #b9c4cb; }
 .about-photo { min-height: 100%; position: relative; overflow: hidden; }
-.about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 79% center; filter: grayscale(1) contrast(1.1); }
-.about-photo::after { content: ''; position: absolute; inset: 0; background: #176dc1; mix-blend-mode: color; opacity: .48; }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 79% center; filter: saturate(.78) contrast(1.04) brightness(.97); }
 .about-photo p { position: absolute; z-index: 2; left: 1.4rem; bottom: 1.4rem; color: white; font: .62rem/1.5 var(--mono); letter-spacing: .12em; }
 .about-copy { padding: 5rem 2rem 5rem 5vw; display: flex; flex-direction: column; }
 .about-copy h2 { margin: auto 0 5rem; font-size: clamp(3.8rem, 6.1vw, 6.8rem); line-height: .9; letter-spacing: -.06em; font-weight: 550; }
