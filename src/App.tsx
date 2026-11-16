@@ -2,8 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, X } from 'lucide-react';
 import { ArcflowMedia } from './components/ArcflowMedia';
+import { ArchitectureDiagram } from './components/ArchitectureDiagram';
+import { Credential } from './components/Credential';
+import { DecisionLedger, type Decision } from './components/DecisionLedger';
 import { InteractionLayer } from './components/InteractionLayer';
 import { ClipReveal, MediaReveal, Reveal } from './components/MotionPrimitives';
+import { KeyFigures, TechPanel } from './components/TechPanel';
 import { track } from './lib/analytics';
 import { EDITORIAL_EASE } from './lib/motion';
 
@@ -14,12 +18,32 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const projects = [
+type ProjectEntry = {
+  id: string;
+  number: string;
+  title: string;
+  kind: string;
+  stamp: string;
+  statement: string;
+  description: string;
+  ownershipLabel: string;
+  ownership: string;
+  deliveryLabel: string;
+  delivery: string;
+  href?: string;
+  image: string;
+  theme: 'arcflow' | 'thakeel';
+  techRows?: { label: string; value: string }[];
+  keyFigures?: { value: string; label: string }[];
+  decisions?: Decision[];
+};
+
+const projects: ProjectEntry[] = [
   {
     id: 'arcflow',
     number: '01',
     title: 'arcflow',
-    kind: 'Engineering Founder / Independent product',
+    kind: 'Founder & Software Engineer / Independent product',
     stamp: 'PRIMARY CASE STUDY',
     statement: 'A place to understand the systems behind the software.',
     description:
@@ -32,34 +56,81 @@ const projects = [
     href: 'https://www.arcflow.me',
     image: '/images/arcflow-architecture.png',
     theme: 'arcflow',
+    techRows: [
+      { label: 'ROLE', value: 'Founder & Software Engineer' },
+      { label: 'TIMELINE', value: 'May 2026 — Present' },
+      { label: 'STACK', value: 'Next.js · NestJS · PostgreSQL + pgvector · OpenAI (RAG) · Docker on EC2 · Vercel' },
+      { label: 'NOTES', value: 'Backend on AWS EC2 with Docker, frontend on Vercel, separate CI/CD release workflows. Retrieval-augmented generation over pgvector embeddings powers the handbook content.' },
+      { label: 'USERS', value: '200+ monthly users' },
+    ],
   },
   {
     id: 'al-thakeel',
     number: '02',
     title: 'AL THAKEEL',
     kind: 'Marketplace / Product engineering',
-    stamp: 'MARKETPLACE CASE STUDY',
+    stamp: 'FLAGSHIP CASE STUDY',
     statement: 'Heavy equipment. A lighter way to find it.',
     description:
-      'I architected and implemented a bilingual heavy-equipment marketplace for Kuwait and the wider Gulf, spanning product flows, accounts, data, and production delivery.',
+      'Heavy equipment in Kuwait and the Gulf moves through calls, WhatsApp and word of mouth — no listings, no accounts, no structured rentals. I built Al Thakeel to give sellers, renters and job-seekers a bilingual marketplace made for the region: equipment sales, rentals, spare parts, worker and business profiles, and job postings.',
     ownershipLabel: 'SCOPE',
-    ownership: 'Web · API · Data · Infrastructure · Delivery',
+    ownership: 'Sole engineer — web, backend and AWS infrastructure. The mobile app is built separately against this API.',
     deliveryLabel: 'MARKET',
     delivery: 'Kuwait · Gulf · Arabic / English · RTL',
+    href: 'https://thakeelalarabia.com',
     image: '/images/al-thakeel-industrial.jpg',
     theme: 'thakeel',
+    techRows: [
+      { label: 'ROLE', value: 'Sole engineer — web, backend, AWS infrastructure' },
+      { label: 'TIMELINE', value: 'First commit to production in 4 months' },
+      { label: 'STACK', value: 'Next.js · NestJS modular monolith · PostgreSQL + TypeORM · Clerk · AWS EC2 / S3 / SQS / AppSync Events · Docker · GitHub Actions' },
+    ],
+    keyFigures: [
+      { value: '500+', label: 'USERS' },
+      { value: '4', label: 'MONTHS TO PRODUCTION' },
+      { value: '365', label: 'AUTOMATED TESTS' },
+      { value: '170', label: 'REST ENDPOINTS' },
+      { value: '~250', label: 'DEPLOY RUNS' },
+    ],
+    decisions: [
+      {
+        number: '01',
+        title: 'Rental double-booking',
+        problem: 'Two renters could try to book the same piece of equipment for an overlapping window.',
+        decision: 'Enforce it at the database level — row locks plus a PostgreSQL GiST exclusion constraint on the booking range.',
+        result: 'Double-booking is structurally impossible, not just checked for in application code.',
+      },
+      {
+        number: '02',
+        title: 'Immutable moderation',
+        problem: 'Public listings needed to show vetted content while sellers kept editing drafts underneath.',
+        decision: 'Versioned, immutable submission and moderation workflows across six domains — public pages render only the approved version.',
+        result: 'Moderators and sellers work on separate timelines without either side corrupting what is already live.',
+      },
+      {
+        number: '03',
+        title: 'Realtime delivery, one source of truth',
+        problem: 'Messages and notifications needed to feel live across the web client and a separately-built mobile app, without a second system of record.',
+        decision: 'A transactional outbox: messages, notifications and delivery intent commit in one Postgres transaction. A FOR UPDATE SKIP LOCKED relay feeds Amazon SQS; a long-polling worker publishes hints over IAM/SigV4 to per-user AppSync Events channels.',
+        result: 'Designed and implemented end to end. REST stays authoritative and delivery is at-least-once — a dropped hint is caught on the next poll, never lost.',
+      },
+      {
+        number: '04',
+        title: 'Private media at scale',
+        problem: 'Listing photos and documents needed to upload straight from the browser without exposing storage credentials, and be trustworthy once there.',
+        decision: 'Presigned POST uploads direct to S3, verified server-side with HeadObject, served back through short-lived signed URLs.',
+        result: 'No file ever transits the API server; nothing is readable without a time-boxed signed URL.',
+      },
+      {
+        number: '05',
+        title: 'Deployment integrity on a single EC2 box',
+        problem: 'A cost-conscious single-instance stack still had to deploy safely — migrations, image identity and health all had to line up on every release.',
+        decision: 'GitHub Actions: lint plus 365 automated tests, then an image build, then an exact-commit deploy — migrations run before the API restarts, a running-image identity check, then HTTPS health checks.',
+        result: 'Close to 250 production pipeline runs across web and API, with migrations and code always matching what is actually live.',
+      },
+    ] satisfies Decision[],
   },
 ];
-
-const credentialFlags = {
-  // Set to true only after the official exam result is received.
-  awsSolutionsArchitectAssociate: false,
-};
-
-const awsCredential = {
-  title: 'AWS Certified Solutions Architect – Associate',
-  issuer: 'Amazon Web Services',
-};
 
 const resume = {
   // Add the PDF at public/haris-ejaz-resume.pdf, then set this value to that path.
@@ -75,30 +146,30 @@ const arcflowMotionMedia = {
 const experience = [
   {
     period: 'CURRENT',
-    role: 'Engineering Founder',
+    role: 'Founder & Software Engineer',
     company: 'Arcflow',
     companyHref: 'https://arcflow.me',
-    copy: 'Founded and building the product end to end, from learning architecture and systems content to application engineering and production delivery.',
+    copy: 'Founded and building the product end to end: Next.js, NestJS, PostgreSQL with pgvector, and a retrieval-augmented generation feature on OpenAI. Backend on AWS EC2, frontend on Vercel. 200+ monthly users.',
     current: true,
   },
   {
     period: 'CURRENT',
-    role: 'Product Development Partner',
+    role: 'Product Engineer',
     company: 'Aswad Labs',
-    copy: 'Partnering on product development and engineering delivery.',
+    copy: 'Sole engineer for Al Thakeel — a bilingual heavy-equipment marketplace live at thakeelalarabia.com with 500+ users, built from first commit to production in 4 months.',
     current: true,
   },
   {
     period: 'FEB 2025 / MAY 2026',
     role: 'Software Engineer',
     company: 'Septem Systems',
-    copy: 'Built multi-tenant platform systems, authorization infrastructure, secure service boundaries, and delivery workflows.',
+    copy: 'Project Lead and Architecture Owner on Kean OLT (7,000+ users) — took over a stalled build and shipped it, owning frontend, backend and production infrastructure. Built a Cloudflare Workers edge gateway and multi-tenant RBAC for BigScoots, a managed hosting platform.',
   },
   {
-    period: 'MAR 2024 / JAN 2025',
-    role: 'Associate Software Engineer',
+    period: 'MAR 2024 / FEB 2025',
+    role: 'Software Engineer',
     company: 'Innovent Tech Solutions',
-    copy: 'Built enterprise product systems spanning dynamic forms, reporting, geospatial infrastructure, access control, and data-heavy workflows.',
+    copy: 'Built multi-tenant IoT device management and a 13+ type dynamic form engine for enterprise clients including the Ministry of Interior (KSA) and RAK Ceramics; tuned MongoDB indexes and aggregation pipelines over collections with millions of records.',
   },
   {
     period: 'JUL / SEP 2023',
@@ -132,7 +203,7 @@ function Header() {
         <img className="wordmark-mark" src="/images/haris-mark/svg/mark-white-red.svg" alt="" />
         <img className="wordmark-name" src="/images/haris-identity/web/haris-wordmark-compact-dark.svg" alt="" />
       </a>
-      <p className="header-role">Software Engineer<br />Lahore, PK</p>
+      <p className="header-role">Product Engineer<br />AWS Certified SA · Lahore, PK</p>
       <nav className="desktop-nav" aria-label="Primary navigation">
         {links.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
       </nav>
@@ -185,12 +256,12 @@ function Hero() {
       </motion.div>
       <div className="hero-shade" />
       <motion.div className="hero-intro" style={{ y: reduceMotion ? 0 : copyY }} variants={intro} initial={reduceMotion ? false : 'hidden'} animate="visible">
-        <motion.p className="eyebrow" variants={introItem}>PRODUCT ENGINEERING · SYSTEMS · INFRASTRUCTURE</motion.p>
+        <motion.p className="eyebrow" variants={introItem}>PRODUCT ENGINEERING · SYSTEMS · AWS</motion.p>
         <h1>
-          <span className="hero-line-mask"><motion.span className="hero-line" variants={introLine}>Software engineer.</motion.span></span>
-          <span className="hero-line-mask hero-script-mask"><motion.span className="hero-line hero-line-script" variants={introLine}>Builds the whole thing.</motion.span></span>
+          <span className="hero-line-mask"><motion.span className="hero-line" variants={introLine}>Product engineer.</motion.span></span>
+          <span className="hero-line-mask hero-script-mask"><motion.span className="hero-line hero-line-script" variants={introLine}>A to Z, alone.</motion.span></span>
         </h1>
-        <motion.p className="hero-deck" variants={introItem}>I build products from interface to infrastructure.</motion.p>
+        <motion.p className="hero-deck" variants={introItem}>I build the product and run it on AWS — nobody hands off to anybody.</motion.p>
       </motion.div>
       <motion.div className="hero-name" initial={reduceMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.48, ease: EDITORIAL_EASE }} aria-label="Haris Ejaz">
         <span>HARIS EJAZ</span><span>PORTFOLIO / 2026</span>
@@ -267,6 +338,20 @@ function Project({ project }: { project: typeof projects[number] }) {
         <div className={`project-meta ${project.theme === 'thakeel' ? 'project-meta-thakeel' : ''}`}><div><span>{project.ownershipLabel}</span><p>{project.ownership}</p></div><div><span>{project.deliveryLabel}</span><p>{project.delivery}</p></div></div>
         {project.href && <a className="text-link" href={project.href} target="_blank" rel="noreferrer" data-cursor="explore" data-magnetic onClick={() => track('project_visit', { project: project.title })}>Visit the product <ArrowUpRight size={17} /></a>}
       </div>
+      {project.techRows && (
+        <div className="project-tech">
+          <div className={`section-tag${project.theme === 'arcflow' ? ' light' : ''}`}><span>—</span>Build notes</div>
+          <TechPanel rows={project.techRows} />
+          {project.keyFigures && <KeyFigures figures={project.keyFigures} />}
+        </div>
+      )}
+      {project.decisions && (
+        <div className="project-decisions">
+          <div className="section-tag"><span>—</span>Engineering decisions</div>
+          <DecisionLedger decisions={project.decisions} />
+          <ArchitectureDiagram />
+        </div>
+      )}
     </article>
   );
 }
@@ -353,14 +438,14 @@ function Engineering() {
 
 function Capabilities() {
   const capabilities = [
-    ['01', 'Product engineering', 'I take products from rough requirements to working software. Architecture, interface, data, deployment, and the decisions between them.'],
-    ['02', 'Backend + systems', 'APIs, authentication, data models, service boundaries, cloud infrastructure, and systems that keep their shape under real use.'],
-    ['03', 'End-to-end delivery', 'I turn ambiguous product problems into shipped, operated software. One accountable engineering loop, not disconnected handoffs.'],
+    ['01', 'Product & interface', 'Next.js and React, bilingual Arabic/English RTL interfaces, SEO-rendered listing pages, multi-step flows with direct-to-S3 uploads. Built solo for Al Thakeel’s listing editor and RTL web client.'],
+    ['02', 'Backend & data', 'NestJS modular monolith, PostgreSQL + TypeORM, domain modeling, transactional integrity, authentication and access control. 22 modules, 170 endpoints — double-booking made impossible at the database level.'],
+    ['03', 'AWS & delivery', 'EC2, S3, SQS, AppSync Events, IAM, Docker, CI/CD, production operations. ~250 production deploy runs, every release verified against the exact commit that’s live.'],
   ];
   return (
     <section className="capabilities" aria-labelledby="capabilities-title">
       <div className="section-tag light"><span>04</span>What I can own</div>
-      <div className="capabilities-intro"><Reveal><h2 id="capabilities-title">Bring me the part<br /><em>that crosses layers.</em></h2></Reveal><p>Most useful when product, system, and delivery decisions need to be made together.</p></div>
+      <div className="capabilities-intro"><Reveal><h2 id="capabilities-title">One engineer.<br /><em>Every layer.</em></h2></Reveal><p>Most useful when product, system, and delivery decisions need to be made together.</p></div>
       <div className="capability-list">{capabilities.map(([number, title, copy], index) => <Reveal className="capability-row" key={title} delay={index * 0.06}><span>{number}</span><h3>{title}</h3><p>{copy}</p><ArrowUpRight aria-hidden="true" /></Reveal>)}</div>
     </section>
   );
@@ -371,8 +456,9 @@ function Experience() {
   return (
     <section id="experience" className="experience" aria-labelledby="experience-title">
       <div className="section-tag"><span>05</span>Experience</div>
-      <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><div className="experience-aside"><p>Founder-led product work, engineering partnerships, and the systems experience underneath.</p>{resume.href && <a className="resume-link" href={resume.href} target="_blank" rel="noreferrer" data-cursor="external" data-magnetic>View résumé <ArrowUpRight size={16} /></a>}</div></div>
+      <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><div className="experience-aside"><p>Full-time product engineering, a founder-led platform, and the systems experience underneath.</p>{resume.href && <a className="resume-link" href={resume.href} target="_blank" rel="noreferrer" data-cursor="external" data-magnetic>View résumé <ArrowUpRight size={16} /></a>}</div></div>
       <div className="experience-list">{experience.map((item, index) => <motion.article className={item.current ? 'is-current' : ''} key={`${item.company}-${item.role}`} initial={reduceMotion ? false : { opacity: 0, y: 18 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.45 }} transition={{ duration: 0.58, delay: index * 0.045, ease: EDITORIAL_EASE }}><span>{item.period}</span><div><h3>{item.role}</h3><p>{item.companyHref ? <ArcflowLink className="experience-arcflow" /> : item.company}</p></div><p>{item.copy}</p></motion.article>)}</div>
+      <Credential className="experience-credential" />
     </section>
   );
 }
@@ -381,7 +467,7 @@ function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
       <MediaReveal className="about-photo"><img src="/images/haris-youngpic-2.jpg" alt="Haris as a child, looking to the side" loading="lazy" /><p>THE EARLY BUILD<br />BEFORE THE BUGS</p></MediaReveal>
-      <div className="about-copy"><div className="section-tag"><span>06</span>About, briefly</div><Reveal><h2 id="about-title">Curious enough to take it apart.<br /><em>Stubborn enough to put it back better.</em></h2></Reveal><div className="about-columns"><p>I’m Haris, a software engineer in Lahore. I care about the entire product: how it reads, how it moves, how its data flows, and what happens when something fails.</p><p>Alongside product partnerships, I’m building <ArcflowLink />. It is the learning platform I wish had existed when I started understanding complex systems.</p></div>{credentialFlags.awsSolutionsArchitectAssociate && <div className="credential-line"><span>CREDENTIAL</span><strong>{awsCredential.title}</strong><span>{awsCredential.issuer}</span></div>}</div>
+      <div className="about-copy"><div className="section-tag"><span>06</span>About, briefly</div><Reveal><h2 id="about-title">Curious enough to take it apart.<br /><em>Stubborn enough to put it back better.</em></h2></Reveal><div className="about-columns"><p>I’m Haris, a product engineer in Lahore. I care about the entire product: how it reads, how it moves, how its data flows, and what happens when something fails.</p><p>Alongside Al Thakeel at Aswad Labs, I’m building <ArcflowLink />. It is the learning platform I wish had existed when I started understanding complex systems.</p></div><Credential /></div>
     </section>
   );
 }
@@ -389,12 +475,12 @@ function About() {
 function Contact() {
   return (
     <footer id="contact" className="contact">
-      <div className="contact-top"><div className="section-tag light"><span>07</span>Available for select work</div><p>Software engineer and founder. Product, system, and delivery decisions owned together.</p></div>
+      <div className="contact-top"><div className="section-tag light"><span>07</span>Available for select work</div><p>Product engineer and founder. Available for product engineering, backend, and AWS work — open to relocation and remote roles.</p></div>
       <div className="contact-main">
         <ClipReveal><h2>Let’s build<br /><em>something difficult.</em></h2></ClipReveal>
         <a className="contact-email" href="mailto:harisejaz2206@gmail.com" data-cursor="write" data-magnetic onClick={() => track('contact_click', { placement: 'footer' })} aria-label="Email Haris Ejaz"><span>harisejaz2206@gmail.com</span><ArrowUpRight aria-hidden="true" /></a>
       </div>
-      <div className="footer-meta"><p>HARIS EJAZ © {new Date().getFullYear()}</p><div><a href="https://github.com/harisejaz2206" target="_blank" rel="noreferrer" data-cursor="external">GitHub ↗</a><a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noreferrer" data-cursor="external">LinkedIn ↗</a>{resume.href && <a href={resume.href} target="_blank" rel="noreferrer" data-cursor="external">Résumé ↗</a>}<a href="https://x.com/buildwithharis" target="_blank" rel="noreferrer" data-cursor="external">X ↗</a><a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noreferrer" data-cursor="external">Upwork ↗</a></div><p>LAHORE / PK<br />UTC +5</p></div>
+      <div className="footer-meta"><p>HARIS EJAZ © {new Date().getFullYear()}</p><div><a href="https://github.com/harisejaz2206" target="_blank" rel="noreferrer" data-cursor="external">GitHub ↗</a><a href="https://www.linkedin.com/in/harisejaz22/" target="_blank" rel="noreferrer" data-cursor="external">LinkedIn ↗</a>{resume.href && <a href={resume.href} target="_blank" rel="noreferrer" data-cursor="external">Résumé ↗</a>}<a href="https://x.com/buildwithharis" target="_blank" rel="noreferrer" data-cursor="external">X ↗</a><a href="https://www.upwork.com/freelancers/harisejaz" target="_blank" rel="noreferrer" data-cursor="external">Upwork ↗</a></div><p>LAHORE / PK · UTC +5<br />UAE RESIDENT · RELOCATION OK</p></div>
     </footer>
   );
 }
