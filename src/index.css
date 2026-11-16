@@ -222,6 +222,9 @@ img { max-width: 100%; display: block; }
 .diagram-chain { display: flex; flex-wrap: wrap; align-items: stretch; gap: .6rem; }
 .diagram-node-small { flex: 1 1 8rem; padding: .75rem .85rem; }
 .diagram-node-small strong { font-size: .92rem; }
+.diagram-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.75rem; padding: 1.25rem; background: rgba(17,17,15,.05); }
+.diagram-notes span { display: block; font: .56rem var(--mono); letter-spacing: .1em; opacity: .55; margin-bottom: .5rem; }
+.diagram-notes p { margin: 0; font-size: .82rem; line-height: 1.55; opacity: .85; }
 .diagram-failure { display: flex; gap: 1rem; align-items: baseline; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid rgba(17,17,15,.22); }
 .diagram-failure span { flex: none; font: .58rem var(--mono); letter-spacing: .1em; color: #a4402c; }
 .diagram-failure p { margin: 0; font-size: .85rem; line-height: 1.6; opacity: .8; }
@@ -427,6 +430,7 @@ img { max-width: 100%; display: block; }
   .diagram-branch { grid-template-columns: 1fr; gap: 1.5rem; }
   .diagram-chain { flex-direction: column; }
   .diagram-chain .diagram-arrow { margin: -.1rem auto; }
+  .diagram-notes { grid-template-columns: 1fr; gap: 1rem; padding: 1rem; }
   .arcflow-media { width: 125%; left: -12%; top: 19%; transform: rotate(-2deg); }
   .arc-orbit { width: 6rem; height: 6rem; }
   .thakeel-visual > img { object-position: 39% center; }

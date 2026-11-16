@@ -83,7 +83,7 @@ const projects: ProjectEntry[] = [
     techRows: [
       { label: 'ROLE', value: 'Sole engineer — web, backend, AWS infrastructure' },
       { label: 'TIMELINE', value: 'First commit to production in 4 months' },
-      { label: 'STACK', value: 'Next.js · NestJS modular monolith · PostgreSQL + TypeORM · Clerk · AWS EC2 / S3 / SQS / AppSync Events · Docker · GitHub Actions' },
+      { label: 'STACK', value: 'Next.js · NestJS modular monolith · PostgreSQL + TypeORM · Clerk · AWS EC2 / S3 / SQS / AppSync Events / CloudWatch · Docker · GitHub Actions' },
     ],
     keyFigures: [
       { value: '500+', label: 'USERS' },
@@ -125,7 +125,7 @@ const projects: ProjectEntry[] = [
         number: '05',
         title: 'Deployment integrity on a single EC2 box',
         problem: 'A cost-conscious single-instance stack still had to deploy safely — migrations, image identity and health all had to line up on every release.',
-        decision: 'GitHub Actions: lint plus 365 automated tests, then an image build, then an exact-commit deploy — migrations run before the API restarts, a running-image identity check, then HTTPS health checks.',
+        decision: 'GitHub Actions: lint plus 365 automated tests, then an image build, then an exact-commit deploy — migrations run before the API restarts, a running-image identity check, then HTTPS health checks, with CloudWatch alarms watching the instance.',
         result: 'Close to 250 production pipeline runs across web and API, with migrations and code always matching what is actually live.',
       },
     ] satisfies Decision[],
@@ -133,8 +133,7 @@ const projects: ProjectEntry[] = [
 ];
 
 const resume = {
-  // Add the PDF at public/haris-ejaz-resume.pdf, then set this value to that path.
-  href: null as string | null,
+  href: '/haris-ejaz-resume.pdf' as string | null,
 };
 
 const arcflowMotionMedia = {
@@ -440,7 +439,7 @@ function Capabilities() {
   const capabilities = [
     ['01', 'Product & interface', 'Next.js and React, bilingual Arabic/English RTL interfaces, SEO-rendered listing pages, multi-step flows with direct-to-S3 uploads. Built solo for Al Thakeel’s listing editor and RTL web client.'],
     ['02', 'Backend & data', 'NestJS modular monolith, PostgreSQL + TypeORM, domain modeling, transactional integrity, authentication and access control. 22 modules, 170 endpoints — double-booking made impossible at the database level.'],
-    ['03', 'AWS & delivery', 'EC2, S3, SQS, AppSync Events, IAM, Docker, CI/CD, production operations. ~250 production deploy runs, every release verified against the exact commit that’s live.'],
+    ['03', 'AWS & delivery', 'EC2, S3, SQS, AppSync Events, CloudWatch, IAM, Docker, CI/CD, production operations. ~250 production deploy runs, every release verified against the exact commit that’s live.'],
   ];
   return (
     <section className="capabilities" aria-labelledby="capabilities-title">

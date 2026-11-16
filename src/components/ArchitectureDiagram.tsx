@@ -61,6 +61,10 @@ export function ArchitectureDiagram() {
             </div>
           </div>
         </div>
+        <div className="diagram-notes">
+          <div><span>DEPLOY INTEGRITY</span><p>Exact-commit deploys: migrations run before the API restarts, a running-image identity check, then an HTTPS health check.</p></div>
+          <div><span>HEALTH & MONITORING</span><p>CloudWatch alarms watch the EC2 instance; GitHub Actions gates every release on 365 automated tests.</p></div>
+        </div>
         <div className="diagram-failure"><span>FAILURE STORY</span><p>A realtime hint can be dropped. The client still sees the message on its next poll — REST never depends on the hint arriving.</p></div>
         <div className="diagram-takeaway">Delivery is at-least-once. REST is authoritative; realtime is a hint, not a dependency.</div>
       </figure>
