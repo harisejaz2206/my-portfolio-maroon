@@ -13,9 +13,26 @@ import { EDITORIAL_EASE } from './lib/motion';
 
 const links = [
   { label: 'Work', href: '#work' },
+  { label: 'Writing', href: '#writing' },
   { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
+];
+
+const handbooks = [
+  { title: 'Answer the Follow-up', slug: 'answer-the-follow-up' },
+  { title: 'From Zero to Backend', slug: 'from-zero-to-backend' },
+  { title: 'Every Hop', slug: 'every-hop' },
+  { title: 'Postgres for Application Developers', slug: 'postgres' },
+  { title: 'Caching, Properly', slug: 'caching' },
+  { title: 'Queues, Streams and Events', slug: 'queues' },
+  { title: 'Docker, Measured', slug: 'docker' },
+  { title: 'Kubernetes, Observed', slug: 'kubernetes' },
+  { title: 'Terraform, Planned', slug: 'terraform' },
+  { title: 'VPC, Drawn', slug: 'vpc' },
+  { title: 'HTTP and TLS, Traced', slug: 'http-tls' },
+  { title: 'Node, Profiled', slug: 'node' },
+  { title: 'System Design Under Pressure', slug: 'system-design' },
 ];
 
 type ProjectEntry = {
@@ -52,7 +69,7 @@ const projects: ProjectEntry[] = [
     ownership:
       'Concept, product direction, learning architecture, information architecture, UX, application architecture, content tooling, and production implementation.',
     deliveryLabel: 'BUILT ACROSS',
-    delivery: 'Product · Interface · Content platform · Interactive systems · Deployment',
+    delivery: 'Product · Interface · Content platform · Interactive systems · Technical publishing · Deployment',
     href: 'https://www.arcflow.me',
     image: '/images/arcflow-architecture.png',
     theme: 'arcflow',
@@ -148,7 +165,7 @@ const experience = [
     role: 'Founder & Software Engineer',
     company: 'Arcflow',
     companyHref: 'https://arcflow.me',
-    copy: 'Founded and building the product end to end: Next.js, NestJS, PostgreSQL with pgvector, and a retrieval-augmented generation feature on OpenAI. Backend on AWS EC2, frontend on Vercel. 200+ monthly users.',
+    copy: 'Founded and building the product end to end: Next.js, NestJS, PostgreSQL with pgvector, and a retrieval-augmented generation feature on OpenAI. Backend on AWS EC2, frontend on Vercel. 200+ monthly users. Wrote and published 13 technical handbooks (999 pages) on Postgres, Kubernetes, Terraform, AWS networking and system design, with every measurement from labs I ran.',
     current: true,
   },
   {
@@ -333,7 +350,7 @@ function Project({ project }: { project: typeof projects[number] }) {
         {project.theme === 'arcflow' ? <ArcflowVisual /> : <ThakeelVisual />}
       </MediaReveal>
       <div className="project-details">
-        <p className="project-description">{project.theme === 'arcflow' ? <>I founded <ArcflowLink className="project-arcflow-word" /> to make serious engineering concepts easier to understand. It is a structured learning platform for system design, distributed systems, backend architecture, AWS, scalability, reliability, and AI engineering from first principles.</> : project.description}</p>
+        <p className="project-description">{project.theme === 'arcflow' ? <>I founded <ArcflowLink className="project-arcflow-word" /> to make serious engineering concepts easier to understand. It is a structured learning platform for system design, distributed systems, backend architecture, AWS, scalability, reliability, and AI engineering from first principles. arcflow also publishes 13 technical handbooks on how production systems behave, all written by me.</> : project.description}</p>
         <div className={`project-meta ${project.theme === 'thakeel' ? 'project-meta-thakeel' : ''}`}><div><span>{project.ownershipLabel}</span><p>{project.ownership}</p></div><div><span>{project.deliveryLabel}</span><p>{project.delivery}</p></div></div>
         {project.href && <a className="text-link" href={project.href} target="_blank" rel="noreferrer" data-cursor="explore" data-magnetic onClick={() => track('project_visit', { project: project.title })}>Visit the product <ArrowUpRight size={17} /></a>}
       </div>
@@ -395,6 +412,46 @@ function Work() {
   );
 }
 
+function Writing() {
+  return (
+    <section id="writing" className="writing" aria-labelledby="writing-title">
+      <div className="section-tag"><span>02</span>Writing</div>
+      <div className="writing-intro">
+        <Reveal><h2 id="writing-title">Thirteen handbooks.<br /><em>Measured, not guessed.</em></h2></Reveal>
+        <Reveal className="writing-aside" delay={0.08}>
+          <p>I write the arcflow handbooks: practical references on how backend systems actually behave in production. Postgres, caching, queues, Docker, Kubernetes, Terraform, AWS networking, HTTP/TLS, Node.js and system design, explained with lab measurements, real incidents and interview questions.</p>
+          <span className="writing-stats">13 HANDBOOKS · 999 PAGES · LAB-MEASURED</span>
+        </Reveal>
+      </div>
+      <div className="writing-covers">
+        {handbooks.map((book, index) => (
+          <Reveal className="writing-cover-wrap" key={book.slug} delay={Math.min(index * 0.03, 0.3)}>
+            <a
+              className="writing-cover"
+              href={`https://arcflow.me/handbooks/${book.slug}`}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor="explore"
+              onClick={() => track('handbook_visit', { handbook: book.title })}
+            >
+              <img src={`/images/handbooks/${book.slug}.webp`} alt={`Cover of ${book.title}`} width={600} height={750} loading="lazy" decoding="async" />
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal className="writing-proof" delay={0.1}>
+        <span>FROM KUBERNETES, OBSERVED</span>
+        <p>Two rollouts without a readiness probe: 152 and 161 refused requests. With one: 0.</p>
+      </Reveal>
+      <div className="writing-links">
+        <a className="text-link" href="https://arcflow.me/handbooks" target="_blank" rel="noreferrer" data-cursor="explore" data-magnetic onClick={() => track('handbooks_browse')}>Browse the handbooks <ArrowUpRight size={17} /></a>
+        <a className="resume-link writing-free-link" href="https://arcflow.me/handbooks/answer-the-follow-up" target="_blank" rel="noreferrer" data-cursor="explore" onClick={() => track('handbook_visit', { handbook: 'Answer the Follow-up', placement: 'free' })}>Free: Answer the Follow-up, a backend interview guide <ArrowUpRight size={16} /></a>
+      </div>
+    </section>
+  );
+}
+
 function Endorsement() {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -410,7 +467,7 @@ function Endorsement() {
 
   return (
     <section className="endorsement" aria-labelledby="endorsement-title">
-      <div className="endorsement-grid" aria-hidden="true" /><div className="section-tag light"><span>02</span>A good day online</div>
+      <div className="endorsement-grid" aria-hidden="true" /><div className="section-tag light"><span>03</span>A good day online</div>
       <Reveal className="endorsement-headline"><p>SOMETIMES THE INTERNET</p><h2 id="endorsement-title">sends a message<br />from the <em>fast lane.</em></h2><div className="endorsement-story"><strong>A project I shared online reached Red Bull Racing.</strong><span>Ian Brunton replied with direct feedback and an invitation to discuss an open engineering role in Formula 1.</span></div></Reveal>
       <motion.button className="message-artifact" type="button" onClick={() => setOpen(true)} data-cursor="read" initial={reduceMotion ? false : { opacity: 0, y: 34, rotate: 5.5 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, rotate: 2.8 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.9, ease: EDITORIAL_EASE }} whileHover={reduceMotion ? undefined : { rotate: 1.2, y: -8 }} whileTap={reduceMotion ? undefined : { scale: 0.98 }} aria-label="Open Ian Brunton's message">
         <span className="paperclip" aria-hidden="true" /><img src="/images/ian-endorsement-dm.png" alt="LinkedIn message from Ian Brunton praising Haris's design concepts" loading="lazy" /><span className="artifact-note">CLICK TO READ</span>
@@ -429,7 +486,7 @@ function Engineering() {
   ];
   return (
     <section className="engineering" aria-labelledby="engineering-title">
-      <div className="section-tag"><span>03</span>How I think</div><Reveal className="engineering-title"><h2 id="engineering-title">Fundamentals first.<br /><em>AI in the loop.</em></h2></Reveal>
+      <div className="section-tag"><span>04</span>How I think</div><Reveal className="engineering-title"><h2 id="engineering-title">Fundamentals first.<br /><em>AI in the loop.</em></h2></Reveal>
       <div className="principles">{principles.map(([number, title, copy], index) => <Reveal className="principle" key={title} delay={index * 0.08}><span>{number}</span><h3>{title}</h3><p>{copy}</p></Reveal>)}</div>
     </section>
   );
@@ -443,7 +500,7 @@ function Capabilities() {
   ];
   return (
     <section className="capabilities" aria-labelledby="capabilities-title">
-      <div className="section-tag light"><span>04</span>What I can own</div>
+      <div className="section-tag light"><span>05</span>What I can own</div>
       <div className="capabilities-intro"><Reveal><h2 id="capabilities-title">One engineer.<br /><em>Every layer.</em></h2></Reveal><p>Most useful when product, system, and delivery decisions need to be made together.</p></div>
       <div className="capability-list">{capabilities.map(([number, title, copy], index) => <Reveal className="capability-row" key={title} delay={index * 0.06}><span>{number}</span><h3>{title}</h3><p>{copy}</p><ArrowUpRight aria-hidden="true" /></Reveal>)}</div>
     </section>
@@ -454,7 +511,7 @@ function Experience() {
   const reduceMotion = useReducedMotion();
   return (
     <section id="experience" className="experience" aria-labelledby="experience-title">
-      <div className="section-tag"><span>05</span>Experience</div>
+      <div className="section-tag"><span>06</span>Experience</div>
       <div className="experience-intro"><Reveal><h2 id="experience-title">Build the product.<br /><em>Own the consequences.</em></h2></Reveal><div className="experience-aside"><p>Full-time product engineering, a founder-led platform, and the systems experience underneath.</p>{resume.href && <a className="resume-link" href={resume.href} target="_blank" rel="noreferrer" data-cursor="external" data-magnetic>View résumé <ArrowUpRight size={16} /></a>}</div></div>
       <div className="experience-list">{experience.map((item, index) => <motion.article className={item.current ? 'is-current' : ''} key={`${item.company}-${item.role}`} initial={reduceMotion ? false : { opacity: 0, y: 18 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.45 }} transition={{ duration: 0.58, delay: index * 0.045, ease: EDITORIAL_EASE }}><span>{item.period}</span><div><h3>{item.role}</h3><p>{item.companyHref ? <ArcflowLink className="experience-arcflow" /> : item.company}</p></div><p>{item.copy}</p></motion.article>)}</div>
       <Credential className="experience-credential" />
@@ -466,7 +523,7 @@ function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
       <MediaReveal className="about-photo"><img src="/images/haris-youngpic-2.jpg" alt="Haris as a child, looking to the side" loading="lazy" /><p>THE EARLY BUILD<br />BEFORE THE BUGS</p></MediaReveal>
-      <div className="about-copy"><div className="section-tag"><span>06</span>About, briefly</div><Reveal><h2 id="about-title">Curious enough to take it apart.<br /><em>Stubborn enough to put it back better.</em></h2></Reveal><div className="about-columns"><p>I’m Haris, a product engineer in Lahore. I care about the entire product: how it reads, how it moves, how its data flows, and what happens when something fails.</p><p>Alongside Al Thakeel at Aswad Labs, I’m building <ArcflowLink />. It is the learning platform I wish had existed when I started understanding complex systems.</p></div><Credential /></div>
+      <div className="about-copy"><div className="section-tag"><span>07</span>About, briefly</div><Reveal><h2 id="about-title">Curious enough to take it apart.<br /><em>Stubborn enough to put it back better.</em></h2></Reveal><div className="about-columns"><p>I’m Haris, a product engineer in Lahore. I care about the entire product: how it reads, how it moves, how its data flows, and what happens when something fails.</p><p>Alongside Al Thakeel at Aswad Labs, I’m building <ArcflowLink />. It is the learning platform I wish had existed when I started understanding complex systems.</p></div><Credential /></div>
     </section>
   );
 }
@@ -474,7 +531,7 @@ function About() {
 function Contact() {
   return (
     <footer id="contact" className="contact">
-      <div className="contact-top"><div className="section-tag light"><span>07</span>Available for select work</div><p>Product engineer and founder. Available for product engineering, backend, and AWS work — open to relocation and remote roles.</p></div>
+      <div className="contact-top"><div className="section-tag light"><span>08</span>Available for select work</div><p>Product engineer and founder. Available for product engineering, backend, and AWS work — open to relocation and remote roles.</p></div>
       <div className="contact-main">
         <ClipReveal><h2>Let’s build<br /><em>something difficult.</em></h2></ClipReveal>
         <a className="contact-email" href="mailto:harisejaz2206@gmail.com" data-cursor="write" data-magnetic onClick={() => track('contact_click', { placement: 'footer' })} aria-label="Email Haris Ejaz"><span>harisejaz2206@gmail.com</span><ArrowUpRight aria-hidden="true" /></a>
@@ -487,7 +544,7 @@ function Contact() {
 function ScrollProgress() { const { scrollYProgress } = useScroll(); return <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} />; }
 
 function App() {
-  return <div className="portfolio-shell"><InteractionLayer /><ScrollProgress /><Header /><main><Hero /><Manifesto /><Work /><Endorsement /><Engineering /><Capabilities /><Experience /><About /></main><Contact /></div>;
+  return <div className="portfolio-shell"><InteractionLayer /><ScrollProgress /><Header /><main><Hero /><Manifesto /><Work /><Writing /><Endorsement /><Engineering /><Capabilities /><Experience /><About /></main><Contact /></div>;
 }
 
 export default App;

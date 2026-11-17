@@ -25,25 +25,50 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Haris Ejaz",
-        "url": "https://harisejaz.com/",
-        "jobTitle": "Product Engineer",
-        "image": "https://harisejaz.com/images/IMG_6997-portfolio.jpg",
-        "address": { "@type": "PostalAddress", "addressLocality": "Lahore", "addressCountry": "PK" },
-        "sameAs": [
-          "https://github.com/harisejaz2206",
-          "https://www.linkedin.com/in/harisejaz22/",
-          "https://x.com/buildwithharis",
-          "https://www.upwork.com/freelancers/harisejaz",
-          "https://arcflow.me"
-        ],
-        "hasCredential": {
-          "@type": "EducationalOccupationalCredential",
-          "name": "AWS Certified Solutions Architect – Associate",
-          "credentialCategory": "certification",
-          "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }
-        }
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://www.harisejaz.com/#person",
+            "name": "Haris Ejaz",
+            "url": "https://www.harisejaz.com",
+            "jobTitle": "Product Engineer",
+            "image": "https://harisejaz.com/images/IMG_6997-portfolio.jpg",
+            "address": { "@type": "PostalAddress", "addressLocality": "Lahore", "addressCountry": "PK" },
+            "sameAs": [
+              "https://github.com/harisejaz2206",
+              "https://www.linkedin.com/in/harisejaz22/",
+              "https://x.com/buildwithharis",
+              "https://www.upwork.com/freelancers/harisejaz",
+              "https://arcflow.me",
+              "https://www.instagram.com/harisejazzz/"
+            ],
+            "hasCredential": {
+              "@type": "EducationalOccupationalCredential",
+              "name": "AWS Certified Solutions Architect – Associate",
+              "credentialCategory": "certification",
+              "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }
+            }
+          },
+          {
+            "@type": "ItemList",
+            "name": "Arcflow Handbooks",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "item": { "@type": "Book", "name": "Answer the Follow-up", "url": "https://arcflow.me/handbooks/answer-the-follow-up", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 2, "item": { "@type": "Book", "name": "From Zero to Backend", "url": "https://arcflow.me/handbooks/from-zero-to-backend", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 3, "item": { "@type": "Book", "name": "Every Hop", "url": "https://arcflow.me/handbooks/every-hop", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 4, "item": { "@type": "Book", "name": "Postgres for Application Developers", "url": "https://arcflow.me/handbooks/postgres", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 5, "item": { "@type": "Book", "name": "Caching, Properly", "url": "https://arcflow.me/handbooks/caching", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 6, "item": { "@type": "Book", "name": "Queues, Streams and Events", "url": "https://arcflow.me/handbooks/queues", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 7, "item": { "@type": "Book", "name": "Docker, Measured", "url": "https://arcflow.me/handbooks/docker", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 8, "item": { "@type": "Book", "name": "Kubernetes, Observed", "url": "https://arcflow.me/handbooks/kubernetes", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 9, "item": { "@type": "Book", "name": "Terraform, Planned", "url": "https://arcflow.me/handbooks/terraform", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 10, "item": { "@type": "Book", "name": "VPC, Drawn", "url": "https://arcflow.me/handbooks/vpc", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 11, "item": { "@type": "Book", "name": "HTTP and TLS, Traced", "url": "https://arcflow.me/handbooks/http-tls", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 12, "item": { "@type": "Book", "name": "Node, Profiled", "url": "https://arcflow.me/handbooks/node", "author": { "@id": "https://www.harisejaz.com/#person" } } },
+              { "@type": "ListItem", "position": 13, "item": { "@type": "Book", "name": "System Design Under Pressure", "url": "https://arcflow.me/handbooks/system-design", "author": { "@id": "https://www.harisejaz.com/#person" } } }
+            ]
+          }
+        ]
       }
     </script>
   </head>

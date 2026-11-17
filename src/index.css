@@ -206,6 +206,25 @@ img { max-width: 100%; display: block; }
 .thakeel-diagram { margin: 0; background: var(--paper-bright); border: 1px solid rgba(17,17,15,.14); box-shadow: 0 1.5rem 3rem rgba(17,17,15,.12); }
 .thakeel-diagram img { width: 100%; height: auto; display: block; }
 
+.writing { padding: clamp(7rem, 12vw, 12rem) 2rem; background: var(--paper); }
+.writing-intro { display: grid; grid-template-columns: 1.8fr .9fr; gap: 6vw; align-items: end; margin: 7rem 0 5rem; }
+.writing-intro h2 { margin: 0; max-width: 15ch; font-size: clamp(4.2rem, 7.5vw, 8.3rem); line-height: .88; letter-spacing: -.065em; font-weight: 550; }
+.writing-intro h2 em { font-family: var(--serif); font-weight: 400; }
+.writing-aside { max-width: 28rem; }
+.writing-aside > p { margin: 0; line-height: 1.6; }
+.writing-stats { display: block; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); font: .64rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.writing-covers { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.25rem; padding-top: 2.5rem; border-top: 1px solid var(--line); }
+.writing-cover-wrap { display: block; }
+.writing-cover { position: relative; display: block; background: var(--paper-bright); box-shadow: 0 .6rem 1.4rem rgba(17,17,15,.1); }
+.writing-cover img { width: 100%; height: auto; display: block; }
+.writing-cover svg { position: absolute; right: .55rem; bottom: .55rem; width: 1.1rem; height: 1.1rem; padding: .3rem; background: var(--paper-bright); color: var(--ink); transition: transform .3s cubic-bezier(.16,1,.3,1); }
+.writing-cover:hover svg, .writing-cover:focus-visible svg { transform: translate(3px, -3px); }
+.writing-proof { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); max-width: 42rem; }
+.writing-proof span { display: block; margin-bottom: .6rem; font: .6rem var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: .55; }
+.writing-proof p { margin: 0; font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 2vw, 1.75rem); line-height: 1.35; }
+.writing-links { display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; margin-top: 3rem; }
+.writing-links .resume-link { margin-top: 0; }
+
 .endorsement { position: relative; min-height: 125svh; padding: 7rem 2rem; background: #0b0b0a; color: white; overflow: hidden; }
 .endorsement-grid { position: absolute; inset: 0; opacity: .15; background-image: linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px); background-size: 5rem 5rem; mask-image: linear-gradient(to bottom, transparent, black 25%, black 70%, transparent); }
 .endorsement-headline { position: relative; z-index: 1; margin: 10rem 0 0 7vw; }
@@ -344,6 +363,10 @@ img { max-width: 100%; display: block; }
   .capability-row { grid-template-columns: .45fr 1.2fr 1.8fr auto; }
   .experience-intro { grid-template-columns: 1fr; }
   .experience-aside { max-width: 24rem; margin-left: auto; }
+  .writing-intro { grid-template-columns: 1fr; gap: 2rem; margin: 6rem 0 3rem; }
+  .writing-aside { max-width: 28rem; margin-left: auto; }
+  .writing-covers { grid-template-columns: unset; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .5rem; }
+  .writing-cover-wrap { flex: 0 0 42vw; scroll-snap-align: start; }
   .about { grid-template-columns: 1fr 1.5fr; }
 }
 
@@ -430,6 +453,14 @@ img { max-width: 100%; display: block; }
   .experience-intro { margin: 6rem 0 4rem; }
   .experience-intro h2 { font-size: 13.5vw; }
   .experience-aside { margin-left: 18%; }
+  .writing { padding: 6rem 1.25rem; }
+  .writing-intro { margin: 6rem 0 3rem; }
+  .writing-intro h2 { font-size: 13.5vw; }
+  .writing-aside { margin-left: 18%; }
+  .writing-covers { gap: 1rem; padding-top: 2rem; }
+  .writing-cover-wrap { flex-basis: 58vw; }
+  .writing-links { flex-direction: column; align-items: flex-start; gap: 1.1rem; margin-top: 2.5rem; }
+  .writing-free-link { width: auto; max-width: 100%; white-space: normal; }
   .experience-list article { grid-template-columns: .65fr 1.5fr; padding: 1.7rem 0 2.5rem; }
   .experience-list article.is-current { margin-inline: -1.25rem; padding-inline: 1.25rem; }
   .experience-list article.is-current::before { left: .32rem; top: 1.95rem; width: .35rem; height: .35rem; }
