@@ -1,73 +1,23 @@
-import { Fragment } from 'react';
-import { Reveal } from './MotionPrimitives';
+import { MediaReveal } from './MotionPrimitives';
 
-const flowNodes = [
-  { label: 'CLIENT', title: 'Browser / mobile app', copy: 'Sends the request over HTTPS.' },
-  { label: 'EC2 · NGINX', title: 'TLS termination', copy: 'Reverse proxy into the Docker network.' },
-  { label: 'NESTJS', title: 'API + outbox write', copy: 'Message, notification and delivery intent commit in one transaction.', core: true },
-  { label: 'POSTGRESQL 17', title: 'Source of truth', copy: 'Encrypted EBS volume, private Compose network.' },
-];
-
-const relayChain = [
-  { label: 'RELAY', title: 'FOR UPDATE SKIP LOCKED' },
-  { label: 'AMAZON SQS', title: 'Queue' },
-  { label: 'WORKER', title: 'Long-polling' },
-  { label: 'APPSYNC EVENTS', title: 'IAM / SigV4' },
-];
+const diagramAlt =
+  'System design diagram titled "How one message reaches every participant," subtitled "One write, two delivery paths. REST stays the source of truth." ' +
+  'The client (web and mobile) sends a request over HTTPS REST with a Clerk JWT to EC2/Nginx for TLS termination, which forwards it to the NestJS API. ' +
+  'The API verifies, authorizes and applies rules, then commits the message and an outbox row to PostgreSQL 17 in one transaction, inside a highlighted "truth plane" that is authoritative. ' +
+  'Private media uploads go from the API to Amazon S3 via presigned POST, verified with HeadObject and served through short-lived signed URLs. ' +
+  'In a separate "delivery plane," disposable and retryable, an outbox relay claims unpublished rows and sends them to Amazon SQS, with a dead-letter queue for poison messages; long-polling delivery workers receive messages and delete them on success. ' +
+  'Workers publish realtime hints with IAM/SigV4 to three channels: AppSync Events, which broadcasts over a private WebSocket channel with no storage; push notifications via Apple APNs and Firebase Cloud Messaging; and transactional email via Amazon SES. ' +
+  'The client then reads the confirmed record from REST using a cursor. ' +
+  'An operations panel notes deploy integrity (exact-commit deploys, migrations before restart, a running-image identity check, then an HTTPS health check) and health and monitoring (CloudWatch alarms watch the EC2 instance; GitHub Actions gates every release on 365 automated tests). ' +
+  'Failure story: a realtime hint can be dropped, and the client still sees the message on its next poll, since REST never depends on the hint arriving. ' +
+  'Takeaway: delivery is at-least-once; REST is authoritative, and realtime is a hint, not a dependency.';
 
 export function ArchitectureDiagram() {
   return (
-    <Reveal className="thakeel-diagram-wrap">
-      <figure className="thakeel-diagram" aria-label="Al Thakeel system design: request path and realtime delivery">
-        <figcaption className="diagram-head">
-          <span className="diagram-kicker">AL THAKEEL · SYSTEM DESIGN</span>
-          <h4>How one message reaches every participant</h4>
-          <p>One write, two delivery paths. REST stays the source of truth.</p>
-        </figcaption>
-        <div className="diagram-legend"><span>— REQUEST PATH</span><span>···· ASYNC DELIVERY</span></div>
-        <div className="diagram-flow">
-          {flowNodes.map((node, index) => (
-            <Fragment key={node.label}>
-              {index > 0 && <span className="diagram-arrow" aria-hidden="true">→</span>}
-              <div className={`diagram-node${node.core ? ' diagram-node-core' : ''}`}>
-                <span>{node.label}</span>
-                <strong>{node.title}</strong>
-                <p>{node.copy}</p>
-              </div>
-            </Fragment>
-          ))}
-        </div>
-        <div className="diagram-branch">
-          <div className="diagram-branch-path">
-            <span className="diagram-branch-label">PRIVATE MEDIA</span>
-            <div className="diagram-node">
-              <span>AMAZON S3</span>
-              <strong>Presigned POST</strong>
-              <p>Verified with HeadObject, served through short-lived signed URLs.</p>
-            </div>
-          </div>
-          <div className="diagram-branch-path">
-            <span className="diagram-branch-label">REALTIME HINT (ASYNC)</span>
-            <div className="diagram-chain">
-              {relayChain.map((node, index) => (
-                <Fragment key={node.label}>
-                  {index > 0 && <span className="diagram-arrow diagram-arrow-dotted" aria-hidden="true">···→</span>}
-                  <div className="diagram-node diagram-node-small">
-                    <span>{node.label}</span>
-                    <strong>{node.title}</strong>
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="diagram-notes">
-          <div><span>DEPLOY INTEGRITY</span><p>Exact-commit deploys: migrations run before the API restarts, a running-image identity check, then an HTTPS health check.</p></div>
-          <div><span>HEALTH & MONITORING</span><p>CloudWatch alarms watch the EC2 instance; GitHub Actions gates every release on 365 automated tests.</p></div>
-        </div>
-        <div className="diagram-failure"><span>FAILURE STORY</span><p>A realtime hint can be dropped. The client still sees the message on its next poll — REST never depends on the hint arriving.</p></div>
-        <div className="diagram-takeaway">Delivery is at-least-once. REST is authoritative; realtime is a hint, not a dependency.</div>
+    <MediaReveal className="thakeel-diagram-wrap">
+      <figure className="thakeel-diagram">
+        <img src="/images/al-thakeel-architecture.png" alt={diagramAlt} loading="lazy" decoding="async" />
       </figure>
-    </Reveal>
+    </MediaReveal>
   );
 }
